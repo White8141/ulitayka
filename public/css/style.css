@@ -24,6 +24,12 @@ body {
     margin: 0 !important ;
     font-family: 'Roboto', sans-serif !important;
     overflow-x: hidden;
+    position:relative;
+}
+
+.filter_wimdow {
+    height: 700px;
+    overflow-y: scroll;
 }
 
 footer {
@@ -330,6 +336,8 @@ hr.orange_dashed1 {
     }
 }
 /* Конец - Модалка */
+
+/*фиксированный блок*/
 
 
 /* Футер */

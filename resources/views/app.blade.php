@@ -14,7 +14,6 @@
     <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-
     <link rel="stylesheet" href="{{ asset('css/libs/owl.carousel.css') }}">
     <script src="{{ asset('js/libs/owl.carousel.min.js') }}"></script>
 

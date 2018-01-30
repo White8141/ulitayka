@@ -229,6 +229,24 @@ const setCalcDefaultData = (defaultData, csrf) => {
 
     defaultData = JSON.parse(defaultData);
 
+    //зафиксируем окно с карочками, что бы не уезжало вверх при прокрутке
+    /**$('.owl-carousel').owlCarousel({
+        loop:true,
+        margin:10,
+        nav:true,
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:3
+            },
+            1000:{
+                items:5
+            }
+        }
+    })*/
+    
     //сначала выделим страну, выбранную в начальной форме
     countryParseWithSelect('calc', defaultData['countries'], csrf);
 
