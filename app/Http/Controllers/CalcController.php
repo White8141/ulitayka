@@ -44,4 +44,9 @@ class CalcController extends Controller
         return view('police_done')->with([ 'details' => $this->insuranceCalc->buyInsurance($this->request, true)]);
 
     }
+    
+    public function getData()
+    {
+        print_r($this->insuranceCalc->getAlphaData($this->request));
+    }
 }

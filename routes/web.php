@@ -19,6 +19,9 @@ Route::post('/calcajax', 'CalcController@ajax')->name('calcajax');
 
 Route::post('/police_buy', 'CalcController@police_buy')->name('police_buy');
 
+Route::post('/getData', 'CalcController@getData')->name('getData');
+
+
 // Статические страницы
 
 Route::get('/police_details/{details}', 'PagesController@police_details')->name('police_details');

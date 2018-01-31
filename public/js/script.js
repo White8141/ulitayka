@@ -682,5 +682,19 @@ const ajaxRequest = (url, csrf, args, func, method) => {
     Request.send(args);
 };
 
+//Получить список рисков
+function getRisks(url, csrf) {
+    console.log ('Get Risk');
 
+    args = '';
+
+    var func = viewData;
+
+    ajaxRequest(url, csrf, args, func, 'post');
+}
+
+function viewData(response) {
+
+    console.log ('Answer Data');
+}
 

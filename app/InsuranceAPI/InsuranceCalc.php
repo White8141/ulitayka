@@ -79,4 +79,34 @@ class InsuranceCalc
 
         return $isJson ? json_encode($result) : $result;
     }
+
+    public function getData($request) {
+
+        $result = [];
+
+        $alpha = $this->getAlphaData($request)->NewPolictyResult ?? null;
+
+        //print_r($alpha);
+        
+        if (!is_null($alpha)) {
+            $result['alpha'] = [
+                'card' => 'alphaCard',
+                'prem' => $alpha->common->premRUR,
+                'assistance' => [
+                    'name' => $alpha->common->assistanceName,
+                    'info' => $alpha->common->assistancePhones
+                ]
+            ];
+        }
+
+        return json_encode($result);
+    }
+
+    public function getAlphaData($request)
+    {
+        //$calcParams = new AlphaCalcParams($request->all());
+        //return AlphaAPI::getRisks();
+        print_r(AlphaAPI::getRisks());
+        //print_r($calcParams->getCalcParams('calculate'));
+    }
 }

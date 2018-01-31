@@ -52,7 +52,7 @@ class AlphaAPI
      * Запрос списков рисков доступных к страхованию в выбранной программе
      */
 
-    public static function getRisks(
+    public static function getRisks (
         $programUid = null
     )
     {
