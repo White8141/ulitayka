@@ -2,9 +2,12 @@
 
 namespace App\InsuranceAPI;
 
-use App\InsuranceAPI\Alpha\AlphaCalcParams;
 use App\InsuranceAPI\Alpha\AlphaAPI;
+use App\InsuranceAPI\Alpha\AlphaCalcParams;
+use App\InsuranceAPI\Vsk\VskAPI;
+use App\InsuranceAPI\Vsk\VskCalcParams;
 use Illuminate\Http\Request;
+
 class InsuranceCalc
 {
     public function __construct()
@@ -18,11 +21,20 @@ class InsuranceCalc
         //print_r($calcParams->getCalcParams('calculate'));
     }
 
+    public function getVskCalc($request)
+    {
+        $calcParams = new VskCalcParams($request->all());
+        return VskAPI::calculate($calcParams->getCalcParams('Calculate'));
+        //print_r($calcParams->getCalcParams('calculate'));
+    }
+
+
     public function getInsuranceCalc($request, $isJson = false)
     {
         $result = [];
 
-        $alpha = $this->getAlphaCalc($request)->NewPolictyResult ?? null;
+        //$alpha = $this->getAlphaCalc($request)->NewPolictyResult ?? null;
+        $alpha = null;
         if (!is_null($alpha)) {
             $result['alpha'] = [
                 'card' => 'alphaCard',
@@ -34,10 +46,10 @@ class InsuranceCalc
             ];
         }
 
-        $ergo = null;
-        if (!is_null($ergo)) {
-            $result['$ergo'] = [
-                'card' => 'ergoCard',
+        $vsk = $this->getVskCalc($request)->NewPolictyResult ?? null;
+        if (!is_null($vsk)) {
+            $result['$vsk'] = [
+                'card' => 'vskCard',
                 'prem' => 0,
                 'assistance' => [
                     'name' => 0,
@@ -104,9 +116,10 @@ class InsuranceCalc
 
     public function getAlphaData($request)
     {
-        //$calcParams = new AlphaCalcParams($request->all());
-        //return AlphaAPI::getRisks();
-        print_r(AlphaAPI::getRisks());
-        //print_r($calcParams->getCalcParams('calculate'));
+        //print_r(AlphaAPI::getAdditionalConditions());
+        $calcParams = new AlphaCalcParams($request->all());
+        //return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
+        print_r($calcParams->getCalcParams('calculate'));
+
     }
 }

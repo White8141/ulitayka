@@ -83,11 +83,88 @@
                         </div>
                     </div>
 
+                    <div class="card insCard" id="vsk">
+                        <img src="{{ asset('img/logo-vsk.png') }}" alt="" class="img_logo">
+                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
+                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
+                        <label for="card_checkbox1"></label>
+                        <a href="#"><img src="{{ asset('img/button_blue.png') }}" alt="" class="blue_button">
+                        </a>
+                        <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
+                        </a>
+                        <a href="#" onclick=showDetails('vsk')>
+                            <p class="blue_button_text">Купить</p>
+                        </a>
+                        <a href="#">
+                            <p class="orange_button_text">Сравнить</p>
+                        </a>
+                        <div class="call_style">
+                            <a href="#" class="callback_us">
+                                <span class="polis_example">Образец полиса</span>
+                                {{--<hr class="orange_dashed2">--}}
+                            </a>
+                        </div>
+
+                        <div class="container_new">
+                            <div class="tabs">
+                                <input id="tab1" type="radio" name="tabs">
+                                <label for="tab1" title="Ассистанс">Ассистанс</label>
+
+                                <input id="tab2" type="radio" name="tabs">
+                                <label for="tab2" title="Франшиза">Франшиза</label>
+
+                                <input id="tab3" type="radio" name="tabs">
+                                <label for="tab3" title="Правила страхования">Правила страхования</label>
+                                {{--<hr class="orange2">--}}
+                                <section id="content-tab1" class="assistance">
+                                    <p style="text-align: justify;" >
+
+                                    </p>
+                                </section>
+                                <section id="content-tab2">
+                                    <p style="text-align: justify;">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                        nostrud
+                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                        nulla
+                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                        officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </section>
+                                <section id="content-tab3">
+                                    <p style="text-align: justify;">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                        nostrud
+                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                        nulla
+                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                        officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
                     <p id="disparity_orange_text">Не соответствует Вашему запросу</p>
+
                     <div class="disparity_grey" id="dis_alpha">
                         <div class="card disparity_card">
                             <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
                             <img src="{{ asset('img/logo-alpha.png') }} " alt="Альфа страхование"
+                                 class="img_logo img_logo_disparity">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="disparity_grey" id="dis_vsk">
+                        <div class="card disparity_card">
+                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                            <img src="{{ asset('img/logo-vsk.png') }} " alt="ВСК страхование"
                                  class="img_logo img_logo_disparity">
                         </div>
                     </div>
@@ -257,6 +334,7 @@
                                 <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" ><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                                 <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                             </div>
+
                             <a href="" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
                                         class="blue glyphicon glyphicon-chevron-down"
                                         style="margin-bottom: 20px !important;"></span></a>
@@ -280,6 +358,7 @@
                                 <p class="inlined padded"> Репатриация в случае смерти</p><br>
                             </div>
                             <br>
+
                             <a href="" id="toggle_additional"><p class="filter_h3 blue inlined">Дополнительно </p><span
                                         class="blue glyphicon glyphicon-chevron-down"
                                         style="margin-bottom: 20px !important;"></span></a>
@@ -343,9 +422,22 @@
                                         for="additional_15" class="inlined padded">Помощь при наличии алкогольного
                                     опьянения</label>
                             </div>
+
                             <p class="filter_h3">Занятия спортом и активный отдых</p>
 
-                            <select id="sports1_select" class="blue_input_text textbox_100_percent" name="sports1[0]" style="cursor: pointer">
+                            <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_0"
+                                   class="check_and_radio"><label for="additional_6" class="inlined padded">Активный отдых</label>
+                            <br>
+
+                            <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_1"
+                                   class="check_and_radio"><label for="additional_6" class="inlined padded">Участие в соревнованиях</label>
+                            <br>
+
+                            <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_2"
+                                   class="check_and_radio"><label for="additional_6" class="inlined padded">Экстримальные виды спорта</label>
+                            <br>
+
+                            <!--select id="sports1_select" class="blue_input_text textbox_100_percent" name="sports1[0]" style="cursor: pointer">
                                 <option selected value="randomword1">Распространенные виды спорта</option>
                             </select><label for="sports1_select"></label>
                             <select id="sports2_select" class="blue_input_text textbox_100_percent" name="sports2[0]" style="cursor: pointer">
@@ -361,7 +453,7 @@
                             <br>
                             <input type="checkbox" name="pro_sport" id="pro_sport_3" class="check_and_radio"><label
                                     for="pro_sport_3">Эвакуация вертолетом</label>
-                            <br>
+                            <br-->
                             <a href="" onclick="getRisks('{{route('getData')}}', '{{csrf_token()}}')" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                             <div id="toggle_options_list">
 

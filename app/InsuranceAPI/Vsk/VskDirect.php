@@ -1,10 +1,17 @@
 <?php
-namespace App\InsuranceAPI\Alpha;
+/**
+ * Created by PhpStorm.
+ * User: White
+ * Date: 01.02.2018
+ * Time: 12:48
+ */
+
+namespace App\InsuranceAPI\Vsk;
 
 /**
  * Содержит массив со странами и их id для альфастраха
  */
-class AlphaDirect
+class VskDirect
 {
     private static $alphaCountriesList = [
         'CARIBBEAN' => 'a756ab44-c053-457f-9096-32fa20dfbedb',

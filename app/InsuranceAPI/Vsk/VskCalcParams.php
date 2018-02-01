@@ -1,11 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: White
+ * Date: 01.02.2018
+ * Time: 12:48
+ */
 
-namespace App\InsuranceAPI\Alpha;
+namespace App\InsuranceAPI\Vsk;
 
+use App\InsuranceAPI\Vsk\VskDirect;
 use Illuminate\Http\Request;
-use App\InsuranceAPI\Alpha\AlphaDirect;
 
-class AlphaCalcParams
+class VskCalcParams
 {
     public $request;
 
@@ -43,23 +49,22 @@ class AlphaCalcParams
                     'fio' => ($traveler['firstName']  ?? 'Stan').' '.($traveler['lastName'] ?? 'Marsh'),
                     'dateOfBirth' => $traveler['birthDate'] ?? date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
                 ];
-            
-                /**$this->insureds[] = [
-                    'fio' => 'Vova Putin',
-                    'dateOfBirth' =>  date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
-                ];*/
+
+            /**$this->insureds[] = [
+            'fio' => 'Vova Putin',
+            'dateOfBirth' =>  date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
+            ];*/
         }
 
         $this->countryUIDs = [];
         foreach ($request['countries'] as $country) {
-            $this->countryUIDs['countryUID'] = AlphaDirect::getCountryUID($country);
+            $this->countryUIDs['countryUID'] = VskDirect::getCountryUID($country);
         }
 
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
-            //$this->additionalConditionsUIDs[] = AlphaDirect::getAdditionalConditionUID($additionalCondition);
             if ((string)$additionalCondition['check'] === 'true') {
-                $this->additionalConditionsUIDs[] = AlphaDirect::getAdditionalConditionUID($additionalCondition['name']);
+                $this->additionalConditionsUIDs[] = VskDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
 
@@ -68,7 +73,7 @@ class AlphaCalcParams
         foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 30000, 'amountCurrency' => 'EUR']] as $risk) {
             if ((string)$risk['check'] === 'true') {
                 $this->risks[] = [
-                    'riskUID' => AlphaDirect::getRiskUID($risk['name']),
+                    'riskUID' => VskDirect::getRiskUID($risk['name']),
                     'amountAtRisk' => $risk['amountAtRisk'],
                     'amountCurrency' => $risk['amountCurrency']
                 ];
