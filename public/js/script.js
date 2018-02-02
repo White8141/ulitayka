@@ -669,9 +669,9 @@ const ajaxRequest = (url, csrf, args, func, method) => {
     Request.send(args);
 };
 
-//Получить список рисков
-function getRisks(url, csrf) {
-    console.log ('Get Risk');
+//Получить список различных данных
+function getAlphaData(url, csrf) {
+    //console.log ('Get Alpha Data');
 
     args = '';
 
@@ -682,6 +682,10 @@ function getRisks(url, csrf) {
 
 function viewData(response) {
 
-    console.log ('Answer Data');
+    response = JSON.parse(response);
+
+
+
+    console.log ('Answer Data' + response);
 }
 

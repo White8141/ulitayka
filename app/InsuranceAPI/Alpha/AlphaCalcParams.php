@@ -44,10 +44,10 @@ class AlphaCalcParams
                     'dateOfBirth' => $traveler['birthDate'] ?? date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
                 ];
             
-                /**$this->insureds[] = [
+                $this->insureds[] = [
                     'fio' => 'Vova Putin',
                     'dateOfBirth' =>  date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
-                ];*/
+                ];
         }
 
         $this->countryUIDs = [];

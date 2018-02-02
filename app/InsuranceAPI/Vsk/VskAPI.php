@@ -10,7 +10,8 @@ namespace App\InsuranceAPI\Vsk;
 
 class VskAPI
 {
-    private static $wsdl = 'https://newtravel.vsk.ru/test/WS/Policy2.asmx';
+    private static $wsdl = 'https://newtravel.vsk.ru/test/WS/Policy2.asmx?wsdl';
+    private static $asmx = 'https://newtravel.vsk.ru/Front/ExternalWebServices/GetInputParams.asmx?wsdl';
     //private static $wsdl = 'https://ti.alfastrah.ru/TIService/InsuranceAlfaService.svc?wsdl';
     private static $organizationId = '6F470B1B-C484-4FA6-A150-2349211564E5';
     private static $userId  = 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8';
@@ -23,8 +24,9 @@ class VskAPI
 
     private static function soapRequest($method, $params)
     {
+        //dd($params);
         try {
-            $client = new \SoapClient(self::$wsdl);
+            $client = new \SoapClient(self::$asmx);
             $result = @$client->__soapCall($method, $params);
         }
         catch (\SoapFault $e) {
@@ -34,10 +36,15 @@ class VskAPI
 
     }
 
+    public static function calculate($calcParams)
+    {
+        $method = 'CALC2';
+        return self::soapRequest($method, $calcParams);
+    }
+    
     /**
      * Метод получения доступных агенту программ страхования
      */
-
     /*public static function getInsuranceProgramms()
     {
         $method = 'GetInsuranceProgramms';
@@ -55,8 +62,7 @@ class VskAPI
     /**
      * Запрос списков рисков доступных к страхованию в выбранной программе
      */
-
-    /*public static function getRisks (
+    public static function getRisks (
         $programUid = null
     )
     {
@@ -71,13 +77,12 @@ class VskAPI
             ]
         ];
         return self::soapRequest($method, $params);
-    }*/
+    }
 
     /**
      * Запрос стран
      */
-
-    /*public static function getCountries(
+    public static function getCountries(
         $programUid = null,
         $countryUid = null
     )
@@ -93,7 +98,7 @@ class VskAPI
             ]
         ];
         return self::soapRequest($method, $params);
-    }*/
+    }
 
     /**
      * Запрос справочника дополнительных условий спорт/работа
@@ -349,9 +354,4 @@ class VskAPI
      * входными параметрами, за исключением 'agentUid', 'userLogin','userPSW' )
      */
 
-    public static function calculate($calcParams)
-    {
-        $method = 'NewPolicty';
-        return self::soapRequest($method, $calcParams);
-    }
 }

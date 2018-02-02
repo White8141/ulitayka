@@ -454,7 +454,7 @@
                             <input type="checkbox" name="pro_sport" id="pro_sport_3" class="check_and_radio"><label
                                     for="pro_sport_3">Эвакуация вертолетом</label>
                             <br-->
-                            <a href="" onclick="getRisks('{{route('getData')}}', '{{csrf_token()}}')" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
+                            <a href="" onclick="getAlphaData('{{route('getData')}}', '{{csrf_token()}}')" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                             <div id="toggle_options_list">
 
                                 <input type="checkbox" name="additional_options2" id="additional2_1" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"

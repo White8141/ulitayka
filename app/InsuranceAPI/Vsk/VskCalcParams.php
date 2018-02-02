@@ -87,20 +87,21 @@ class VskCalcParams
             [
                 'policy' => [
                     'common' => [
-                        'userId' => '9B724100-83B5-4EA0-9F55-452C07D131AE',
-                        'userLogin' => 'AS_test',
-                        'userPSW' => '8Pq7YS3V',
-                        'insuranceProgrammUID' => 'bae89816-a75b-4d82-8741-409f42de0876',
-                        'operation' => $operation,
+                        'UserId' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8',
+                        'DtCreated' => '02.02.2018',
+                        'PolicyPeriodFrom' => '05.02.2018',
+                        'PolicyPeriodTill' => '12.02.2018',
+                        'Days' => '7',
+                        'Country' => '9a12524e-0c2e-471a-a7eb-66bb0f0676c5',
+                        'FIO' => $this->client['name'],
+                        'DateOfBirth' => '01.01.1980'
+                        //'operation' => $operation
 
-                        'policyPeriodFrom' => $this->policyPeriodFrom,
-                        'policyPeriodTill' => $this->policyPeriodTill,
-                        'fio' => $this->client['name'],
+
                     ],
                     'insureds' => $this->insureds,
-                    'risks' => $this->risks,
-                    'countryUIDs' => $this->countryUIDs,
-                    'additionalConditions' => $this->additionalConditionsUIDs
+                    'risks' => $this->risks
+                    //'additionalConditions' => $this->additionalConditionsUIDs
                 ]
 
             ]

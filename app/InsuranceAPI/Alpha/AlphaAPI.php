@@ -19,6 +19,7 @@ class AlphaAPI
 
     private static function soapRequest($method, $params)
     {
+        //dd($params);
         try {
             $client = new \SoapClient(self::$wsdl);
             $result = @$client->__soapCall($method, $params);
