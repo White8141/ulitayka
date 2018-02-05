@@ -18,14 +18,14 @@ class InsuranceCalc
     {
         $calcParams = new AlphaCalcParams($request->all());
         return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
-        //print_r($calcParams->getCalcParams('calculate'));
+        //return $calcParams->getCalcParams('calculate');
     }
 
     public function getVskCalc($request)
     {
         $calcParams = new VskCalcParams($request->all());
         return VskAPI::calculate($calcParams->getCalcParams('CALC2'));
-        //print_r($calcParams->getCalcParams('calculate'));
+        //return $calcParams->getCalcParams('CALC2');
     }
 
 
@@ -33,8 +33,10 @@ class InsuranceCalc
     {
         $result = [];
 
-        $alpha = $this->getAlphaCalc($request)->NewPolictyResult ?? null;
+        //$alpha = $this->getAlphaCalc($request);
         //dd($alpha);
+
+        /*$alpha = $this->getAlphaCalc($request)->NewPolictyResult ?? null;
         if (!is_null($alpha)) {
             $result['alpha'] = [
                 'card' => 'alphaCard',
@@ -44,11 +46,14 @@ class InsuranceCalc
                     'info' => $alpha->common->assistancePhones
                 ]
             ];
-        }
+        }*/
 
-        /*$vsk = $this->getVskCalc($request)->Calc2Result ?? null;
+
+        $vsk = $this->getVskCalc($request);
         dd($vsk);
-        if (!is_null($vsk)) {
+
+        //$vsk = $this->getVskCalc($request)->Calc2Result ?? null;
+        /*if (!is_null($vsk)) {
             $result['$vsk'] = [
                 'card' => 'vskCard',
                 'prem' => 0,
@@ -117,18 +122,9 @@ class InsuranceCalc
 
     public function getInsuranseData($request)
     {
-        $xmlResult =  VskAPI::getRisks()->GetRisksResult;
-
-        //$simple = "<para><note>simple note</note></para>";
-        $p = xml_parser_create();
-        xml_parse_into_struct($p, $xmlResult, $vals, $index);
-        xml_parser_free($p);
-
-        $result = [];
-        $result['vals'] = $vals;
-        $result['index'] = $index;
-
-        return json_encode($result);
+        //$vsk = $this->getVskCalc($request);
+        print_r($request->all());
+        //return VskAPI::getCountries();
         //return json_encode(AlphaAPI::getRisks());
     }
 }

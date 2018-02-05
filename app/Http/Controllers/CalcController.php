@@ -47,6 +47,7 @@ class CalcController extends Controller
     
     public function getData()
     {
-        echo $this->insuranceCalc->getInsuranseData($this->request);
+        //return $this->insuranceCalc->getInsuranseData($this->request);
+        return $this->request->all();
     }
 }

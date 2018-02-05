@@ -31,7 +31,7 @@ class AlphaCalcParams
         $this->policyPeriodFrom = $request['dateFrom'] ?? date('Y-m-d') . 'T00:00:00';
         $this->policyPeriodTill = $request['dateTill'] ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
         $this->client = [
-            'name' => 'Vova Putin'
+            'name' => 'Testov Petr'
         ];
 
 
@@ -43,11 +43,7 @@ class AlphaCalcParams
                     'fio' => ($traveler['firstName']  ?? 'Stan').' '.($traveler['lastName'] ?? 'Marsh'),
                     'dateOfBirth' => $traveler['birthDate'] ?? date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
                 ];
-            
-                $this->insureds[] = [
-                    'fio' => 'Vova Putin',
-                    'dateOfBirth' =>  date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
-                ];
+
         }
 
         $this->countryUIDs = [];

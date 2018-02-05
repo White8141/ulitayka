@@ -21,14 +21,15 @@ class AlphaAPI
     {
         //dd($params);
         try {
-            $client = new \SoapClient(self::$wsdl);
+            $client = new \SoapClient(self::$wsdl, array('trace' => 1));
             $result = @$client->__soapCall($method, $params);
+            //$request = @$client->__getLastRequest();
         }
         catch (\SoapFault $e) {
             return null;
         }
         return $result;
-
+        //return $request;
     }
 
     /**
@@ -192,7 +193,7 @@ class AlphaAPI
                 'parameters' =>
                     [
                         'agentUid' => self::$agentUid,
-                        'assistanceUid' => $assistanceUids
+                        'assistanceUid' => $assistanceUid
                     ]
             ]
         ];

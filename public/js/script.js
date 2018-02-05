@@ -149,7 +149,7 @@ $(document).ready(function () {
     $('.box-2').click(function () {
         $(this).next().toggle();
         $('.human-drop').mouseleave(function () {
-            $(this).hide();
+            //$(this).hide();
         });
     });
 
@@ -682,7 +682,7 @@ function getAlphaData(url, csrf) {
 
 function viewData(response) {
 
-    response = JSON.parse(response);
+    //response = JSON.parse(response);
 
 
 
