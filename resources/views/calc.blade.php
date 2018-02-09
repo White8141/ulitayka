@@ -335,7 +335,7 @@
                                 <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                             </div>
 
-                            <a href="" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
+                            <a href="" onclick="getInsurData('{{route('getData')}}', '{{csrf_token()}}')" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
                                         class="blue glyphicon glyphicon-chevron-down"
                                         style="margin-bottom: 20px !important;"></span></a>
                             <div id="toggle_insurance_list">
@@ -454,7 +454,7 @@
                             <input type="checkbox" name="pro_sport" id="pro_sport_3" class="check_and_radio"><label
                                     for="pro_sport_3">Эвакуация вертолетом</label>
                             <br-->
-                            <a href="" onclick="getAlphaData('{{route('getData')}}', '{{csrf_token()}}')" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
+                            <a href="" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                             <div id="toggle_options_list">
 
                                 <input type="checkbox" name="additional_options2" id="additional2_1" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"

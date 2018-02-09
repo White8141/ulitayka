@@ -14,6 +14,7 @@ namespace App\InsuranceAPI\Vsk;
 class VskDirect
 {
     private static $vskCountriesList = [
+        'SCHENGEN' => 'cc6831c0-84ff-4800-a748-c5cfaf9885bb',
         'AFGHANISTAN' => '2359394c-1535-4103-9af3-a48304ef3799',
         'AFRICA' => '846fe4cf-06cc-44f0-98d3-b37ea2354e09',
         'AFRICA, MAURITIUS, UAE' => 'e6e5d83e-1d90-43d7-a703-672a3e84e034',
@@ -204,12 +205,12 @@ class VskDirect
         'QATAR' => '93b3b0bf-d020-4d13-bfba-ec087266ad65',
         'ROMANIA' => '3b5d6cc6-53f1-41f7-8cbb-f76b1517f1da',
         'SAUDI ARABIA' => '3d2b60d9-29f3-4c0a-880c-5c7dfbd1053a',
-        'SHENGEN' => 'a53c3d67-811b-4657-a629-777b4b999cb0',
+        //'SCHENGEN' => 'a53c3d67-811b-4657-a629-777b4b999cb0',
         'SCOTLAND, SWEDEN' => 'ff991560-ae11-4f44-9186-d3531356b864',
         'SERBIA' => '6eafef7f-d8a0-4834-bc3a-bc72f3c519e8',
         'SEYCHELLES ISLANDS' => 'd67b50ae-ff71-4369-a959-b033774fc63d',
-        'SHENGEN' => 'b176420e-6aab-4288-9724-4365919f20b4',
-        'SHENGEN, ALL COUNTRIES OF THE WORLD' => 'e0324bea-6a5c-4828-8ba3-63336837bba3',
+        //'SHENGEN' => 'b176420e-6aab-4288-9724-4365919f20b4',
+        //'SHENGEN, ALL COUNTRIES OF THE WORLD' => 'e0324bea-6a5c-4828-8ba3-63336837bba3',
         'SIERRA LEONE' => '32069ea0-17bd-4d55-a31d-aa54fe95b756',
         'SINGAPORE' => '3031d975-1170-4b6f-9708-a50eee9d5fb2',
         'SINGAPORE, CHINA, INDONESIA, MALAYSIA' => '1ed53bee-f4b8-46a3-becf-130add8f9aa6',

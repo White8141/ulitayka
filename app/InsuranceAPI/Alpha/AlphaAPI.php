@@ -33,6 +33,18 @@ class AlphaAPI
     }
 
     /**
+     * Метод расчета тарифа и регистрации или только расчета нового полиса (Принимает массив со всеми
+     * входными параметрами, за исключением 'agentUid', 'userLogin','userPSW' )
+     */
+    public static function calculate($calcParams)
+    {
+        $method = 'NewPolicty';
+        $responce = self::soapRequest($method, $calcParams);
+
+        return $responce->NewPolictyResult ?? null;
+    }
+
+    /**
      * Метод получения доступных агенту программ страхования
      */
 
@@ -343,14 +355,4 @@ class AlphaAPI
         return self::soapRequest($method, $params);
     }
 
-    /**
-     * Метод расчета тарифа и регистрации или только расчета нового полиса (Принимает массив со всеми
-     * входными параметрами, за исключением 'agentUid', 'userLogin','userPSW' )
-     */
-
-    public static function calculate($calcParams)
-    {
-        $method = 'NewPolicty';
-        return self::soapRequest($method, $calcParams);
-    }
 }

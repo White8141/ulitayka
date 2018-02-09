@@ -577,6 +577,12 @@ const viewDetails = response => {
         document.querySelector('.prem b').textContent = 'Нет в наличии';
     }
 
+    /*if (response.hasOwnProperty('vsk') && response['vsk'].hasOwnProperty('prem')) {
+        document.querySelector('.prem b').innerHTML = response['vsk']['prem'];
+    } else {
+        document.querySelector('.prem b').textContent = 'Нет в наличии';
+    }*/
+
     console.log ('Details Parse');
     //console.log(response);
 
@@ -670,8 +676,8 @@ const ajaxRequest = (url, csrf, args, func, method) => {
 };
 
 //Получить список различных данных
-function getAlphaData(url, csrf) {
-    //console.log ('Get Alpha Data');
+function getInsurData(url, csrf) {
+    console.log ('Get Insur Data');
 
     args = '';
 

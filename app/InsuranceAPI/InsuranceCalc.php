@@ -6,6 +6,8 @@ use App\InsuranceAPI\Alpha\AlphaAPI;
 use App\InsuranceAPI\Alpha\AlphaCalcParams;
 use App\InsuranceAPI\Vsk\VskAPI;
 use App\InsuranceAPI\Vsk\VskCalcParams;
+use App\InsuranceAPI\Advant\AdvantAPI;
+use App\InsuranceAPI\Advant\AdvantCalcParams;
 use Illuminate\Http\Request;
 
 class InsuranceCalc
@@ -25,7 +27,14 @@ class InsuranceCalc
     {
         $calcParams = new VskCalcParams($request->all());
         return VskAPI::calculate($calcParams->getCalcParams('CALC2'));
-        //return $calcParams->getCalcParams('CALC2');
+        //return $calcParams->getCalcParams('Calc2');
+    }
+
+    public function getAdvantCalc($request)
+    {
+        $calcParams = new AdvantCalcParams($request->all());
+        return AdvantAPI::calculate($calcParams->getCalcParams('CALC2'));
+        //return $calcParams->getCalcParams('Calc2');
     }
 
 
@@ -33,10 +42,7 @@ class InsuranceCalc
     {
         $result = [];
 
-        //$alpha = $this->getAlphaCalc($request);
-        //dd($alpha);
-
-        /*$alpha = $this->getAlphaCalc($request)->NewPolictyResult ?? null;
+        $alpha = $this->getAlphaCalc($request) ?? null;
         if (!is_null($alpha)) {
             $result['alpha'] = [
                 'card' => 'alphaCard',
@@ -46,25 +52,23 @@ class InsuranceCalc
                     'info' => $alpha->common->assistancePhones
                 ]
             ];
-        }*/
+        }
 
+        $vsk = $this->getVskCalc($request) ?? null;
+        //dd($vsk);
+        if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
+                    $result['vsk'] = [
+                        'card' => 'vskCard',
+                        'prem' => $vsk['1. Премия RUR'],
+                        'assistance' => [
+                            'name' => 0,
+                            'info' => 0
+                        ]
+                    ];
+                }
 
-        $vsk = $this->getVskCalc($request);
-        dd($vsk);
-
-        //$vsk = $this->getVskCalc($request)->Calc2Result ?? null;
-        /*if (!is_null($vsk)) {
-            $result['$vsk'] = [
-                'card' => 'vskCard',
-                'prem' => 0,
-                'assistance' => [
-                    'name' => 0,
-                    'info' => 0
-                ]
-            ];
-        }*/
-
-        $advant = null;
+        $advant = $this->getAdvantCalc($request);
+        dd($advant);
         if (!is_null($advant)) {
             $result['advant'] = [
                 'logo' => 'advantCard',

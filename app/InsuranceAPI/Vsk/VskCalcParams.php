@@ -20,6 +20,7 @@ class VskCalcParams
     public $risks;
     public $policyPeriodFrom;
     public $policyPeriodTill;
+    public $policyDays;
     public $client;
     public $insuredsCount;
     public $insureds;
@@ -28,46 +29,34 @@ class VskCalcParams
     public $additionalConditionsUIDs;
     public $riskUIDs;
 
+    public $xmlArray;
+
     function __construct($request)
     {
         $this->request = $request;
 
-        $this->countries = $request['countries'];
-        $this->additionalConditions = [];
-        $this->policyPeriodFrom = $request['dateFrom'] ?? date('Y-m-d') . 'T00:00:00';
-        $this->policyPeriodTill = $request['dateTill'] ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
-        $this->client = [
-            'name' => 'Testov Petr'
-        ];
+        $this->client = [ 'name' => 'Testov Petr' ];
 
+        $this->countries = VskDirect::getCountryUID($request['countries'][0]);
+
+        if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("d.m.Y", strtotime($request['dateFrom'])); }
+        else { $this->policyPeriodFrom = date('d.m.Y'); }
+
+        if (isset($request['dateTill'])) { $this->policyPeriodTill = date("d.m.Y", strtotime($request['dateTill'])); }
+        else { $this->policyPeriodTill = date('d.m.Y', strtotime('+1 month')); }
+
+        $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
 
         $this->insureds = [];
         foreach ($request['travelers'] as $traveler) {
             if (isset($traveler['accept']) && $traveler['accept'] === 'true')
 
-                $this->insureds['insured'] = [
+                $this->insureds[] = [
                     'FIO' => ($traveler['firstName']  ?? 'Stan').' '.($traveler['lastName'] ?? 'Marsh'),
-                    'DateOfBirth' => $traveler['birthDate'] ?? date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
+                    'DateOfBirth' => $traveler['birthDate'] ?? date('d.m.Y', strtotime('-' . $traveler['age'] . ' year'))
                 ];
 
-            /**$this->insureds[] = [
-            'fio' => 'Vova Putin',
-            'dateOfBirth' =>  date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
-            ];*/
         }
-
-        $this->countryUIDs = [];
-        foreach ($request['countries'] as $country) {
-            $this->countryUIDs['countryUID'] = VskDirect::getCountryUID($country);
-        }
-
-        $this->additionalConditionsUIDs = [];
-        foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
-            if ((string)$additionalCondition['check'] === 'true') {
-                $this->additionalConditionsUIDs[] = VskDirect::getAdditionalConditionUID($additionalCondition['name']);
-            }
-        }
-
 
         $this->risks = [];
         foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 30000, 'amountCurrency' => 'EUR']] as $risk) {
@@ -80,79 +69,186 @@ class VskCalcParams
                 ];
             }
         }
+
+        $this->additionalConditionsUIDs = [];
+        foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
+            if ((string)$additionalCondition['check'] === 'true') {
+                $this->additionalConditionsUIDs[] = VskDirect::getAdditionalConditionUID($additionalCondition['name']);
+            }
+        }
+
+        $this->additionalConditions = [];
+
+        $this->xmlArray = [
+            [
+                'tag' => 'Policies',
+                'elements' => [
+                    [
+                        'tag' => 'Policy',
+                        'elements' => [
+                            [
+                                'tag' => 'Common',
+                                'elements' => [
+                                    [
+                                        'tag' => 'UserId',
+                                        'content' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8'
+                                    ],
+                                    [
+                                        'tag' => 'DtCreated',
+                                        'content' => date("d.m.Y")
+                                    ],
+                                    [
+                                        'tag' => 'PolicyPeriodFrom',
+                                        'content' => $this->policyPeriodFrom
+                                    ],
+                                    [
+                                        'tag' => 'PolicyPeriodTill',
+                                        'content' => $this->policyPeriodTill
+                                    ],
+                                    [
+                                        'tag' => 'Days',
+                                        'content' => $this->policyDays
+                                    ],
+                                    [
+                                        'tag' => 'Country',
+                                        'content' => $this->countries
+
+                                    ],
+                                    [
+                                        'tag' => 'FIO',
+                                        'content' => $this->client['name']
+                                    ],
+                                    [
+                                        'tag' => 'DateOfBirth',
+                                        'content' => '01.01.1980'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'tag' => 'Insureds',
+                                'elements' => [ ]
+                            ],
+                            [
+                                'tag' => 'Risks',
+                                'elements' => [
+                                    [
+                                        'tag' => 'Risk',
+                                        'elements' => [
+                                            [
+                                                'tag' => 'RiskId',
+                                                'content' => '8d98d27c-3202-492e-81ba-d5fe6f0bbc7c'
+                                            ],
+                                            [
+                                                'tag' => 'RiskVariantId',
+                                                'content' => 'c6ee4b03-1239-40f1-bec0-d20654555d4b'
+                                            ],
+                                            [
+                                                'tag' => 'AmountAtRisk',
+                                                'content' => '30000'
+                                            ],
+                                            [
+                                                'tag' => 'AmountCurrency',
+                                                'content' => 'EUR'
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+
+
     }
 
     public function getCalcParams($operation)
     {
-        $params = new \SoapVar('<Policies><Policy><Common><sUserId>f24230cc-cfc3-4ec5-8d7d-e3d72e0d6dc8</sUserId><DtCreated>21.05.2014</DtCreated><PolicyPeriodFrom>21.05.2014</PolicyPeriodFrom><PolicyPeriodTill>03.06.2014</PolicyPeriodTill><Days>14</Days><Country>9a12524e-0c2e-471a-a7eb-66bb0f0676c5</Country><FIO>DERYABINA ANASTASIA</FIO><DateOfBirth>21.08.1985</DateOfBirth></Common></Policy></Policies>', XSD_ANYXML);
+        $insureds = [];
+        $risks = [];
+        foreach($this->insureds as $insured) {
+            $insureds[] = [
+                'tag' => 'Insured',
+                'elements' => [
+                    [
+                        'tag' => 'FIO',
+                        'content' => $insured['FIO']
+                    ],
+                    [
+                        'tag' => 'DateOfBirth',
+                        'content' => $insured['DateOfBirth']
+                    ]
+                ]
+            ];
+
+            $risks[] = [
+                'tag' => 'Risk',
+                'elements' => [
+                    [
+                        'tag' => 'RiskId',
+                        'content' => '8d98d27c-3202-492e-81ba-d5fe6f0bbc7c'
+                    ],
+                    [
+                        'tag' => 'RiskVariantId',
+                        'content' => 'c6ee4b03-1239-40f1-bec0-d20654555d4b'
+                    ],
+                    [
+                        'tag' => 'AmountAtRisk',
+                        'content' => '30000'
+                    ],
+                    [
+                        'tag' => 'AmountCurrency',
+                        'content' => 'EUR'
+                    ]
+                ]
+            ];
+        }
+        $this->xmlArray[0]['elements'][0]['elements'][1]['elements'] = $insureds;
+        $this->xmlArray[0]['elements'][0]['elements'][2]['elements'] = $risks;
+
+        $xmlString = (new \bupy7\xml\constructor\XmlConstructor(['startDocument' => false]))->fromArray($this->xmlArray)->toOutput();
+
+        /*$params = new \SoapVar("<xml>
+                                    <Policies>
+                                        <Policy>
+                                            <Common>
+                                                <UserId>F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8</UserId>
+                                                <DtCreated>06.02.2018</DtCreated>
+                                                <PolicyPeriodFrom>21.01.2018</PolicyPeriodFrom>
+                                                <PolicyPeriodTill>03.02.2018</PolicyPeriodTill>
+                                                <Days>14</Days>
+                                                <Country>9a12524e-0c2e-471a-a7eb-66bb0f0676c5</Country
+                                                ><FIO>DERYABINA ANASTASIA</FIO>
+                                                <DateOfBirth>21.08.1985</DateOfBirth>
+                                            </Common>
+                                            <Insureds>
+                                                <Insured>
+                                                    <FIO>DERYABINA ANASTASIA</FIO>
+                                                    <DateOfBirth>21.08.1985</DateOfBirth>
+                                                </Insured>
+                                            </Insureds>
+                                            <Risks>
+                                                <Risk>
+                                                    <RiskId>8d98d27c-3202-492e-81ba-d5fe6f0bbc7c</RiskId>
+                                                    <RiskVariantId>c6ee4b03-1239-40f1-bec0-d20654555d4b</RiskVariantId>
+                                                    <AmountAtRisk>30000</AmountAtRisk>
+                                                    <AmountCurrency>USD</AmountCurrency>
+                                                    <PremCurrency>1000</PremCurrency>
+                                                    <PremRur>65464</PremRur>
+                                                    <FranchiseTypeId>5758902F-52CA-4A5E-8D81-99B47B9624C8</FranchiseTypeId>
+                                                    <FranchiseValue>50</FranchiseValue>
+                                                </Risk>
+                                            </Risks>
+                                        </Policy>
+                                    </Policies>
+                                </xml>", XSD_ANYXML);*/
 
         return [
             [
                 'sUserId' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8',
-                'xml' => $params
-                //'xml' => ""
-                            /*<Insureds>
-                            <Insured>
-                            <FIO>DERYABINA ANASTASIA</FIO>
-                            <DateOfBirth>21.08.1985</DateOfBirth>
-                            <Passport>71 4212577</Passport>
-                            </Insured>
-                            <Insured>
-                            <FIO>DERIABIN EVGENII</FIO>
-                            <DateOfBirth>19.01.1981</DateOfBirth>
-                            <Passport>65 0472109</Passport>
-                            </Insured>
-                            <Insured>
-                            <FIO>DERYABIN VLADIMIR</FIO>
-                            <DateOfBirth>05.02.2010</DateOfBirth>
-                            <Passport>71 4059601</Passport>
-                            </Insured>
-                            </Insureds>
-                            <Risks>
-                            <Risk>
-                            <RiskId>8d98d27c-3202-492e-81ba-d5fe6f0bbc7c</RiskId>
-                            <RiskVariantId>c6ee4b03-1239-40f1-bec0-d20654555d4b</RiskVariantId>
-                            <AmountAtRisk>30000</AmountAtRisk>
-                            <AmountCurrency>USD</AmountCurrency>
-                            <PremCurrency>1000</PremCurrency>
-                            <PremRur>65464</PremRur>
-                            <FranchiseTypeId>5758902F-52CA-4A5E-8D81-99B47B9624C8</FranchiseTypeId>
-                            <FranchiseValue>50</FranchiseValue>
-                            </Risk>
-                            <Risk>
-                            <RiskId>303a03ef-5a6e-45e1-8b3d-14cf1a863144</RiskId>
-                            <RiskVariantId>37be7a9d-9f98-4fc0-b156-9a5c5096f830</RiskVariantId>
-                            <AmountAtRisk>10000</AmountAtRisk>
-                            <AmountCurrency>USD</AmountCurrency>
-                            <PremCurrency/>
-                            <PremRur/>
-                            <FranchiseTypeId/>
-                            <FranchiseValue/>
-                            </Risk>
-                            </Risks>
-                            */
-
-                    /*[ 'Policies' => [
-                        'Policy' => [
-                            'Common' => [
-                                'sUserId' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8',
-                                'DtCreated' => '02.02.2018',
-                                'PolicyPeriodFrom' => '05.02.2018',
-                                'PolicyPeriodTill' => '12.02.2018',
-                                'Days' => '7',
-                                'Country' => '9a12524e-0c2e-471a-a7eb-66bb0f0676c5',
-                                'FIO' => $this->client['name'],
-                                'DateOfBirth' => '01.01.1980'
-                                //'operation' => $operation
-
-
-                            ],
-                            'Insureds' => $this->insureds,
-                            'Risks' => $this->risks
-                            //'additionalConditions' => $this->additionalConditionsUIDs
-                        ]
-                    ]*/
-                //]
+                'xml' => $xmlString
             ]
         ];
     }
