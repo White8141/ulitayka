@@ -13,6 +13,9 @@ namespace App\InsuranceAPI\Advant;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use phpDocumentor\Reflection\Location;
+use phpDocumentor\Reflection\Types\Object_;
+
 class AdvantAPI
 {
     private static $wsdl = 'http://195.182.155.126';
@@ -22,25 +25,6 @@ class AdvantAPI
     private static $client;
 
     //private static $insuranceProgrammUID = '9afd653e-9b31-4b9c-90dc-0ee0964afb1c';
-
-    /**
-     * Метод отправки soap-запрса принимает метод и параметры, возвращает массив с ответом
-     */
-
-    private static function soapRequest($method, $params)
-    {
-        //dd($params);
-        try {
-            $client = new \SoapClient(self::$wsdl, array('trace' => 1));
-            $result = @$client->__soapCall($method, $params);
-            //$request = @$client->__getLastRequest();
-        }
-        catch (RequestException $e) {
-            return 'Request Error';
-        }
-        return $result;
-        //return $request;
-    }
 
     /**
      * Получение токена
@@ -61,6 +45,11 @@ class AdvantAPI
         }
     }
 
+    /**
+     * Послать GET запрос на url с заданным header
+     * @param $url
+     * @return string
+     */
     private static function makeGetRequest($url) {
 
         try {
@@ -78,6 +67,45 @@ class AdvantAPI
     }
 
     /**
+     * Послать POST запрос на url с заданнымм данными
+     * @param $url
+     * @param $dataObj
+     * @return JSON
+     */
+    private static function makePostRequest($url, $dataObj, $isJSON = false) {
+
+        $options = [];
+
+        try {
+            if ($dataObj) {
+                foreach ($dataObj as $key => $value) {
+                    $options[$key] = $value;
+                }
+            }
+
+            $res = self::$client->post(self::$wsdl.$url, [
+                'headers' => [  'Authorization' => 'Token '.self::$token,
+                                //'Content-Type' => 'application/xhtml+xml',
+                                'Accept' => 'application/json'
+                            ],
+                'form_params' => $options]);
+        }
+        catch (RequestException $e) {
+            return json_decode($e->getResponse()->getBody()->getContents());
+
+            //return json_decode($e->getResponse()->getBody()->getContents());
+        }
+
+        $response = $res->getBody() ?? null;
+
+        if ($isJSON) {
+            $response = json_decode($res->getBody()->getContents());
+        }
+
+        return $response;
+    }
+
+    /**
      * Обработка полученных данных
      */
     private static function sortData($dataString) {
@@ -89,7 +117,19 @@ class AdvantAPI
         for ($i = 0; $i < count($sortArray); $i ++) {
             $sortArray[$i] = '{'.$sortArray[$i].'}';
             $sortArray[$i] = json_decode($sortArray[$i]);
-            $resultArray[strtoupper($sortArray[$i]->code)] = $sortArray[$i]->territory->id;
+
+            /**
+             * сортировка государств
+             */
+            /*if ($sortArray[$i]->code == 'Schengen') { $resultArray[strtoupper($sortArray[$i]->title)] = $sortArray[$i]->id; }
+            else { $resultArray[strtoupper($sortArray[$i]->code)] = $sortArray[$i]->id; }*/
+
+            /**
+             * сортировка видов рисков по типу (работа, спорт или отдых)
+             */
+            //$resultArray[$sortArray[$i]->group->code][] = $sortArray[$i];
+
+            $resultArray[] = $sortArray[$i];
         }
 
         return ($resultArray);
@@ -103,33 +143,37 @@ class AdvantAPI
     {
         self::getToken();
 
-        return self::getCountries();
-    }
+        $medical = new Object_();
+        $medical->insurance_plan = '54748';
+        $medical->insurance_amount = '30000';
+        $medical->insurance_currency = '46212';
 
-    /**
-     * Метод получения доступных агенту программ страхования
-     */
 
-    public static function getInsuranceProgramms()
-    {
-        self::getToken();
+        $options = [
+            'is_multiple_policy' => false,
+            'insurance_days_up_to' => '5',
+            'insurance_territory' => [],
+            'insurance_country' => '54727',
+            'additional_risk' => '54758',
+            'valid_from' => '2018-03-03',
+            'valid_to' => '2018-03-07',
+            'insurance_type' => '54452',
+            'medical_expenses' => [],
+            'insurants_set' => [
+                ['age' => 45],
+                ['age' => 30]
+            ]
 
-        $insString = self::makeGetRequest('/rest/full/insurance_plan/');
+        ];
 
-        return (self::sortData($insString));
-    }
+        $respObj = self::makePostRequest('/rest/full/calculation/', $options, true);
 
-    /**
-     * Запрос списков рисков доступных к страхованию в выбранной программе
-     */
+        //$tempUrl = '/rest/full/calculation/'.$respObj->id.'/result/'.$respObj->available_insurance_departments[0]->id.'/';
+        //$respCalc = self::makePostRequest($tempUrl, null, true);
 
-    public static function getRisks ()
-    {
-        self::getToken();
+        return ($respObj);
 
-        $riskArray = self::makeGetRequest('/rest/full/additional_risk/');
-
-        return ($riskArray);
+        //return self::getInsuranceTypes();
     }
 
     /**
@@ -142,7 +186,7 @@ class AdvantAPI
 
         $countryString = self::makeGetRequest('/rest/full/insurance_country/');
         $countryArray = self::sortData($countryString);
-        ksort($countryArray);
+        //ksort($countryArray);
 
         /*$base_dir = dirname(__FILE__);
         /////////////////////////////
@@ -153,7 +197,59 @@ class AdvantAPI
         file_put_contents($file_name, $log_text, FILE_APPEND | LOCK_EX);*/
 
         return $countryArray;
+    }
 
+    /**
+     * Запрос справочника валют
+     */
+    public static function getCurrency()
+    {
+        self::getToken();
+
+        $respString = self::makeGetRequest('/rest/full/currency/');
+        $respArray = self::sortData($respString);
+
+        return ($respArray);
+    }
+
+    /**
+     * Запрос доступных агенту программ страхования
+     */
+    public static function getInsuranceTypes()
+    {
+        self::getToken();
+
+        $respString = self::makeGetRequest('/rest/full/insurance_type/');
+        $respArray = self::sortData($respString);
+
+        return ($respArray);
+    }
+
+    /**
+     * Запрос доступных агенту программ страхования
+     */
+    public static function getInsuranceProgramms()
+    {
+        self::getToken();
+
+        $respString = self::makeGetRequest('/rest/full/insurance_plan/');
+        $respArray = self::sortData($respString);
+
+        return ($respArray);
+    }
+
+    /**
+     * Запрос списков рисков доступных к страхованию в выбранной программе
+     */
+
+    public static function getRisks ()
+    {
+        self::getToken();
+
+        $respString = self::makeGetRequest('/rest/full/additional_risk/');
+        $respArray = self::sortData($respString);
+
+        return ($respArray);
     }
 
     /**
@@ -171,7 +267,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
@@ -189,18 +285,14 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
      * Запрос справочника доступных страховых сумм
      */
 
-    public static function getStruhSum(
-        $programUid = null,
-        $countryUid = null,
-        $riskUid = null
-    )
+    public static function getStruhSum()
     {
         $method = 'GetStruhSum';
         $params = [
@@ -214,18 +306,14 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
      * Запрос справочника вариантов франшиз
      */
 
-    public static function getFransize(
-        $programUid = null,
-        $countryUid = null,
-        $riskUid = null)
-    {
+    public static function getFransize() {
         $method = 'GetFransize';
         $params = [
             [
@@ -238,7 +326,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
@@ -259,26 +347,10 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
-    /**
-     * Запрос справочника валют
-     */
 
-    public static function getCurrency()
-    {
-        $method = 'GetCurrency';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid
-                    ]
-            ]
-        ];
-        return self::soapRequest($method, $params);
-    }
 
     /**
      * Запрос справочника территорий
@@ -295,7 +367,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
@@ -317,7 +389,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
@@ -339,7 +411,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
@@ -360,7 +432,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
@@ -381,7 +453,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
     /**
@@ -402,7 +474,7 @@ class AdvantAPI
                     ]
             ]
         ];
-        return self::soapRequest($method, $params);
+
     }
 
 }
