@@ -24,8 +24,6 @@ class AdvantAPI
     private static $userPSW = '8R02nU';
     private static $client;
 
-    //private static $insuranceProgrammUID = '9afd653e-9b31-4b9c-90dc-0ee0964afb1c';
-
     /**
      * Получение токена
      */
@@ -38,7 +36,7 @@ class AdvantAPI
             ];
 
             self::$client = new Client();
-            $res = self::$client->request('POST', self::$wsdl.'/rest/v3/default/obtain-token', ['form_params' => $options]);
+            $res = self::$client->request('POST', self::$wsdl.'/rest/v3/default/obtain-token', ['form_params' => $options] );
 
             self::$token = json_decode($res->getBody())->token ?? null;
             return self::$token;
@@ -46,7 +44,7 @@ class AdvantAPI
     }
 
     /**
-     * Послать GET запрос на url с заданным header
+     * Послать пустой GET запрос на url с заданным header
      * @param $url
      * @return string
      */
@@ -60,7 +58,8 @@ class AdvantAPI
             ]);
         }
         catch (RequestException $e) {
-            return 'Request Error. Token: '.self::$token.', Text:'.$e->getMessage();
+            //return 'Request Error. Token: '.self::$token.', Text:'.$e->getMessage();
+            return json_decode($e->getResponse()->getBody()->getContents());
         }
 
         return $res->getBody()->getContents();
@@ -72,34 +71,30 @@ class AdvantAPI
      * @param $dataObj
      * @return JSON
      */
-    private static function makePostRequest($url, $dataObj, $isJSON = false) {
+    private static function makePostRequest($url, $dataObj = null, $isRespJSON = true) {
 
         $options = [];
+        foreach ($dataObj ?? [] as $key => $value) {
+            $options[$key] = $value;
+        }
 
         try {
-            if ($dataObj) {
-                foreach ($dataObj as $key => $value) {
-                    $options[$key] = $value;
-                }
-            }
-
-            $res = self::$client->post(self::$wsdl.$url, [
-                'headers' => [  'Authorization' => 'Token '.self::$token,
-                                //'Content-Type' => 'application/xhtml+xml',
-                                'Accept' => 'application/json'
-                            ],
-                'form_params' => $options]);
+                $res = self::$client->post(self::$wsdl.$url,
+                    [
+                        'headers' => [  'Authorization' => 'Token '.self::$token,
+                                        'Content-Type' => 'application/json;charset=UTF-8',
+                                        'Accept' => 'application/json'],
+                        'json' => $options
+                    ]);
         }
         catch (RequestException $e) {
             return json_decode($e->getResponse()->getBody()->getContents());
-
-            //return json_decode($e->getResponse()->getBody()->getContents());
         }
 
-        $response = $res->getBody() ?? null;
-
-        if ($isJSON) {
+        if ($isRespJSON) {
             $response = json_decode($res->getBody()->getContents());
+        } else {
+            $response = $res->getBody() ?? null;
         }
 
         return $response;
@@ -136,50 +131,98 @@ class AdvantAPI
     }
 
     /**
-     * Метод расчета тарифа и регистрации или только расчета нового полиса (Принимает массив со всеми
-     * входными параметрами, за исключением 'agentUid', 'userLogin','userPSW' )
+     * Метод расчета тарифа и регистрации нового полиса
      */
     public static function calculate()
     {
         self::getToken();
 
-        $medical = new Object_();
-        $medical->insurance_plan = '54748';
-        $medical->insurance_amount = '30000';
-        $medical->insurance_currency = '46212';
-
-
         $options = [
             'is_multiple_policy' => false,
             'insurance_days_up_to' => '5',
-            'insurance_territory' => [],
-            'insurance_country' => '54727',
+            'insurance_territory' => [ ],
+            'insurance_country' => [ '54727' ],
             'additional_risk' => '54758',
             'valid_from' => '2018-03-03',
             'valid_to' => '2018-03-07',
             'insurance_type' => '54452',
-            'medical_expenses' => [],
+            'medical_expenses' => [
+                'insurance_plan' => '54750',
+                'insurance_amount' => '30000',
+                'insurance_currency' => '46212' ],
             'insurants_set' => [
-                ['age' => 45],
-                ['age' => 30]
-            ]
-
+                [ 'age'=> '45'],
+                [ 'age'=> '30']]
         ];
 
-        $respObj = self::makePostRequest('/rest/full/calculation/', $options, true);
+        $resp0 = self::makePostRequest('/rest/full/calculation/', $options);
 
-        //$tempUrl = '/rest/full/calculation/'.$respObj->id.'/result/'.$respObj->available_insurance_departments[0]->id.'/';
-        //$respCalc = self::makePostRequest($tempUrl, null, true);
+        if (isset($resp0->id) && isset($resp0->available_insurance_departments[0]->id)) {
+            $options = [
+                'id' =>  $resp0->id,
+                'available_insurance_departments' =>  $resp0->available_insurance_departments[0]->id,
+                'options' => 1,
+                'variables' => 1,
+            ];
+            $url1 = '/rest/v3/default/calculation/' . $resp0->id . '/result/' . $resp0->available_insurance_departments[0]->id . '/';
+            $resp1 = self::makePostRequest($url1, $options);
+        } else {
+            return ['error0: ' => $resp0];
+        }
 
-        return ($respObj);
+        if (isset($resp1[0]->id)) {
+            $options = [
+                'external_id' =>  null,
+                'valid_from' => '2018-03-03T00:00',
+                'valid_to' => '2018-03-07T23:59',
+                'result' => $resp1[0]->id,
+                //'policy_id' => 1655,
+                'insured_object' => 3825
 
-        //return self::getInsuranceTypes();
+            ];
+            $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
+        } else {
+            return ['error1: ' => $resp1];
+        }
+
+        if (isset($resp2->id)) {
+            $options = [
+                'result' => $resp2->id,
+            ];
+            $resp30 = self::makePostRequest('/policy/rest/result_policy/'.$resp2->id.'/print/', $options);
+            $resp3 = self::makeGetRequest('/policy/rest/result_policy/'.$resp2->id.'/print/');
+        } else {
+            return ['error2: ' => $resp2];
+        }
+
+
+
+        return (['resp0'=>$resp0,
+                 //$url1 => $resp1,
+                 'resp2 ()'=>$resp2,
+                 'resp3 ()'=>$resp3]);
+
+        //return self::getUser();
+
+    }
+
+    /**
+     * Запрос справочника валют
+     */
+    public static function getUser()
+    {
+        self::getToken();
+
+        $respString = self::makeGetRequest('/rest/v3/default/accounts/user/current/');
+        //$respArray = self::sortData($respString);
+        $respArray = json_decode($respString);
+
+        return ($respArray);
     }
 
     /**
      * Запрос стран
      */
-
     public static function getCountries() {
 
         self::getToken();
@@ -250,231 +293,6 @@ class AdvantAPI
         $respArray = self::sortData($respString);
 
         return ($respArray);
-    }
-
-    /**
-     * Запрос справочника дополнительных условий спорт/работа
-     */
-
-    public static function getAdditionalConditions()
-    {
-        $method = 'GetAdditionalConditions';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Запрос справочника дополнительных условий скидки/надбавки
-     */
-
-    public static function getAdditionalConditions2()
-    {
-        $method = 'GetAdditionalConditions2';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Запрос справочника доступных страховых сумм
-     */
-
-    public static function getStruhSum()
-    {
-        $method = 'GetStruhSum';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'programUid' => $programUid,
-                        'countryUid' => $countryUid,
-                        'riskUid' => $riskUid
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Запрос справочника вариантов франшиз
-     */
-
-    public static function getFransize() {
-        $method = 'GetFransize';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'programUid' => $programUid,
-                        'countryUid' => $countryUid,
-                        'riskUid' => $riskUid
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Запрос справочника компаний-ассистенсов
-     */
-
-    public static function getAssistance(
-        $assistanceUid = null
-    )
-    {
-        $method = 'GetAssistance';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'assistanceUid' => $assistanceUid
-                    ]
-            ]
-        ];
-
-    }
-
-
-
-    /**
-     * Запрос справочника территорий
-     */
-
-    public static function getTerritory()
-    {
-        $method = 'GetTerritory';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * отбор полисов по дате начала действия полисов попадающим в указанный период времени
-     */
-
-    public static function getPoliciesByBeginDate($policyPeriodFrom, $policyPeriodTill)
-    {
-        $method = 'GetPoliciesByBeginDate';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'userLogin' => self::$userLogin,
-                        'userPSW' => self::$userPSW,
-                        'policyPeriodFrom' => $policyPeriodFrom,
-                        'policyPeriodTill' => $policyPeriodTill
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Метод отбора полисов по дате создания полиса за указанный период времени
-     */
-
-    public static function getPoliciesByCreateDate($policyPeriodFrom, $policyPeriodTill)
-    {
-        $method = 'GetPoliciesByCreateDate';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'userLogin' => self::$userLogin,
-                        'userPSW' => self::$userPSW,
-                        'policyPeriodFrom' => $policyPeriodFrom,
-                        'policyPeriodTill' => $policyPeriodTill
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Метод отбора полисов по номеру
-     */
-
-    public static function getPoliciesByPolicyNumber($policyNumber)
-    {
-        $method = 'GetPoliciesByPolicyNumber';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'userLogin' => self::$userLogin,
-                        'userPSW' => self::$userPSW,
-                        'policyNumber' => $policyNumber
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Метод аннулирования полиса
-     */
-
-    public static function setCancelPolicy($number)
-    {
-        $method = 'SetCancelPolicy';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'userLogin' => self::$userLogin,
-                        'userPSW' => self::$userPSW,
-                        'number' => $number
-                    ]
-            ]
-        ];
-
-    }
-
-    /**
-     * Метод акцептации полиса
-     */
-
-    public static function setAcceptPolicy($number)
-    {
-        $method = 'SetAcceptPolicy';
-        $params = [
-            [
-                'parameters' =>
-                    [
-                        'agentUid' => self::$agentUid,
-                        'userLogin' => self::$userLogin,
-                        'userPSW' => self::$userPSW,
-                        'number' => $number
-                    ]
-            ]
-        ];
-
     }
 
 }

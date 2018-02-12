@@ -151,6 +151,74 @@
                         </div>
                     </div>
 
+                    <div class="card insCard" id="advant">
+                        <img src="{{ asset('img/logo-advant.png') }}" alt="" class="img_logo">
+                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
+                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
+                        <label for="card_checkbox1"></label>
+                        <a href="#"><img src="{{ asset('img/button_blue.png') }}" alt="" class="blue_button">
+                        </a>
+                        <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
+                        </a>
+                        <a href="#" onclick=showDetails('vsk')>
+                            <p class="blue_button_text">Купить</p>
+                        </a>
+                        <a href="#">
+                            <p class="orange_button_text">Сравнить</p>
+                        </a>
+                        <div class="call_style">
+                            <a href="#" class="callback_us">
+                                <span class="polis_example">Образец полиса</span>
+                                {{--<hr class="orange_dashed2">--}}
+                            </a>
+                        </div>
+
+                        <div class="container_new">
+                            <div class="tabs">
+                                <input id="tab1" type="radio" name="tabs">
+                                <label for="tab1" title="Ассистанс">Ассистанс</label>
+
+                                <input id="tab2" type="radio" name="tabs">
+                                <label for="tab2" title="Франшиза">Франшиза</label>
+
+                                <input id="tab3" type="radio" name="tabs">
+                                <label for="tab3" title="Правила страхования">Правила страхования</label>
+                                {{--<hr class="orange2">--}}
+                                <section id="content-tab1" class="assistance">
+                                    <p style="text-align: justify;" >
+
+                                    </p>
+                                </section>
+                                <section id="content-tab2">
+                                    <p style="text-align: justify;">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                        nostrud
+                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                        nulla
+                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                        officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </section>
+                                <section id="content-tab3">
+                                    <p style="text-align: justify;">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                        nostrud
+                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                        nulla
+                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                        officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
                     <p id="disparity_orange_text">Не соответствует Вашему запросу</p>
 
                     <div class="disparity_grey" id="dis_alpha">
@@ -165,6 +233,13 @@
                         <div class="card disparity_card">
                             <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
                             <img src="{{ asset('img/logo-vsk.png') }} " alt="ВСК страхование"
+                                 class="img_logo img_logo_disparity">
+                        </div>
+                    </div>
+                    <div class="disparity_grey" id="dis_advant">
+                        <div class="card disparity_card">
+                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                            <img src="{{ asset('img/logo-advant.png') }} " alt="ВСК страхование"
                                  class="img_logo img_logo_disparity">
                         </div>
                     </div>

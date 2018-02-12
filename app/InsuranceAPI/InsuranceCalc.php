@@ -69,7 +69,7 @@ class InsuranceCalc
 
         $advant = $this->getAdvantCalc($request);
         dd($advant);
-        if (!is_null($advant)) {
+        /*if (!is_null($advant)) {
             $result['advant'] = [
                 'logo' => 'advantCard',
                 'prem' => 0,
@@ -78,7 +78,7 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }
+        }*/
 
         return $isJson ? json_encode($result) : $result;
     }
