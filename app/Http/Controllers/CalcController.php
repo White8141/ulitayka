@@ -32,11 +32,15 @@ class CalcController extends Controller
         //print_r($this->request->all());
     }
 
-    public function police_details()
+    /*public function police_details()
     {
-        return view('police_details')->with([ 'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers'))]);
+        //dd ($this->request->all());
+        //return ('Details');
+        return view('police_details')->with(['defaultData' => $this->request->details]);
+
+        //return view('police_details')->with([ 'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers'))]);
         //print_r($this->request->all());
-    }
+    }*/
 
     public function police_buy()
     {

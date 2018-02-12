@@ -67,8 +67,8 @@ class InsuranceCalc
                     ];
                 }
 
-        $advant = $this->getAdvantCalc($request);
-        dd($advant);
+        //$advant = $this->getAdvantCalc($request);
+        //dd($advant);
         /*if (!is_null($advant)) {
             $result['advant'] = [
                 'logo' => 'advantCard',

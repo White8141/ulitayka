@@ -672,6 +672,8 @@ const ajaxRequest = (url, csrf, args, func, method) => {
     Request.setRequestHeader("X-CSRF-TOKEN", csrf);
     Request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
+    console.log(args);
+    
     Request.send(args);
 };
 

@@ -189,9 +189,5 @@ class PagesController extends Controller
         return view('what_e_policy');
     }
 
-    public function police_details(Request $request)
-    {
-        //dd($request->details);
-        return view('police_details')->with(['defaultData' => $request->details]);
-    }
+
 }

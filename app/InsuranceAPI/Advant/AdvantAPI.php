@@ -62,7 +62,7 @@ class AdvantAPI
             return json_decode($e->getResponse()->getBody()->getContents());
         }
 
-        return $res->getBody()->getContents();
+        return self::sortData($res->getBody()->getContents());
     }
 
     /**
@@ -92,7 +92,7 @@ class AdvantAPI
         }
 
         if ($isRespJSON) {
-            $response = json_decode($res->getBody()->getContents());
+            $response = json_decode($res->getBody()->getContents()) ?? null;
         } else {
             $response = $res->getBody() ?? null;
         }
@@ -131,12 +131,13 @@ class AdvantAPI
     }
 
     /**
-     * Метод расчета тарифа и регистрации нового полиса
+     * Запрос на рассчет и получение тарифов и стоимостей
      */
     public static function calculate()
     {
         self::getToken();
 
+        //запрос на сохранение рассчета и получение id рассчета и страховых компаний
         $options = [
             'is_multiple_policy' => false,
             'insurance_days_up_to' => '5',
@@ -147,22 +148,28 @@ class AdvantAPI
             'valid_to' => '2018-03-07',
             'insurance_type' => '54452',
             'medical_expenses' => [
-                'insurance_plan' => '54750',
+                'insurance_plan' => '54748',
                 'insurance_amount' => '30000',
                 'insurance_currency' => '46212' ],
+            'luggage_expenses' => [
+                'insurance_plan' => '54748',
+                'insurance_amount' => '20000',
+                'insurance_currency' => '46212',
+                'accomodation' => '1'],
+            'occurrence_expenses' => null,
+            'legal_liability_expenses' => null,
+            'trip_cancellation_expenses' => null,
             'insurants_set' => [
                 [ 'age'=> '45'],
                 [ 'age'=> '30']]
         ];
-
         $resp0 = self::makePostRequest('/rest/full/calculation/', $options);
 
         if (isset($resp0->id) && isset($resp0->available_insurance_departments[0]->id)) {
+            //запрос на рассчет тарифа по доступным страховым программам (в данном случае vzr)
             $options = [
                 'id' =>  $resp0->id,
-                'available_insurance_departments' =>  $resp0->available_insurance_departments[0]->id,
-                'options' => 1,
-                'variables' => 1,
+                'available_insurance_departments' =>  $resp0->available_insurance_departments[0]->id
             ];
             $url1 = '/rest/v3/default/calculation/' . $resp0->id . '/result/' . $resp0->available_insurance_departments[0]->id . '/';
             $resp1 = self::makePostRequest($url1, $options);
@@ -170,6 +177,8 @@ class AdvantAPI
             return ['error0: ' => $resp0];
         }
 
+
+        //Получение идентификатора полиса для дальнейшей работы с ним
         if (isset($resp1[0]->id)) {
             $options = [
                 'external_id' =>  null,
@@ -185,25 +194,25 @@ class AdvantAPI
             return ['error1: ' => $resp1];
         }
 
+        //Получение печатной формы полиса
         if (isset($resp2->id)) {
             $options = [
                 'result' => $resp2->id,
+                'is_cash' => true
             ];
-            $resp30 = self::makePostRequest('/policy/rest/result_policy/'.$resp2->id.'/print/', $options);
-            $resp3 = self::makeGetRequest('/policy/rest/result_policy/'.$resp2->id.'/print/');
+            $url3 = '/policy/rest/result_policy/'.$resp2->id.'/print/';
+            $resp3 = self::makePostRequest($url3, $options);
         } else {
             return ['error2: ' => $resp2];
         }
 
 
 
-        return (['resp0'=>$resp0,
-                 //$url1 => $resp1,
-                 'resp2 ()'=>$resp2,
-                 'resp3 ()'=>$resp3]);
-
-        //return self::getUser();
-
+        return (['/rest/full/calculation/' => $resp0,
+                  $url1 => $resp1,
+                 '/policy/rest/result_policy/'.$resp1[0]->id => $resp2,
+                  $url3 => $resp3
+                ]);
     }
 
     /**
@@ -211,13 +220,7 @@ class AdvantAPI
      */
     public static function getUser()
     {
-        self::getToken();
-
-        $respString = self::makeGetRequest('/rest/v3/default/accounts/user/current/');
-        //$respArray = self::sortData($respString);
-        $respArray = json_decode($respString);
-
-        return ($respArray);
+        return self::makeGetRequest('/rest/v3/default/accounts/user/current/');
     }
 
     /**
@@ -225,10 +228,7 @@ class AdvantAPI
      */
     public static function getCountries() {
 
-        self::getToken();
-
-        $countryString = self::makeGetRequest('/rest/full/insurance_country/');
-        $countryArray = self::sortData($countryString);
+        $countryArray = self::makeGetRequest('/rest/full/insurance_country/');
         //ksort($countryArray);
 
         /*$base_dir = dirname(__FILE__);
@@ -247,12 +247,7 @@ class AdvantAPI
      */
     public static function getCurrency()
     {
-        self::getToken();
-
-        $respString = self::makeGetRequest('/rest/full/currency/');
-        $respArray = self::sortData($respString);
-
-        return ($respArray);
+        return self::makeGetRequest('/rest/full/currency/');
     }
 
     /**
@@ -260,12 +255,7 @@ class AdvantAPI
      */
     public static function getInsuranceTypes()
     {
-        self::getToken();
-
-        $respString = self::makeGetRequest('/rest/full/insurance_type/');
-        $respArray = self::sortData($respString);
-
-        return ($respArray);
+        return self::makeGetRequest('/rest/full/insurance_type/');
     }
 
     /**
@@ -273,12 +263,7 @@ class AdvantAPI
      */
     public static function getInsuranceProgramms()
     {
-        self::getToken();
-
-        $respString = self::makeGetRequest('/rest/full/insurance_plan/');
-        $respArray = self::sortData($respString);
-
-        return ($respArray);
+        return (self::makeGetRequest('/rest/full/insurance_plan/'));
     }
 
     /**
@@ -287,12 +272,7 @@ class AdvantAPI
 
     public static function getRisks ()
     {
-        self::getToken();
-
-        $respString = self::makeGetRequest('/rest/full/additional_risk/');
-        $respArray = self::sortData($respString);
-
-        return ($respArray);
+        return (self::makeGetRequest('/rest/full/additional_risk/'));
     }
 
 }

@@ -210,41 +210,6 @@ class VskCalcParams
 
         $xmlString = (new \bupy7\xml\constructor\XmlConstructor(['startDocument' => false]))->fromArray($this->xmlArray)->toOutput();
 
-        /*$params = new \SoapVar("<xml>
-                                    <Policies>
-                                        <Policy>
-                                            <Common>
-                                                <UserId>F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8</UserId>
-                                                <DtCreated>06.02.2018</DtCreated>
-                                                <PolicyPeriodFrom>21.01.2018</PolicyPeriodFrom>
-                                                <PolicyPeriodTill>03.02.2018</PolicyPeriodTill>
-                                                <Days>14</Days>
-                                                <Country>9a12524e-0c2e-471a-a7eb-66bb0f0676c5</Country
-                                                ><FIO>DERYABINA ANASTASIA</FIO>
-                                                <DateOfBirth>21.08.1985</DateOfBirth>
-                                            </Common>
-                                            <Insureds>
-                                                <Insured>
-                                                    <FIO>DERYABINA ANASTASIA</FIO>
-                                                    <DateOfBirth>21.08.1985</DateOfBirth>
-                                                </Insured>
-                                            </Insureds>
-                                            <Risks>
-                                                <Risk>
-                                                    <RiskId>8d98d27c-3202-492e-81ba-d5fe6f0bbc7c</RiskId>
-                                                    <RiskVariantId>c6ee4b03-1239-40f1-bec0-d20654555d4b</RiskVariantId>
-                                                    <AmountAtRisk>30000</AmountAtRisk>
-                                                    <AmountCurrency>USD</AmountCurrency>
-                                                    <PremCurrency>1000</PremCurrency>
-                                                    <PremRur>65464</PremRur>
-                                                    <FranchiseTypeId>5758902F-52CA-4A5E-8D81-99B47B9624C8</FranchiseTypeId>
-                                                    <FranchiseValue>50</FranchiseValue>
-                                                </Risk>
-                                            </Risks>
-                                        </Policy>
-                                    </Policies>
-                                </xml>", XSD_ANYXML);*/
-
         return [
             [
                 'sUserId' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8',

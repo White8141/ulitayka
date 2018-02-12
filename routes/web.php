@@ -21,10 +21,10 @@ Route::post('/police_buy', 'CalcController@police_buy')->name('police_buy');
 
 Route::post('/getData', 'CalcController@getData')->name('getData');
 
+Route::post('/police_details', 'CalcController@police_details')->name('police_details');
 
 // Статические страницы
 
-Route::get('/police_details/{details}', 'PagesController@police_details')->name('police_details');
 
 Route::get('/kontakti', 'PagesController@contacts')->name('contacts');
 
