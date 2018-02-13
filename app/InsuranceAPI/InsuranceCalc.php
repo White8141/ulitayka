@@ -42,7 +42,7 @@ class InsuranceCalc
     {
         $result = [];
 
-        $alpha = $this->getAlphaCalc($request) ?? null;
+        /*$alpha = $this->getAlphaCalc($request) ?? null;
         if (!is_null($alpha)) {
             $result['alpha'] = [
                 'card' => 'alphaCard',
@@ -65,10 +65,10 @@ class InsuranceCalc
                             'info' => 0
                         ]
                     ];
-                }
+                }*/
 
-        //$advant = $this->getAdvantCalc($request);
-        //dd($advant);
+        $advant = $this->getAdvantCalc($request);
+        dd($advant);
         /*if (!is_null($advant)) {
             $result['advant'] = [
                 'logo' => 'advantCard',

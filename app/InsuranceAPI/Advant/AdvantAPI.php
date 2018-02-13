@@ -149,19 +149,15 @@ class AdvantAPI
             'insurance_type' => '54452',
             'medical_expenses' => [
                 'insurance_plan' => '54748',
-                'insurance_amount' => '30000',
+                'insurance_amount' => '35000',
                 'insurance_currency' => '46212' ],
-            'luggage_expenses' => [
-                'insurance_plan' => '54748',
-                'insurance_amount' => '20000',
-                'insurance_currency' => '46212',
-                'accomodation' => '1'],
+            'luggage_expenses' => null,
             'occurrence_expenses' => null,
             'legal_liability_expenses' => null,
             'trip_cancellation_expenses' => null,
             'insurants_set' => [
-                [ 'age'=> '45'],
-                [ 'age'=> '30']]
+                ['age'=> '45']
+            ]
         ];
         $resp0 = self::makePostRequest('/rest/full/calculation/', $options);
 
