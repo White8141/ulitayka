@@ -56,7 +56,26 @@
                         полис</label>
                     <br>
 
-                    <div class="text-center block-flex-hh"><h1>Данные о застрахованных</h1></div>
+                        <div class="text-center block-flex-hh"><h1>Данные о страхователе</h1></div>
+                        <div id="insureder">
+                            <div>Страхователь</div>
+                            <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input class="form-control" name="travelers[0][firstName]" required/>
+                                <label>Имя (латинскими)</label>
+                            </div>
+                            <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input class="form-control" name="travelers[0][lastName]" required/>
+                                <label>Фамилия (латинскими)</label>
+                            </div>
+                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <input class="form-control" name="travelers[0][birthDate]" placeholder="ГГГГ-ММ-ДД"/>
+                                <label>Дата рождения</label>
+                            </div>
+                            <hr>
+                        </div>
+
+
+                        <div class="text-center block-flex-hh"><h1>Данные о застрахованных</h1></div>
 
                     <div id="traveler0">
                         <div>Путешественник 1</div>
