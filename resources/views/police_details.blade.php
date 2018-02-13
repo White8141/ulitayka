@@ -148,53 +148,6 @@
                             <hr>
                         </div>
 
-                    <!--div class="box-pos">
-                        <div class="box-2 blue_input_text textbox_100_percent font-size14"
-                             placeholder="Сколько человек, возраст" style="cursor: pointer"></div>
-                        <div class="human-drop sel-text">
-                            <div>
-                                <input name="travelers[0][accept]" type="checkbox" value="true" id="tr_check_0" class="checkbox-one" checked
-                                       onclick="travelersDetailsChange(0, '{{route('calcajax')}}', '{{csrf_token()}}')"><label for="tr_check_0">1 путешественник</label>
-                                   <span>
-                                   <select name="travelers[0][age]" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" class="age-human"
-                                           id="tr0"></select>
-                           </span>
-                            </div>
-                            <div>
-                                <input name="travelers[1][accept]" type="checkbox" value="true" id="tr_check_1" class="checkbox-one"
-                                       onclick="travelersDetailsChange(1, '{{route('calcajax')}}', '{{csrf_token()}}')"><label for="tr_check_1">2 путешественник</label>
-                                   <span>
-                                   <select name="travelers[1][age]" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" class="age-human"
-                                           id="tr1"></select>
-                            </span>
-                            </div>
-                            <div>
-                                <input name="travelers[2][accept]" type="checkbox" value="true" id="tr_check_2" class="checkbox-one"
-                                       onclick="travelersDetailsChange(2, '{{route('calcajax')}}', '{{csrf_token()}}')"><label for="tr_check_2">3 путешественник</label>
-                                   <span>
-                                   <select name="travelers[2][age]" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" class="age-human display"
-                                           id="tr2"></select>
-                            </span>
-                            </div>
-                            <div>
-                                <input name="travelers[3][accept]" type="checkbox" value="true" id="tr_check_3" class="checkbox-one"
-                                       onclick="travelersDetailsChange(3, '{{route('calcajax')}}', '{{csrf_token()}}')"><label for="tr_check_3">4 путешественник</label>
-                                   <span>
-                                   <select name="travelers[3][age]" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" class="age-human display"
-                                           id="tr3"></select>
-                            </span>
-                            </div>
-                            <div>
-                                <input name="travelers[4][accept]" type="checkbox" value="true" id="tr_check_4" class="checkbox-one"
-                                       onclick="travelersDetailsChange(4, '{{route('calcajax')}}', '{{csrf_token()}}')"><label for="tr_check_4">5 путешественник</label>
-                                   <span>
-                                   <select name="travelers[4][age]" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" class="age-human display"
-                                           id="tr4"></select>
-                            </span>
-                            </div>
-                        </div>
-                    </div-->
-
                     <div class="details-form footer">
                         
                         <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>

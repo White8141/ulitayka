@@ -401,49 +401,9 @@ const viewCalc = response => {
 //Отображаем блок с деталями полиса
 const showDetails = (cardId) => {
 
-    let args = {
-        dateFrom: document.querySelector('#dateFrom').value,
-        dateTill: document.querySelector('#dateTill').value,
-        countries: [],
-        travelers: [{accept: false, age: 30}, {accept: false, age: 30}, {accept: false, age: 30}, {accept: false, age: 30}, {accept: false, age: 30}],
-        cardId: cardId,
-        prem: document.querySelector('#' + cardId + ' .prem b').textContent
-    };
-
-    let items = $('#ms').magicSuggest().getSelection();
-    if (items.length > 0)  {
-        for (let i = 0; i < items.length; i++) {
-            args.countries[i] = items[i].countryName;
-        }
-    } else {
-        args.countries[0] = '';
-    }
-
-    var tempCheckBoxArr = document.querySelectorAll('.checkbox-one');
-    var tempAgeArr = document.querySelectorAll('.age-human');
-    args.travelers[0]['accept'] = tempCheckBoxArr[0].checked;
-    args.travelers[0]['age'] = tempAgeArr[0].selectedOptions[0].value;
-    if (tempCheckBoxArr[1].checked) {
-        args.travelers[1]['accept'] = true;
-        args.travelers[1]['age'] = tempAgeArr[1].selectedOptions[0].value;
-    }
-    if (tempCheckBoxArr[2].checked) {
-        args.travelers[2]['accept'] = true;
-        args.travelers[2]['age'] = tempAgeArr[2].selectedOptions[0].value;
-    }
-    if (tempCheckBoxArr[3].checked) {
-        args.travelers[3]['accept'] = true;
-        args.travelers[3]['age'] = tempAgeArr[3].selectedOptions[0].value;
-    }
-    if (tempCheckBoxArr[4].checked) {
-        args.travelers[4]['accept'] = true;
-        args.travelers[4]['age'] = tempAgeArr[4].selectedOptions[0].value;
-    }
-
-    args = JSON.stringify(args);
-
-    window.location.assign('/police_details/' + args);
-
+    var tempForm = document.forms.form_details;
+    tempForm.company_id.value = cardId;
+    tempForm.submit();
 };
 
 // Вносим в страховку данные, введенные в форму на главной странице

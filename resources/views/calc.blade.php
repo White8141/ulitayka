@@ -7,14 +7,9 @@
 @section('content')
 
     <div class="container">
-
         <div class="row">
-
-
-
-
-
                 <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="cards">
+
                     <div class="card insCard" id="alpha">
                         <img src="{{ asset('img/logo-alpha.png') }}" alt="" class="img_logo">
                         <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
@@ -24,8 +19,7 @@
                         </a>
                         <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
                         </a>
-                        <!--a href="{{route('police_details')}}" onclick=showDetails('alpha')-->
-                        <a href="{{route('police_details')}}">
+                        <a onclick=showDetails('alpha')>
                             <p class="blue_button_text">Купить</p>
                         </a>
                         <a href="#">
@@ -83,7 +77,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="card insCard" id="vsk">
                         <img src="{{ asset('img/logo-vsk.png') }}" alt="" class="img_logo">
                         <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
@@ -151,7 +144,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="card insCard" id="advant">
                         <img src="{{ asset('img/logo-advant.png') }}" alt="" class="img_logo">
                         <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
@@ -237,6 +229,7 @@
                                  class="img_logo img_logo_disparity">
                         </div>
                     </div>
+                    <br>
                     <div class="disparity_grey" id="dis_advant">
                         <div class="card disparity_card">
                             <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
@@ -294,12 +287,15 @@
 
                 </div>
 
-                    <div class="filter_wimdow col-lg-5 col-md-5 col-sm-12 col-xs-12" id="filters">
+                <div class="filter_wimdow col-lg-5 col-md-5 col-sm-12 col-xs-12" id="filters">
                     <div class="card card_right">
                         <div class="container_filters">
-                            <form action="{{ route('police_details') }}" method="post" class="jClever " id="form-3">
+
+                            <form action="{{ route('police_details') }}" method="post" class="jClever" name="form_details">
+                                {{ csrf_field() }}
 
                                 <p class="filter_h3">Страны</p>
+                                <input name="company_id" id="company_id" type="hidden" />
                                 <div>
                                     <input id="ms" class="form-control" name="countries[]"/>
                                     <label></label>
@@ -376,10 +372,8 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-danger" type="submit">Купить</button>
 
-
-                                <p class="filter_h3 radio_currency">Выбор курса</p>
+                               <p class="filter_h3 radio_currency">Выбор курса</p>
                                 <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="radio_currency" value="EUR" id="radio_euro" class="check_and_radio" checked onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')">
                                 <label for="radio_euro" style="margin-right: 20px;">Евро</label>
                                 <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="radio_currency" value="USD" id="radio_dollar" class="check_and_radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')">
@@ -496,23 +490,6 @@
                                        class="check_and_radio"><label for="additional_6" class="inlined padded">Экстримальные виды спорта</label>
                                 <br>
 
-                                <!--select id="sports1_select" class="blue_input_text textbox_100_percent" name="sports1[0]" style="cursor: pointer">
-                                    <option selected value="randomword1">Распространенные виды спорта</option>
-                                </select><label for="sports1_select"></label>
-                                <select id="sports2_select" class="blue_input_text textbox_100_percent" name="sports2[0]" style="cursor: pointer">
-                                    <option selected value="randomword2">Другие виды спорта</option>
-                                </select><label for="sports2_select"></label>
-
-                                <br>
-                                <input type="checkbox" name="pro_sport" id="pro_sport_1" class="check_and_radio"><label for="pro_sport_1">Передвижение на
-                                    мотоцикле/мопеде</label>
-                                <br>
-                                <input type="checkbox" name="pro_sport" id="pro_sport_2" class="check_and_radio"><label
-                                        for="pro_sport_2">Поисково-спасательные мероприятия</label>
-                                <br>
-                                <input type="checkbox" name="pro_sport" id="pro_sport_3" class="check_and_radio"><label
-                                        for="pro_sport_3">Эвакуация вертолетом</label>
-                                <br-->
                                 <a href="" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                                 <div id="toggle_options_list">
 
@@ -676,18 +653,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
     </div>
 
