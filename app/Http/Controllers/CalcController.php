@@ -40,6 +40,11 @@ class CalcController extends Controller
 
     public function police_buy()
     {
+        /*$this>$this->validate($this->request, [
+            'dateFrom' => 'required',
+            'dateTill' => 'required',
+            'insureder.birthDate' => 'required'
+        ]);*/
         //print_r($this->request->all());
         return view('police_done')->with([ 'details' => $this->insuranceCalc->buyInsurance($this->request, true)]);
 

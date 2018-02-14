@@ -60,15 +60,19 @@
                         <div id="insureder">
                             <div>Страхователь</div>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input class="form-control" name="travelers[0][firstName]" required/>
+                                <input class="form-control" name="insureder[firstName]" required/>
                                 <label>Имя (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input class="form-control" name="travelers[0][lastName]" required/>
+                                <input class="form-control" name="insureder[lastName]" required/>
                                 <label>Фамилия (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <input class="form-control" name="travelers[0][birthDate]" placeholder="ГГГГ-ММ-ДД"/>
+                                <input class="form-control" name="insureder[birthDate]" placeholder="ГГГГ-ММ-ДД" required/>
+                                <!--input name="insureder[birthDate]" type="text" id="insurederBirthDate"
+                                       class="form-control datepicker-here"
+                                       data-multiple-dates="1" data-date-format="yyyy-mm-dd"
+                                       data-multiple-dates-separator=", " style="cursor: pointer" readonly required/-->
                                 <label>Дата рождения</label>
                             </div>
                             <hr>
@@ -81,15 +85,15 @@
                         <div>Путешественник 1</div>
                         <input id="trAccept0" name="travelers[0][accept]" value="true" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" name="travelers[0][firstName]"/>
+                            <input class="form-control" name="travelers[0][firstName]" required/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" name="travelers[0][lastName]"/>
+                            <input class="form-control" name="travelers[0][lastName]" required/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" name="travelers[0][birthDate]" placeholder="ГГГГ-ММ-ДД"/>
+                            <input class="form-control" name="travelers[0][birthDate]" placeholder="ГГГГ-ММ-ДД" required/>
                             <label>Дата рождения</label>
                         </div>
                         <hr>
@@ -99,15 +103,15 @@
                         <div>Путешественник 2</div>
                         <input     id="trAccept1"    name="travelers[1][accept]"    value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trFirstName1" name="travelers[1][firstName]" class="form-control" disabled/>
+                            <input id="trFirstName1" name="travelers[1][firstName]" class="form-control" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trLastName1"  name="travelers[1][lastName]"  class="form-control" disabled/>
+                            <input id="trLastName1"  name="travelers[1][lastName]"  class="form-control" required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input id="trBirthDate1" name="travelers[1][birthDate]" class="form-control" placeholder="ГГГГ-ММ-ДД" disabled/>
+                            <input id="trBirthDate1" name="travelers[1][birthDate]" class="form-control" placeholder="ГГГГ-ММ-ДД" required disabled/>
                             <label>Дата рождения</label>
                         </div>
                         <hr>

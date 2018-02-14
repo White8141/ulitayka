@@ -21,7 +21,6 @@ class AdvantCalcParams
     public $policyPeriodFrom;
     public $policyPeriodTill;
     public $client;
-    public $insuredsCount;
     public $insureds;
 
     public $countryUIDs;
@@ -34,8 +33,15 @@ class AdvantCalcParams
 
         $this->countries = $request['countries'];
         $this->additionalConditions = [];
-        $this->policyPeriodFrom = $request['dateFrom'] ?? date('Y-m-d') . 'T00:00:00';
-        $this->policyPeriodTill = $request['dateTill'] ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
+
+        if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("Y-m-d", strtotime($request['dateFrom'])); }
+        else { $this->policyPeriodFrom = date('Y-m-d'); }
+
+        if (isset($request['dateTill'])) { $this->policyPeriodTill = date("Y-m-d", strtotime($request['dateTill'])); }
+        else { $this->policyPeriodTill = date('Y-m-d', strtotime('+1 month')); }
+
+        $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
+
         $this->client = [
             'name' => 'Testov Petr'
         ];
@@ -46,8 +52,7 @@ class AdvantCalcParams
             if (isset($traveler['accept']) && $traveler['accept'] === 'true')
 
                 $this->insureds[] = [
-                    'fio' => ($traveler['firstName']  ?? 'Stan').' '.($traveler['lastName'] ?? 'Marsh'),
-                    'dateOfBirth' => $traveler['birthDate'] ?? date('Y-m-d', strtotime('-' . $traveler['age'] . ' year')) . 'T00:00:00'
+                    'age' => $traveler['age'] ?? '30'
                 ];
 
         }
@@ -78,29 +83,28 @@ class AdvantCalcParams
         }
     }
 
-    public function getCalcParams($operation)
+    public function getCalcParams()
     {
         return [
-            [
-                'policy' => [
-                    'common' => [
-                        'userId' => '9B724100-83B5-4EA0-9F55-452C07D131AE',
-                        'userLogin' => 'AS_test',
-                        'userPSW' => '8Pq7YS3V',
-                        'insuranceProgrammUID' => 'bae89816-a75b-4d82-8741-409f42de0876',
-                        'operation' => $operation,
-
-                        'policyPeriodFrom' => $this->policyPeriodFrom,
-                        'policyPeriodTill' => $this->policyPeriodTill,
-                        'fio' => $this->client['name'],
-                    ],
-                    'insureds' => $this->insureds,
-                    'risks' => $this->risks,
-                    'countryUIDs' => $this->countryUIDs,
-                    'additionalConditions' => $this->additionalConditionsUIDs
-                ]
-
-            ]
+            'is_multiple_policy' => false,
+            'valid_from' => $this->policyPeriodFrom,
+            'valid_to' => $this->policyPeriodTill,
+            'insurance_days_up_to' => $this->policyDays,
+            'insurance_territory' => [ ],
+            'insurance_country' => [ '54727' ],
+            'additional_risk' => '54758',
+            'insurance_type' => '54452',
+            'medical_expenses' => [
+                'insurance_plan' => '54748',
+                'insurance_amount' => '35000',
+                'insurance_currency' => '46212' ],
+            'luggage_expenses' => null,
+            'occurrence_expenses' => null,
+            'legal_liability_expenses' => null,
+            'trip_cancellation_expenses' => null,
+            'insurants_set' => $this->insureds
         ];
+
+        //return $options;
     }
 }

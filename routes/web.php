@@ -17,11 +17,11 @@ Route::post('/kalkulyator', 'CalcController@calculate')->name('calculate');
 
 Route::post('/calcajax', 'CalcController@ajax')->name('calcajax');
 
+Route::post('/police_details', 'CalcController@police_details')->name('police_details');
+
 Route::post('/police_buy', 'CalcController@police_buy')->name('police_buy');
 
 Route::post('/getData', 'CalcController@getData')->name('getData');
-
-Route::post('/police_details', 'CalcController@police_details')->name('police_details');
 
 // Статические страницы
 

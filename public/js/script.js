@@ -437,6 +437,27 @@ const setDetailsDefaultData = (defaultData, csrf) => {
 
     //укажем цену выбранного полиса, если она есть в данных
     if (defaultData['prem'] != null) document.querySelector('#prem b').innerHTML = defaultData['prem'];
+
+    //и подготовим окно выбора даты рождения
+    $('#insurederDateBirth').datepicker({
+        view: 'years',
+        autoClose: 'true',
+        /*onSelect: function (fd, date, inst) {
+
+            if (document.querySelector('#dateFrom').value != '') {
+                $('#dateFrom').datepicker().data('datepicker').hide();
+                if (document.querySelector('#dateFrom').value > document.querySelector('#dateTill').value)  $('#dateTill').datepicker().data('datepicker').clear();
+                $('#dateTill').datepicker().data('datepicker').update('minDate', new Date(document.querySelector('#dateFrom').value));
+                $('#dateTill').datepicker().data('datepicker').show();
+            }
+        },
+        onHide: function (dp, animationCompleted) {
+            if (document.querySelector('#dateFrom').value == '' && document.querySelectorAll('#dateFrom.auto-correct').length > 0) {
+                $('#dateFrom').datepicker().data('datepicker').selectDate(new Date());
+
+            }
+        }*/
+    });
 }
 
 //Отправка на рассчет деталей полиса
@@ -548,7 +569,9 @@ const viewDetails = response => {
 
 };
 
-// Отображаем блок с деталями полиса
+
+
+// Отображаем блок с деталями купленного полиса полиса (ссылка на готовый полис в pdf)
 const viewDone = response => {
     response = JSON.parse(response);
 

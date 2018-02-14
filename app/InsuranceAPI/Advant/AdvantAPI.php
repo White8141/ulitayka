@@ -133,12 +133,12 @@ class AdvantAPI
     /**
      * Запрос на рассчет и получение тарифов и стоимостей
      */
-    public static function calculate()
+    public static function calculate($options)
     {
         self::getToken();
 
         //запрос на сохранение рассчета и получение id рассчета и страховых компаний
-        $options = [
+        /*$options = [
             'is_multiple_policy' => false,
             'insurance_days_up_to' => '5',
             'insurance_territory' => [ ],
@@ -158,7 +158,10 @@ class AdvantAPI
             'insurants_set' => [
                 ['age'=> '45']
             ]
-        ];
+        ];*/
+
+        //dd($options);
+        
         $resp0 = self::makePostRequest('/rest/full/calculation/', $options);
 
         if (isset($resp0->id) && isset($resp0->available_insurance_departments[0]->id)) {
@@ -173,9 +176,14 @@ class AdvantAPI
             return ['error0: ' => $resp0];
         }
 
+        if (isset($resp1[0]->variables->S)) {
+            return $resp1;
+        } else {
+            return null;
+        }
 
         //Получение идентификатора полиса для дальнейшей работы с ним
-        if (isset($resp1[0]->id)) {
+        /*if (isset($resp1[0]->id)) {
             $options = [
                 'external_id' =>  null,
                 'valid_from' => '2018-03-03T00:00',
@@ -202,13 +210,11 @@ class AdvantAPI
             return ['error2: ' => $resp2];
         }
 
-
-
         return (['/rest/full/calculation/' => $resp0,
                   $url1 => $resp1,
                  '/policy/rest/result_policy/'.$resp1[0]->id => $resp2,
                   $url3 => $resp3
-                ]);
+                ]);*/
     }
 
     /**
