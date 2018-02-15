@@ -138,30 +138,7 @@ class AdvantAPI
         self::getToken();
 
         //запрос на сохранение рассчета и получение id рассчета и страховых компаний
-        /*$options = [
-            'is_multiple_policy' => false,
-            'insurance_days_up_to' => '5',
-            'insurance_territory' => [ ],
-            'insurance_country' => [ '54727' ],
-            'additional_risk' => '54758',
-            'valid_from' => '2018-03-03',
-            'valid_to' => '2018-03-07',
-            'insurance_type' => '54452',
-            'medical_expenses' => [
-                'insurance_plan' => '54748',
-                'insurance_amount' => '35000',
-                'insurance_currency' => '46212' ],
-            'luggage_expenses' => null,
-            'occurrence_expenses' => null,
-            'legal_liability_expenses' => null,
-            'trip_cancellation_expenses' => null,
-            'insurants_set' => [
-                ['age'=> '45']
-            ]
-        ];*/
-
         //dd($options);
-        
         $resp0 = self::makePostRequest('/rest/full/calculation/', $options);
 
         if (isset($resp0->id) && isset($resp0->available_insurance_departments[0]->id)) {

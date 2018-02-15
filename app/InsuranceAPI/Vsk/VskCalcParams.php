@@ -213,7 +213,7 @@ class VskCalcParams
         return [
             [
                 'sUserId' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8',
-                'xml' => $xmlString
+                'xml' => $this->xmlArray
             ]
         ];
     }

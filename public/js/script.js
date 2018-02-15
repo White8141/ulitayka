@@ -290,6 +290,7 @@ const setCalcDefaultData = (defaultData, csrf) => {
 const chRequest = (url, csrf) => {
 
     let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
+
     let medical_amount = 30000;
     for( let i = 0; i < document.getElementsByName('medical_amount').length; i++) {
         if(document.getElementsByName('medical_amount')[i].checked) {
@@ -300,36 +301,49 @@ const chRequest = (url, csrf) => {
 
     let public_amount = 10000;
     for( let i = 0; i < document.getElementsByName('civil_responsibility').length; i++) {
+        document.getElementsByName('civil_responsibility')[i].disabled = !document.querySelector('#additional_public').checked;
         if(document.getElementsByName('civil_responsibility')[i].checked) {
             public_amount = document.getElementsByName('civil_responsibility')[i].value;
-            break;
+            //break;
         }
     }
 
-
     let cancel_amount = 500;
-    for( let i = 0; i < document.getElementsByName('flight_time_2').length; i++) {
-        if(document.getElementsByName('flight_time_2')[i].checked) {
-            cancel_amount = document.getElementsByName('flight_time_2')[i].value;
-            break;
+    document.getElementsByName('cancel_visa')[0].disabled = !document.querySelector('#additional_cancel').checked;
+    for( let i = 0; i < document.getElementsByName('cancel').length; i++) {
+        document.getElementsByName('cancel')[i].disabled = !document.querySelector('#additional_cancel').checked;
+        if(document.getElementsByName('cancel')[i].checked) {
+            cancel_amount = document.getElementsByName('cancel')[i].value;
+            //break;
         }
     }
 
     let accident_amount = 1000;
-    for( let i = 0; i < document.getElementsByName('accident').length; i++) {
-        if(document.getElementsByName('accident')[i].checked) {
+    document.getElementsByName('accident_flight')[0].disabled = !document.querySelector('#additional_accident').checked;
+    for (let i = 0; i < document.getElementsByName('accident').length; i++) {
+        document.getElementsByName('accident')[i].disabled = !document.querySelector('#additional_accident').checked;
+        if (document.getElementsByName('accident')[i].checked) {
             accident_amount = document.getElementsByName('accident')[i].value;
-            break;
+
         }
     }
 
     let laggage_amount = 1000;
-    for( let i = 0; i < document.getElementsByName('flight_time').length; i++) {
-        if(document.getElementsByName('flight_time')[i].checked) {
-            laggage_amount = document.getElementsByName('flight_time')[i].value;
-            break;
+    let tempArr = document.getElementsByName('laggage');
+    document.getElementsByName('laggage_time')[0].disabled = !document.querySelector('#additional_laggage').checked;
+    for( let i = 0; i < tempArr.length; i++) {
+        tempArr[i].disabled = !document.querySelector('#additional_laggage').checked;
+        if(tempArr[i].checked) {
+            laggage_amount = tempArr[i].value;
+            //break;
         }
     }
+
+    tempArr = document.getElementsByName('pregnancy');
+    for( let i = 0; i < tempArr.length; i++) {
+        tempArr[i].disabled = !document.querySelector('#additional_pregnancy').checked;
+    }
+
 
     let items = $('#ms').magicSuggest().getSelection();
     let args = 'countries[0]=';
@@ -355,13 +369,13 @@ const chRequest = (url, csrf) => {
         '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
         '&risks[0][check]=true&risks[0][amountAtRisk]=' + medical_amount +
         '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
-        '&risks[1][check]=' + document.querySelector('#additional2_7').checked + '&risks[1][amountAtRisk]=' + public_amount +
+        '&risks[1][check]=' + document.querySelector('#additional_public').checked + '&risks[1][amountAtRisk]=' + public_amount +
         '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
-        '&risks[2][check]=' + document.querySelector('#additional2_6').checked + '&risks[2][amountAtRisk]=' + cancel_amount +
+        '&risks[2][check]=' + document.querySelector('#additional_cancel').checked + '&risks[2][amountAtRisk]=' + cancel_amount +
         '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
         '&risks[3][check]=' + document.querySelector('#additional_accident').checked + '&risks[3][amountAtRisk]=' + accident_amount +
         '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
-        '&risks[4][check]=' + document.querySelector('#additional2_2').checked + '&risks[4][amountAtRisk]=' + laggage_amount +
+        '&risks[4][check]=' + document.querySelector('#additional_laggage').checked + '&risks[4][amountAtRisk]=' + laggage_amount +
         '&additionalConditions[0][name]=leisure&additionalConditions[0][check]=' + document.querySelector('#sport_0').checked +
         '&additionalConditions[1][name]=competition&additionalConditions[1][check]=' + document.querySelector('#sport_1').checked +
         '&additionalConditions[2][name]=extreme&additionalConditions[2][check]=' + document.querySelector('#sport_2').checked;
