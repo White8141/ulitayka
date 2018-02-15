@@ -388,7 +388,7 @@
                                     <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                                 </div>
 
-                                <a href="" onclick="getInsurData('{{route('getData')}}', '{{csrf_token()}}')" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
+                                <a href="" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
                                             class="blue glyphicon glyphicon-chevron-down"
                                             style="margin-bottom: 20px !important;"></span></a>
                                 <div id="toggle_insurance_list">
@@ -493,27 +493,27 @@
                                 <a href="" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                                 <div id="toggle_options_list">
 
-                                    <input type="checkbox" name="additional_options2" id="additional2_1" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
-                                           class="check_and_radio"><label for="additional2_1">Страхование от несчастных
+                                    <input type="checkbox" name="additional_accident" id="additional_accident" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                           class="check_and_radio"><label for="additional_accident">Страхование от несчастных
                                         случаев</label>
                                     <br>
                                     <div class="margined">
                                         <p class="margin_bottom5">На все время путешествия</p>
-                                        <input type="radio" checked value="1000" name="travel_time" id="radio_travel_time_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
-                                               class="check_and_radio"><label for="radio_travel_time_1000" class="margined_text"
+                                        <input type="radio" checked value="1000" name="accident" id="radio_accident_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                               class="check_and_radio"><label for="radio_accident_1000" class="margined_text"
                                                                               style="margin-right: 20px;">1&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="3000" name="travel_time" id="radio_travel_time_3000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
-                                               class="check_and_radio"><label for="radio_travel_time_3000" class="margined_text"
+                                        <input type="radio" value="3000" name="accident" id="radio_accident_3000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                               class="check_and_radio"><label for="radio_accident_3000" class="margined_text"
                                                                               style="margin-right: 20px;">3&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="5000" name="travel_time" id="radio_travel_time_5000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
-                                               class="check_and_radio"><label for="radio_travel_time_5000" class="margined_text"
+                                        <input type="radio" value="5000" name="accident" id="radio_accident_5000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                               class="check_and_radio"><label for="radio_accident_5000" class="margined_text"
                                                                               style="margin-right: 20px;">5&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="10000" name="travel_time" id="radio_travel_time_10000"  onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="10000" name="accident" id="radio_accident_10000"  onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio"><label
-                                                for="radio_travel_time_10000" class="margined_text" style="margin-right: 20px;">10&nbsp;000<p class="currency_symbol">€</p></label>
+                                                for="radio_accident_10000" class="margined_text" style="margin-right: 20px;">10&nbsp;000<p class="currency_symbol">€</p></label>
                                         <br>
-                                        <input type="checkbox" name="travel_time" id="travel_time_text"
-                                               class="check_and_radio"><label for="travel_time_text" class="margined_text">На время
+                                        <input type="checkbox" name="accident_flight" id="accident_flight"
+                                               class="check_and_radio"><label for="accident_flight" class="margined_text">На время
                                             авиаперелета</label>
                                     </div>
                                     <input type="checkbox" name="additional_options2" id="additional2_2"  onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"

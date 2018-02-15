@@ -316,9 +316,9 @@ const chRequest = (url, csrf) => {
     }
 
     let accident_amount = 1000;
-    for( let i = 0; i < document.getElementsByName('travel_time').length; i++) {
-        if(document.getElementsByName('travel_time')[i].checked) {
-            accident_amount = document.getElementsByName('travel_time')[i].value;
+    for( let i = 0; i < document.getElementsByName('accident').length; i++) {
+        if(document.getElementsByName('accident')[i].checked) {
+            accident_amount = document.getElementsByName('accident')[i].value;
             break;
         }
     }
@@ -359,7 +359,7 @@ const chRequest = (url, csrf) => {
         '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
         '&risks[2][check]=' + document.querySelector('#additional2_6').checked + '&risks[2][amountAtRisk]=' + cancel_amount +
         '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
-        '&risks[3][check]=' + document.querySelector('#additional2_1').checked + '&risks[3][amountAtRisk]=' + accident_amount +
+        '&risks[3][check]=' + document.querySelector('#additional_accident').checked + '&risks[3][amountAtRisk]=' + accident_amount +
         '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
         '&risks[4][check]=' + document.querySelector('#additional2_2').checked + '&risks[4][amountAtRisk]=' + laggage_amount +
         '&additionalConditions[0][name]=leisure&additionalConditions[0][check]=' + document.querySelector('#sport_0').checked +
@@ -490,9 +490,9 @@ const chDetails = (url, csrf) => {
     }
 
     let accident_amount = 1000;
-    for( let i = 0; i < document.getElementsByName('travel_time').length; i++) {
-        if(document.getElementsByName('travel_time')[i].checked) {
-            accident_amount = document.getElementsByName('travel_time')[i].value;
+    for( let i = 0; i < document.getElementsByName('accident').length; i++) {
+        if(document.getElementsByName('accident')[i].checked) {
+            accident_amount = document.getElementsByName('accident')[i].value;
             break;
         }
     }
