@@ -128,9 +128,8 @@ class InsuranceCalc
 
     public function getInsuranseData($request)
     {
-        //$vsk = $this->getVskCalc($request);
-        print_r($request->all());
-        //return VskAPI::getCountries();
-        //return json_encode(AlphaAPI::getRisks());
+        $calcParams = new VskCalcParams($request->all());
+        return $calcParams->getCalcParams('Calc2');
+        //return 'getInsData';
     }
 }

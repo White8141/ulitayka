@@ -61,7 +61,7 @@ class VskCalcParams
         $this->risks = [];
         foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 30000, 'amountCurrency' => 'EUR']] as $risk) {
             if ((string)$risk['check'] === 'true') {
-                $this->risks['risk'] = [
+                $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),
                     'RiskVariantId' => VskDirect::getRiskUID($risk['name']),
                     'amountAtRisk' => $risk['amountAtRisk'],
@@ -160,8 +160,6 @@ class VskCalcParams
             ]
         ];
 
-
-
     }
 
     public function getCalcParams($operation)
@@ -183,28 +181,53 @@ class VskCalcParams
                 ]
             ];
 
+            /*$risks[] = [
+                'tag' => 'Risk',
+                'elements' => [
+                    [
+                        'tag' => 'RiskId',
+                        'content' => $this->risks[$i]['RiskId']
+                    ],
+                    [
+                        'tag' => 'RiskVariantId',
+                        'content' => $this->risks[$i]['RiskVariantId']
+                    ],
+                    [
+                        'tag' => 'AmountAtRisk',
+                        'content' => $this->risks[$i]['amountAtRisk']
+                    ],
+                    [
+                        'tag' => 'AmountCurrency',
+                        'content' => $this->risks[$i]['amountCurrency']
+                    ]
+                ]
+            ];*/
+        }
+
+        foreach($this->risks as $risk) {
             $risks[] = [
                 'tag' => 'Risk',
                 'elements' => [
                     [
                         'tag' => 'RiskId',
-                        'content' => '8d98d27c-3202-492e-81ba-d5fe6f0bbc7c'
+                        'content' => $risk['RiskId']
                     ],
                     [
                         'tag' => 'RiskVariantId',
-                        'content' => 'c6ee4b03-1239-40f1-bec0-d20654555d4b'
+                        'content' => $risk['RiskVariantId']
                     ],
                     [
                         'tag' => 'AmountAtRisk',
-                        'content' => '30000'
+                        'content' => $risk['amountAtRisk']
                     ],
                     [
                         'tag' => 'AmountCurrency',
-                        'content' => 'EUR'
+                        'content' => $risk['amountCurrency']
                     ]
                 ]
             ];
         }
+
         $this->xmlArray[0]['elements'][0]['elements'][1]['elements'] = $insureds;
         $this->xmlArray[0]['elements'][0]['elements'][2]['elements'] = $risks;
 
@@ -213,7 +236,7 @@ class VskCalcParams
         return [
             [
                 'sUserId' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8',
-                'xml' => $this->xmlArray
+                'xml' => $xmlString
             ]
         ];
     }

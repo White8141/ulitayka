@@ -229,24 +229,6 @@ const setCalcDefaultData = (defaultData, csrf) => {
 
     defaultData = JSON.parse(defaultData);
 
-    //зафиксируем окно с карочками, что бы не уезжало вверх при прокрутке
-    /**$('.owl-carousel').owlCarousel({
-        loop:true,
-        margin:10,
-        nav:true,
-        responsive:{
-            0:{
-                items:1
-            },
-            600:{
-                items:3
-            },
-            1000:{
-                items:5
-            }
-        }
-    })*/
-    
     //сначала выделим страну, выбранную в начальной форме
     countryParseWithSelect('calc', defaultData['countries'], csrf);
 
@@ -324,7 +306,6 @@ const chRequest = (url, csrf) => {
         document.getElementsByName('accident')[i].disabled = !document.querySelector('#additional_accident').checked;
         if (document.getElementsByName('accident')[i].checked) {
             accident_amount = document.getElementsByName('accident')[i].value;
-
         }
     }
 
@@ -335,7 +316,6 @@ const chRequest = (url, csrf) => {
         tempArr[i].disabled = !document.querySelector('#additional_laggage').checked;
         if(tempArr[i].checked) {
             laggage_amount = tempArr[i].value;
-            //break;
         }
     }
 
@@ -343,7 +323,6 @@ const chRequest = (url, csrf) => {
     for( let i = 0; i < tempArr.length; i++) {
         tempArr[i].disabled = !document.querySelector('#additional_pregnancy').checked;
     }
-
 
     let items = $('#ms').magicSuggest().getSelection();
     let args = 'countries[0]=';
@@ -380,9 +359,7 @@ const chRequest = (url, csrf) => {
         '&additionalConditions[1][name]=competition&additionalConditions[1][check]=' + document.querySelector('#sport_1').checked +
         '&additionalConditions[2][name]=extreme&additionalConditions[2][check]=' + document.querySelector('#sport_2').checked;
 
-        //additionalConditions
-
-    console.log(args);
+    //console.log(args);
 
     let func = viewCalc;
 

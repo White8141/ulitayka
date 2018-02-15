@@ -21,7 +21,7 @@ Route::post('/police_details', 'CalcController@police_details')->name('police_de
 
 Route::post('/police_buy', 'CalcController@police_buy')->name('police_buy');
 
-//Route::post('/getData', 'CalcController@getData')->name('getData');
+Route::post('/getData', 'CalcController@getData')->name('getData');
 
 // Статические страницы
 
