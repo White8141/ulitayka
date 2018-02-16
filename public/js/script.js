@@ -160,7 +160,7 @@ function welcomeCountryParse() {
 
     $.getJSON('/js/country.json', function (data) {
         $.each(data, function (key, val) {
-            if (key.charAt(0) == '+') key = key.substring(1);
+            //if (key.charAt(0) == '+') key = key.substring(1);
             $('#page-country').append('<option value="' + key + '">' + val + '</option>');
         })
     });

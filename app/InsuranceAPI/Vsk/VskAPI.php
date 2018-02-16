@@ -11,11 +11,9 @@ namespace App\InsuranceAPI\Vsk;
 class VskAPI
 {
     private static $wsdl = 'https://newtravel.vsk.ru/test/WS/Policy2.asmx?wsdl';
-    //private static $wsdl = 'https://ti.alfastrah.ru/TIService/InsuranceAlfaService.svc?wsdl';
     private static $asmx = 'https://newtravel.vsk.ru/test/Front/ExternalWebServices/GetInputParams.asmx?wsdl';
     private static $organizationId = '6F470B1B-C484-4FA6-A150-2349211564E5';
     private static $userId  = 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8';
-    //private static $insuranceProgrammUID = '9afd653e-9b31-4b9c-90dc-0ee0964afb1c';
 
     /**
      * Метод отправки soap-запрса принимает метод и параметры, возвращает массив с ответом

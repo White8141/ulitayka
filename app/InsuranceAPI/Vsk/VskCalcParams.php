@@ -63,7 +63,7 @@ class VskCalcParams
             if ((string)$risk['check'] === 'true') {
                 $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),
-                    'RiskVariantId' => VskDirect::getRiskUID($risk['name']),
+                    'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0]),
                     'amountAtRisk' => $risk['amountAtRisk'],
                     'amountCurrency' => $risk['amountCurrency']
                 ];
@@ -114,6 +114,7 @@ class VskCalcParams
                                         'content' => $this->countries
 
                                     ],
+
                                     [
                                         'tag' => 'FIO',
                                         'content' => $this->client['name']
@@ -130,29 +131,7 @@ class VskCalcParams
                             ],
                             [
                                 'tag' => 'Risks',
-                                'elements' => [
-                                    [
-                                        'tag' => 'Risk',
-                                        'elements' => [
-                                            [
-                                                'tag' => 'RiskId',
-                                                'content' => '8d98d27c-3202-492e-81ba-d5fe6f0bbc7c'
-                                            ],
-                                            [
-                                                'tag' => 'RiskVariantId',
-                                                'content' => 'c6ee4b03-1239-40f1-bec0-d20654555d4b'
-                                            ],
-                                            [
-                                                'tag' => 'AmountAtRisk',
-                                                'content' => '30000'
-                                            ],
-                                            [
-                                                'tag' => 'AmountCurrency',
-                                                'content' => 'EUR'
-                                            ]
-                                        ]
-                                    ]
-                                ]
+                                'elements' => [ ]
                             ]
                         ]
                     ]
@@ -180,28 +159,6 @@ class VskCalcParams
                     ]
                 ]
             ];
-
-            /*$risks[] = [
-                'tag' => 'Risk',
-                'elements' => [
-                    [
-                        'tag' => 'RiskId',
-                        'content' => $this->risks[$i]['RiskId']
-                    ],
-                    [
-                        'tag' => 'RiskVariantId',
-                        'content' => $this->risks[$i]['RiskVariantId']
-                    ],
-                    [
-                        'tag' => 'AmountAtRisk',
-                        'content' => $this->risks[$i]['amountAtRisk']
-                    ],
-                    [
-                        'tag' => 'AmountCurrency',
-                        'content' => $this->risks[$i]['amountCurrency']
-                    ]
-                ]
-            ];*/
         }
 
         foreach($this->risks as $risk) {

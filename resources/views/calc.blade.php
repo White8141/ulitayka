@@ -377,7 +377,7 @@
                                 <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="radio_currency" value="EUR" id="radio_euro" class="check_and_radio" checked onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')">
                                 <label for="radio_euro" style="margin-right: 20px;">Евро</label>
                                 <!--input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="radio_currency" value="USD" id="radio_dollar" class="check_and_radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"-->
-                                <input type="radio" onchange="chRequest('{{route('getData')}}', '{{csrf_token()}}')" name="radio_currency" value="USD" id="radio_dollar" class="check_and_radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')">
+                                <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="radio_currency" value="USD" id="radio_dollar" class="check_and_radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')">
                                 <label for="radio_dollar" style="margin-right: 20px;">Доллар</label>
 
                                 <p class="filter_h3" style="margin-top: 10px;">Медицинское страхование</p>
