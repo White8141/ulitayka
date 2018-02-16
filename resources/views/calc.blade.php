@@ -296,6 +296,7 @@
 
                                 <input name="companyId" id="companyId" type="hidden" />
                                 <input name="companyURL" id="companyURL" type="hidden" />
+                                <input name="policeAmount" id="policeAmount" type="hidden" />
 
                                 <p class="filter_h3">Страны</p>
                                 <div>

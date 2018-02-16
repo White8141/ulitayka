@@ -35,6 +35,7 @@ class CalcController extends Controller
         //dd ($this->request->all());
         return view('police_details')->with([   //'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers', 'risks', 'additionalConditions', 'companyId')),
                                                 'defaultData' => json_encode($this->request->all()),
+                                                'companyId' => strval($this->request->input('companyId')),
                                                 'companyURL' => strval($this->request->input('companyURL')),
                                                 'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
                                             ]);

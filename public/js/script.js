@@ -394,6 +394,8 @@ const showDetails = (cardId) => {
     var tempForm = document.forms.form_details;
     tempForm.companyId.value = cardId;
     tempForm.companyURL.value = 'img/logo-' + cardId + '.png';
+    tempForm.policeAmount.value = document.querySelector('#alpha p.amount.prem').innerText;
+    //var tempObj = document.querySelector('#alpha p.amount.prem').innerText;
     tempForm.submit();
 };
 
@@ -427,7 +429,7 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     }
 
     //укажем цену выбранного полиса, если она есть в данных
-    if (defaultData['prem'] != null) document.querySelector('#prem b').innerHTML = defaultData['prem'];
+    if (defaultData['policeAmount'] != null) document.querySelector('#prem b').innerHTML = defaultData['policeAmount'];
 
     //и подготовим окно выбора даты рождения
     $('#insurederDateBirth').datepicker({
@@ -518,15 +520,15 @@ const chDetails = (url, csrf) => {
 
     args += '&dateFrom=' + document.querySelector('#dateFrom').value +
         '&dateTill=' + document.querySelector('#dateTill').value +
-        '&travelers[0][accept]=' + document.querySelector('#trAccept0').checked +
+        '&travelers[0][accept]=true' + //document.querySelector('#trAccept0').checked +
         '&travelers[0][age]=30' +
-        '&travelers[1][accept]=' + document.querySelector('#trAccept1').checked +
+        '&travelers[1][accept]=true' + //document.querySelector('#trAccept1').checked +
         '&travelers[1][age]=30' +
-        '&travelers[2][accept]=' + document.querySelector('#trAccept2').checked +
+        '&travelers[2][accept]=false' + //document.querySelector('#trAccept2').checked +
         '&travelers[2][age]=30' +
-        '&travelers[3][accept]=' + document.querySelector('#trAccept3').checked +
+        '&travelers[3][accept]=false' + //document.querySelector('#trAccept3').checked +
         '&travelers[3][age]=30' +
-        '&travelers[4][accept]=' + document.querySelector('#trAccept4').checked +
+        '&travelers[4][accept]=false' + //document.querySelector('#trAccept4').checked +
         '&travelers[4][age]=30' +
         '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
         '&risks[0][check]=true&risks[0][amountAtRisk]=' + medical_amount +
@@ -550,7 +552,7 @@ const chDetails = (url, csrf) => {
 
     console.log(args);
 
-    let func = viewDetails;
+    let func = updDetails;
 
     ajaxRequest(url, csrf, args, func, 'post');
 
@@ -558,13 +560,18 @@ const chDetails = (url, csrf) => {
 };
 
 // Обновляем блок с деталями полиса (ценой)
-const viewDetails = response => {
+const updDetails = response => {
     response = JSON.parse(response);
 
-    if (response.hasOwnProperty('alpha') && response['alpha'].hasOwnProperty('prem')) {
-        document.querySelector('.prem b').innerHTML = response['alpha']['prem'];
+    var companyId = document.querySelector('#companyId').value;
+    if (response.hasOwnProperty(companyId) && response[companyId].hasOwnProperty('prem')) {
+        document.querySelector('.prem b').innerHTML = response[companyId]['prem'];
+        document.querySelector('.fa').style.display = 'inline';
+        document.querySelector('#submitBtn').disabled = false;
     } else {
         document.querySelector('.prem b').textContent = 'Нет в наличии';
+        document.querySelector('.fa').style.display = 'none';
+        document.querySelector('#submitBtn').disabled = true;
     }
 
     /*if (response.hasOwnProperty('vsk') && response['vsk'].hasOwnProperty('prem')) {
