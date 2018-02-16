@@ -153,7 +153,7 @@
                         </a>
                         <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
                         </a>
-                        <a href="#" onclick=showDetails('vsk')>
+                        <a href="#" onclick=showDetails('advant')>
                             <p class="blue_button_text">Купить</p>
                         </a>
                         <a href="#">
@@ -294,8 +294,10 @@
                             <form action="{{ route('police_details') }}" method="post" class="jClever" name="form_details">
                                 {{ csrf_field() }}
 
+                                <input name="companyId" id="companyId" type="hidden" />
+                                <input name="companyURL" id="companyURL" type="hidden" />
+
                                 <p class="filter_h3">Страны</p>
-                                <input name="company_id" id="company_id" type="hidden" />
                                 <div>
                                     <input id="ms" class="form-control" name="countries[]"/>
                                     <label></label>
@@ -328,7 +330,7 @@
                                     <!--div class="box-2 blue_input_text textbox_100_percent font-size14"
                                          placeholder="Сколько человек, возраст" style="cursor: pointer"></div-->
                                     <p class="filter_h3">Сколько человек, возраст</p>
-                                    <div class="human-123drop sel-text">
+                                    <div class="sel-text">
                                         <div>
                                             <input name="travelers[0][accept]" type="checkbox" value="true" id="tr_check_0" class="checkbox-one" checked
                                                    onclick="travelersChange(0, '{{route('calcajax')}}', '{{csrf_token()}}')"><label for="tr_check_0">1 путешественник</label>
@@ -482,11 +484,9 @@
                                 <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_0"
                                        class="check_and_radio"><label for="additional_6" class="inlined padded">Активный отдых</label>
                                 <br>
-
                                 <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_1"
                                        class="check_and_radio"><label for="additional_6" class="inlined padded">Участие в соревнованиях</label>
                                 <br>
-
                                 <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_2"
                                        class="check_and_radio"><label for="additional_6" class="inlined padded">Экстримальные виды спорта</label>
                                 <br>
