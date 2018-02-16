@@ -160,7 +160,6 @@ function welcomeCountryParse() {
 
     $.getJSON('/js/country.json', function (data) {
         $.each(data, function (key, val) {
-            //if (key.charAt(0) == '+') key = key.substring(1);
             $('#page-country').append('<option value="' + key + '">' + val + '</option>');
         })
     });
@@ -176,7 +175,7 @@ function welcomeCountryParse() {
     }
     $('.age-human').append(html);
 
-    console.log('Country parse');
+    //console.log('Country parse');
 }
 
 //обработка массива country.json и выбор заданных стран
@@ -361,19 +360,19 @@ const chRequest = (url, csrf) => {
 
     //console.log(args);
 
-    let func = viewCalc;
+    let func = updCalc;
 
     ajaxRequest(url, csrf, args, func, 'post');
 
 };
 
 // Обновляем блок со страховкой
-const viewCalc = response => {
+const updCalc = response => {
     response = JSON.parse(response);
     let cards = document.getElementsByClassName('insCard');
     for ( let i = 0; i < cards.length; i++) {
         let id = cards[i].getAttribute('id');
-        if(response[id]){
+        if(response[id]) {
             console.log('API ' + id + ', cost ' + response[id]['prem']);
             cards[i].style.display = 'block';
             document.querySelector('#dis_' + id).style.display = 'none';
@@ -586,6 +585,7 @@ function chYearPolice() {
             $('#dateFrom').datepicker().data('datepicker').selectDate(new Date());
         }
         tempDate.setFullYear(tempDate.getFullYear() + 1);
+        tempDate.setDate(tempDate.getDate() - 1);
         $('#dateTill').datepicker().data('datepicker').clear();
         $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
     } else {

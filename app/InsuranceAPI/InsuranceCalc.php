@@ -27,7 +27,7 @@ class InsuranceCalc
     public function getVskCalc($request)
     {
         $calcParams = new VskCalcParams($request->all());
-        return VskAPI::calculate($calcParams->getCalcParams('CALC2'));
+        return VskAPI::calculate($calcParams->getCalcParams('Calc2'));
         //return $calcParams->getCalcParams('Calc2');
     }
 

@@ -232,9 +232,9 @@ class VskDirect
         }
     }
 
-    public static function getAdditionalConditionUID($alphaAdditionalCondition)
+    public static function getAdditionalConditionUID($vskAdditionalCondition)
     {
-        return self::$vskAdditionalConditions[$alphaAdditionalCondition] ?? null;
+        return self::$vskAdditionalConditions[$vskAdditionalCondition] ?? null;
     }
 
 }

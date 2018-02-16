@@ -497,6 +497,17 @@ class AdvantDirect
         'extreme' => 'bbea6fd7-020e-44de-97ff-64f8804afaaa'
     ];
 
+    private static $advantCurrency = [
+        'EUR' => '46212',
+        'USD' => '46213',
+        'RUB' => '46211'
+    ];
+
+    public static function getCurrencyUID($currency)
+    {
+        return self::$advantCurrency[$currency] ?? null;
+    }
+
     public static function getCountryUID($country)
     {
         return self::$advantCountriesList[$country] ?? null;

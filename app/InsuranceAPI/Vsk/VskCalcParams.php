@@ -59,7 +59,7 @@ class VskCalcParams
         }
 
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 30000, 'amountCurrency' => 'EUR']] as $risk) {
+        foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
             if ((string)$risk['check'] === 'true') {
                 $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),

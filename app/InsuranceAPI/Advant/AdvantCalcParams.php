@@ -31,8 +31,13 @@ class AdvantCalcParams
     {
         $this->request = $request;
 
-        $this->countries = $request['countries'];
         $this->additionalConditions = [];
+
+        $this->countries = [];
+        foreach ($request['countries'] as $country) {
+            $this->countries[] = AdvantDirect::getCountryUID((string)$country);
+        }
+        //$this->countries = $request['countries'];
 
         if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("Y-m-d", strtotime($request['dateFrom'])); }
         else { $this->policyPeriodFrom = date('Y-m-d'); }
@@ -71,9 +76,55 @@ class AdvantCalcParams
         }
 
 
+        $this->medical = null;
+        $this->public = null;
+        $this->cancel = null;
+        $this->accident = null;
+        $this->laggage = null;
+
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 30000, 'amountCurrency' => 'EUR']] as $risk) {
+        foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
             if ((string)$risk['check'] === 'true') {
+                switch ((string)$risk['name']) {
+                    case 'medical':
+                        $this->medical = [
+                            'insurance_plan' => '54747',
+                            'insurance_amount' => $risk['amountAtRisk'],
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                        ];
+                        break;
+                    case 'public':
+                        $this->public = [
+                            'insurance_plan' => '54747',
+                            'insurance_amount' => $risk['amountAtRisk'],
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                        ];
+                        break;
+                    case 'cancel':
+                        $this->cancel = [
+                            'insurance_plan' => '54747',
+                            'insurance_amount' => $risk['amountAtRisk'],
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                        ];
+                        break;
+                    //
+                    case 'accident':
+                        $this->accident = [
+                            'insurance_plan' => '54747',
+                            'insurance_amount' => $risk['amountAtRisk'],
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                        ];
+                        break;
+                    case 'laggage':
+                        $this->laggage = [
+                            'insurance_plan' => '54747',
+                            'insurance_amount' => $risk['amountAtRisk'],
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency']),
+                            'accomodation' => 1
+                        ];
+                        break;
+
+                }
                 $this->risks[] = [
                     'riskUID' => AdvantDirect::getRiskUID($risk['name']),
                     'amountAtRisk' => $risk['amountAtRisk'],
@@ -81,6 +132,7 @@ class AdvantCalcParams
                 ];
             }
         }
+
     }
 
     public function getCalcParams()
@@ -91,17 +143,14 @@ class AdvantCalcParams
             'valid_to' => $this->policyPeriodTill,
             'insurance_days_up_to' => $this->policyDays,
             'insurance_territory' => [ ],
-            'insurance_country' => [ '54727' ],
-            'additional_risk' => '54758',
+            'insurance_country' => $this->countries,
+            //'additional_risk' => '54758',
             'insurance_type' => '54452',
-            'medical_expenses' => [
-                'insurance_plan' => '54748',
-                'insurance_amount' => '35000',
-                'insurance_currency' => '46212' ],
-            'luggage_expenses' => null,
-            'occurrence_expenses' => null,
-            'legal_liability_expenses' => null,
-            'trip_cancellation_expenses' => null,
+            'medical_expenses' => $this->medical,
+            'luggage_expenses' => $this->laggage,
+            'occurrence_expenses' => $this->accident,
+            'legal_liability_expenses' => $this->public,
+            'trip_cancellation_expenses' => $this->cancel,
             'insurants_set' => $this->insureds
         ];
 

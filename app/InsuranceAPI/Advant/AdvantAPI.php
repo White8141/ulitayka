@@ -154,6 +154,9 @@ class AdvantAPI
         }
 
         if (isset($resp1[0]->variables->S)) {
+            $str = $resp1[0]->variables->S;
+            $pos = strpos($str, '.');
+            $resp1[0]->variables->S = substr($str, 0, $pos + 3);
             return $resp1;
         } else {
             return null;

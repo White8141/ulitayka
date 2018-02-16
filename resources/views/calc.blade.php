@@ -382,10 +382,10 @@
 
                                 <p class="filter_h3" style="margin-top: 10px;">Медицинское страхование</p>
                                 <div class="medical_amount">
-                                    <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="30000" id="radio_medical_amount_30000" class="check_and_radio" checked><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                                    <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="30000" id="radio_medical_amount_30000" class="check_and_radio" ><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                                     <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="35000" id="radio_medical_amount_35000" class="check_and_radio" ><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                                     <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="40000" id="radio_medical_amount_40000" class="check_and_radio" ><label for="radio_medical_amount_40000" style="margin-right: 20px;">40&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
-                                    <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" ><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                                    <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" checked><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                                     <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                                 </div>
 
@@ -667,7 +667,7 @@
 <script>
 
     setCalcDefaultData ('{!! $defaultData !!}', '{{ csrf_token() }}');
-    viewCalc ('{!! $calculation !!}');
+    updCalc ('{!! $calculation !!}');
 
 </script>
 
