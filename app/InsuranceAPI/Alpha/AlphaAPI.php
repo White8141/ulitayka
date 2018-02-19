@@ -42,6 +42,7 @@ class AlphaAPI
         $responce = self::soapRequest($method, $calcParams);
 
         return $responce->NewPolictyResult ?? null;
+        
     }
 
     /**

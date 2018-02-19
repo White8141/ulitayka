@@ -83,7 +83,6 @@ class AlphaCalcParams
                         'userPSW' => '8Pq7YS3V',
                         'insuranceProgrammUID' => 'bae89816-a75b-4d82-8741-409f42de0876',
                         'operation' => $operation,
-
                         'policyPeriodFrom' => $this->policyPeriodFrom,
                         'policyPeriodTill' => $this->policyPeriodTill,
                         'fio' => $this->client['name'],

@@ -17,6 +17,12 @@ class CalcController extends Controller
         $this->request = $request;
     }
 
+    public function ajax()
+    {
+        echo $this->insuranceCalc->getInsuranceCalc($this->request, true);
+        //print_r($this->request->all());
+    }
+
     public function calculate()
     {
         return view('calc')->with([ 'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers')),
@@ -24,12 +30,10 @@ class CalcController extends Controller
                                     ]);
     }
 
-    public function ajax()
-    {
-        echo $this->insuranceCalc->getInsuranceCalc($this->request, true);
-        //print_r($this->request->all());
-    }
-
+    /**
+     * Получить данные для отображения полиса конкретной компании
+     * @return $this
+     */
     public function police_details()
     {
         //dd ($this->request->all());
@@ -43,13 +47,14 @@ class CalcController extends Controller
 
     public function police_buy()
     {
-        /*$this>$this->validate($this->request, [
+        /*$this->validate($this->request, [
             'dateFrom' => 'required',
             'dateTill' => 'required',
             'insureder.birthDate' => 'required'
         ]);*/
         //print_r($this->request->all());
-        return view('police_done')->with([ 'details' => $this->insuranceCalc->buyInsurance($this->request, true)]);
+        //dd($this->insuranceCalc->getInsuranceBuy($this->request, 'alpha', false));
+        return view('police_done')->with([ 'details' => $this->insuranceCalc->getInsuranceBuy($this->request, 'alpha', true)]);
 
     }
     

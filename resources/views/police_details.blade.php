@@ -17,7 +17,7 @@
     <div class="container">
 
             <div class="police_details">
-                <form action="{{ route('police_buy') }}" method="post" class="" name="form_done">
+                <form action="{{ route('police_buy') }}" method="post" class="" id="form_done" name="form_done">
                     {{ csrf_field() }}
 
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
@@ -76,7 +76,7 @@
                                 <!--input class="form-control" name="insureder[birthDate]" placeholder="ГГГГ-ММ-ДД" required/-->
                                 <input name="insureder[birthDate]" type="text" id="insurederBirthDate"
                                        class="form-control datepicker-here"
-                                       data-date-format="yyyy-mm-dd" style="cursor: pointer" readonly required/>
+                                       data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
                                 <label>Дата рождения</label>
                             </div>
                             <hr>
@@ -97,9 +97,12 @@
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" name="travelers[0][birthDate]" placeholder="ГГГГ-ММ-ДД" required/>
+                            <!--input class="form-control" name="travelers[0][birthDate]" placeholder="ГГГГ-ММ-ДД" required/-->
+                            <input id="trBirthDate0" name="travelers[0][birthDate]" class="form-control"
+                                    data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
+                        <input name="travelers[0][age]" id="trAge0" type="hidden"/>
                         <hr>
                     </div>
 
@@ -115,9 +118,11 @@
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input id="trBirthDate1" name="travelers[1][birthDate]" class="form-control" placeholder="ГГГГ-ММ-ДД" required disabled/>
+                            <input id="trBirthDate1" name="travelers[1][birthDate]" class="form-control"
+                                   data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
+                        <input name="travelers[1][age]" id="trAge1" type="hidden"/>
                         <hr>
                     </div>
 
@@ -125,17 +130,19 @@
                         <div>Путешественник 3</div>
                         <input     id="trAccept2"    name="travelers[2][accept]"    value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trFirstName2" name="travelers[2][firstName]" class="form-control" disabled/>
+                            <input id="trFirstName2" name="travelers[2][firstName]" class="form-control" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trLastName2"  name="travelers[2][lastName]"  class="form-control" disabled/>
+                            <input id="trLastName2"  name="travelers[2][lastName]"  class="form-control" required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input id="trBirthDate2" name="travelers[2][birthDate]" class="form-control" placeholder="ГГГГ-ММ-ДД" disabled/>
+                            <input id="trBirthDate2" name="travelers[2][birthDate]" class="form-control"
+                                   data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
+                        <input name="travelers[2][age]" id="trAge2" type="hidden"/>
                         <hr>
                     </div>
 
@@ -143,17 +150,19 @@
                         <div>Путешественник 4</div>
                         <input     id="trAccept3"    name="travelers[3][accept]"    value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trFirstName3" name="travelers[3][firstName]" class="form-control" disabled/>
+                            <input id="trFirstName3" name="travelers[3][firstName]" class="form-control" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trLastName3"  name="travelers[3][lastName]"  class="form-control" disabled/>
+                            <input id="trLastName3"  name="travelers[3][lastName]"  class="form-control" required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input id="trBirthDate3" name="travelers[3][birthDate]" class="form-control" placeholder="ГГГГ-ММ-ДД" disabled/>
+                            <input id="trBirthDate3" name="travelers[3][birthDate]" class="form-control"
+                                   data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
+                        <input name="travelers[3][age]" id="trAge3" type="hidden"/>
                         <hr>
                     </div>
 
@@ -161,17 +170,19 @@
                             <div>Путешественник 5</div>
                             <input     id="trAccept4"    name="travelers[4][accept]"    value="false" type="hidden"/>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input id="trFirstName4" name="travelers[4][firstName]" class="form-control" disabled/>
+                                <input id="trFirstName4" name="travelers[4][firstName]" class="form-control" required disabled/>
                                 <label>Имя (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input id="trLastName4"  name="travelers[4][lastName]"  class="form-control" disabled/>
+                                <input id="trLastName4"  name="travelers[4][lastName]"  class="form-control" required disabled/>
                                 <label>Фамилия (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <input id="trBirthDate4" name="travelers[4][birthDate]" class="form-control" placeholder="ГГГГ-ММ-ДД" disabled/>
+                                <input id="trBirthDate4" name="travelers[4][birthDate]" class="form-control"
+                                       data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
                                 <label>Дата рождения</label>
                             </div>
+                            <input name="travelers[4][age]" id="trAge4" type="hidden"/>
                             <hr>
                         </div>
 
@@ -179,8 +190,8 @@
                         
                         <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>
 
-                        <!--button id="submitBtn" class="btn btn-danger" type="submit">Купить</button-->
-                        <button id="submitBtn" class="btn btn-danger" onclick="showDone()">Купить</button>
+                        <button id="submitBtn" class="btn btn-danger" type="submit">Купить</button>
+                        <!--a id="submitBtn" class="btn btn-danger" onclick="showDone()">Купить</a-->
 
                     </div>
                 </form>

@@ -357,7 +357,6 @@ function countryParseWithSelect(view, country, csrfToken) {
         }
     });
 
-
     //console.log('Country with value parse');
 }
 
@@ -570,14 +569,13 @@ const updCalc = response => {
 
 };
 
-//Отображаем блок с деталями полиса
+//Послать форму что бы получить блок с деталями полиса
 const showDetails = (cardId) => {
 
     var tempForm = document.forms.form_details;
     tempForm.companyId.value = cardId;
     tempForm.companyURL.value = 'img/logo-' + cardId + '.png';
     tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
-    //var tempObj = document.querySelector('#alpha p.amount.prem').innerText;
     tempForm.submit();
 };
 
@@ -585,7 +583,7 @@ const showDetails = (cardId) => {
 const setDetailsDefaultData = (defaultData, csrf) => {
 
     defaultData = JSON.parse(defaultData);
-
+    var tempVar;
     //сначала выделим страны, выбранные в начальной форме
     countryParseWithSelect('details', defaultData['countries'], csrf);
 
@@ -593,49 +591,52 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     var myDatepicker = $('#dateFrom').datepicker().data('datepicker');
     if (defaultData['dateFrom'] == null || defaultData['dateFrom'] == '') document.querySelector('#dateFrom').setAttribute('placeholder', 'Туда')
     else myDatepicker.selectDate(new Date(defaultData['dateFrom']));
+
     myDatepicker = $('#dateTill').datepicker().data('datepicker');
     if (defaultData['dateTill'] == null || defaultData['dateTill'] == '') document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
     else myDatepicker.selectDate(new Date(defaultData['dateTill']));
 
-    //потом количество путешественников (и их дату рождения)
-    for (var i = 0; i < 5; i++) {
-        var tempVar = defaultData['travelers'][i]['accept'];
-        if (tempVar) {
-            //tempObj = ;
-            $('#traveler' + i).css('display', 'block');
-            $('#trAccept' + i).prop('value', 'true');
-            $('#trFirstName' + i).prop('disabled', false);
-            $('#trLastName' + i).prop('disabled', false);
-            $('#trBirthDate' + i).prop('disabled', false);
-        }
-    }
-
-    //укажем цену выбранного полиса, если она есть в данных
-    if (defaultData['policeAmount'] != null) document.querySelector('#prem b').innerHTML = defaultData['policeAmount'];
-
-    //и подготовим окно выбора даты рождения
+    //подготовим окно выбора даты рождения
     tempVar = new Date();
     tempVar.setFullYear(tempVar.getFullYear() - 30);
     $('#insurederBirthDate').datepicker({
         view: 'years',
         autoClose: 'true',
         startDate: tempVar
-        /*onSelect: function (fd, date, inst) {
-
-            if (document.querySelector('#dateFrom').value != '') {
-                $('#dateFrom').datepicker().data('datepicker').hide();
-                if (document.querySelector('#dateFrom').value > document.querySelector('#dateTill').value)  $('#dateTill').datepicker().data('datepicker').clear();
-                $('#dateTill').datepicker().data('datepicker').update('minDate', new Date(document.querySelector('#dateFrom').value));
-                $('#dateTill').datepicker().data('datepicker').show();
-            }
-        },
-        onHide: function (dp, animationCompleted) {
-            if (document.querySelector('#dateFrom').value == '' && document.querySelectorAll('#dateFrom.auto-correct').length > 0) {
-                $('#dateFrom').datepicker().data('datepicker').selectDate(new Date());
-
-            }
-        }*/
     });
+
+    //потом количество путешественников (и их дату рождения)
+    for (var i = 0; i < 5; i++) {
+        if (defaultData['travelers'][i]['accept']) {
+            $('#traveler' + i).css('display', 'block');
+            $('#trAccept' + i).prop('value', 'true');
+            $('#trFirstName' + i).prop('disabled', false);
+            $('#trLastName' + i).prop('disabled', false);
+            $('#trBirthDate' + i).prop('disabled', false);
+            document.querySelector('#trAge' + i).value = defaultData['travelers'][i]['age'];
+            //подготовим окно выбора даты рождения
+            tempVar = new Date();
+            tempVar.setFullYear(tempVar.getFullYear() - defaultData['travelers'][i]['age']);
+            $('#trBirthDate' + i).datepicker({
+                view: 'years',
+                autoClose: 'true',
+                startDate: tempVar
+            });
+        }
+    }
+
+    //укажем цену выбранного полиса, если она есть в данных
+    if (defaultData['policeAmount'] != null) document.querySelector('#prem b').innerHTML = defaultData['policeAmount'];
+
+    //указать выбранную валюту
+    //let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
+    if (defaultData['radio_currency'] == 'EUR') {
+        document.getElementsByName('radio_currency')[0].checked = true;
+        document.getElementsByName('radio_currency')[1].checked = false;
+    } else {
+        document.getElementsByName('radio_currency')[0].checked = false;
+        document.getElementsByName('radio_currency')[1].checked = true;
+    }
 }
 
 //Отправка на рассчет деталей полиса
@@ -770,25 +771,38 @@ const updDetails = response => {
 
 };
 
-//Отображаем блок с деталями полиса
+//Послать форму что бы получить блок результатом покупки
 const showDone = () => {
 
     var tempForm = document.forms.form_done;
-    tempForm.companyId.value = 'alpha';
-    //tempForm.companyURL.value = 'img/logo-' + cardId + '.png';
-    //tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
-    //var tempObj = document.querySelector('#alpha p.amount.prem').innerText;
-    tempForm.submit();
+    var checked = false;
+    if (tempForm.insurederFirstName.value != '' && tempForm.insurederLastName.value != '') {
+        if (tempForm.insurederBirthDate.value != '') {
+            checked = true;
+        }
+    }
+    if (checked) {
+        tempForm.submit();
+    } else {
+        console.log ('Form error');
+    }
+    console.log ('Form submit');
 };
-
-
 
 // Отображаем блок с деталями купленного полиса полиса (ссылка на готовый полис в pdf)
 const viewDone = response => {
     response = JSON.parse(response);
 
-    document.querySelector('.police_link a').innerHTML = response['alpha']['common']['policyLink'];
-    document.querySelector('.police_link a').href = response['alpha']['common']['policyLink'];
+    if ('alpha' in response) {
+        document.querySelector('#succesfull').style.display = 'block';
+        document.querySelector('#wrong').style.display = 'none';
+        document.querySelector('.police_link a').innerHTML = response['alpha']['common']['policyLink'];
+        document.querySelector('.police_link a').href = response['alpha']['common']['policyLink'];
+    } else {
+        document.querySelector('#succesfull').style.display = 'none';
+        document.querySelector('#wrong').style.display = 'block';
+    }
+
 
     console.log ('Done Parse');
     //console.log(response);

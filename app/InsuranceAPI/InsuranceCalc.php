@@ -16,30 +16,6 @@ class InsuranceCalc
     {
     }
 
-    public function getAlphaCalc($request)
-    {
-        $calcParams = new AlphaCalcParams($request->all());
-        return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
-        //return AlphaAPI::getAdditionalConditions2();
-        //return $calcParams->getCalcParams('calculate');
-    }
-
-    public function getVskCalc($request)
-    {
-        $calcParams = new VskCalcParams($request->all());
-        return VskAPI::calculate($calcParams->getCalcParams('Calc2'));
-        //return $calcParams->getCalcParams('Calc2');
-    }
-
-    public function getAdvantCalc($request)
-    {
-        $calcParams = new AdvantCalcParams($request->all());
-        return AdvantAPI::calculate($calcParams->getCalcParams());
-        //return AdvantAPI::getRisks();
-        //return $calcParams->getCalcParams('Calc2');
-    }
-
-
     public function getInsuranceCalc($request, $isJson = false)
     {
         $result = [];
@@ -95,24 +71,47 @@ class InsuranceCalc
         return $isJson ? json_encode($result) : $result;
     }
 
-    public function getAlphaBuy($request)
+    public function getAlphaCalc($request)
     {
         $calcParams = new AlphaCalcParams($request->all());
-        return AlphaAPI::calculate($calcParams->getCalcParams('Create'));
-
+        return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
+        //return AlphaAPI::getAdditionalConditions2();
+        //return $calcParams->getCalcParams('calculate');
     }
-    
-    public function buyInsurance($request, $isJson = false)
+
+    public function getVskCalc($request)
+    {
+        $calcParams = new VskCalcParams($request->all());
+        return VskAPI::calculate($calcParams->getCalcParams('Calc2'));
+        //return $calcParams->getCalcParams('Calc2');
+    }
+
+    public function getAdvantCalc($request)
+    {
+        $calcParams = new AdvantCalcParams($request->all());
+        return AdvantAPI::calculate($calcParams->getCalcParams());
+    }
+
+
+    public function getInsuranceBuy($request, $companyId, $isJson = false)
     {
         $result = [];
         //dd($request->all());
 
-        $alpha = $this->getAlphaBuy($request)->NewPolictyResult ?? null;
+        $alpha = $this->getAlphaBuy($request) ?? null;
+        //dd($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = $alpha;
         }
-
+        
         return $isJson ? json_encode($result) : $result;
+    }
+
+    public function getAlphaBuy($request)
+    {
+        $calcParams = new AlphaCalcParams($request->all());
+        return AlphaAPI::calculate($calcParams->getCalcParams('Create'));
+        //return $calcParams->getCalcParams('Create');
     }
 
     /*public function getData($request) {

@@ -8,13 +8,29 @@
 
     <div class="container">
 
-        <div class="text-center block-flex-hh">
-            <h1>
-                Покупка прошла успешно!
-            </h1>
+        <div id="succesfull">
+
+            <div class="text-center block-flex-hh">
+                <h1>
+                    Покупка прошла успешно!
+                </h1>
+            </div>
+
+            <p class="police_link">Ваш полис в электронном виде: <a></a></p>
+
         </div>
 
-        <p class="police_link">Ваш полис в электронном виде: <a href="www.yandex.ru"></a></p>
+        <div id="wrong">
+
+            <div class="text-center block-flex-hh">
+                <h1>
+                    Ошибка проведения операции
+                </h1>
+            </div>
+
+            <p>Вернитесь назад и проверьте правильность введенных данных</p>
+
+        </div>
 
 
     </div>
