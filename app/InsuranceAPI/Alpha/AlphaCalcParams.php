@@ -26,7 +26,7 @@ class AlphaCalcParams
     {
         $this->request = $request;
 
-        $this->countries = $request['countries'];
+        //$this->countries = $request['countries'];
         $this->additionalConditions = [];
         $this->policyPeriodFrom = $request['dateFrom'] ?? date('Y-m-d') . 'T00:00:00';
         $this->policyPeriodTill = $request['dateTill'] ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
@@ -47,7 +47,7 @@ class AlphaCalcParams
         }
 
         $this->countryUIDs = [];
-        foreach ($request['countries'] as $country) {
+        foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
             $this->countryUIDs['countryUID'] = AlphaDirect::getCountryUID($country);
         }
 

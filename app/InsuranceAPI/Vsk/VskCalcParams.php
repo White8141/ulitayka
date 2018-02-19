@@ -37,7 +37,7 @@ class VskCalcParams
 
         $this->client = [ 'name' => 'Testov Petr' ];
 
-        $this->countries = VskDirect::getCountryUID($request['countries'][0]);
+        $this->countries = VskDirect::getCountryUID($request['countries'][0] ?? 'SCHENGEN');
 
         if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("d.m.Y", strtotime($request['dateFrom'])); }
         else { $this->policyPeriodFrom = date('d.m.Y'); }
@@ -63,7 +63,7 @@ class VskCalcParams
             if ((string)$risk['check'] === 'true') {
                 $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),
-                    'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0]),
+                    'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0] ?? 'SCHENGEN'),
                     'amountAtRisk' => $risk['amountAtRisk'],
                     'amountCurrency' => $risk['amountCurrency']
                 ];

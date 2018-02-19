@@ -28,7 +28,7 @@ body {
 }
 
 .filter_wimdow {
-    height: 700px;
+    height: 100vh;
     overflow-y: scroll;
 }
 

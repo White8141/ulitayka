@@ -158,7 +158,7 @@ $(document).ready(function () {
 //обработка массива country.json и внесение результатов в выпадающий список в упрощенной форме для страховки
 function welcomeCountryParse() {
 
-    $.getJSON('/js/country.json', function (data) {
+    $.getJSON('/js/json/country.json', function (data) {
         $.each(data, function (key, val) {
             $('#page-country').append('<option value="' + key + '">' + val + '</option>');
         })
@@ -181,15 +181,16 @@ function welcomeCountryParse() {
 //обработка массива country.json и выбор заданных стран
 function countryParseWithSelect(view, country, csrfToken) {
 
-    $.getJSON('/js/country.json', function (data) {
-        var tempArr = [];
+    var tempArr = [];
+
+    $.getJSON('/js/json/country.json', function (data) {
         $.each(data, function(key, val) {
             tempArr.push({countryName: key,
                     countryViewName: val
             });
         });
 
-        var myMs = $('#ms').magicSuggest({
+        var myMs = $('#msCountries').magicSuggest({
             data: tempArr,
             placeholder: 'Выберите страну',
             valueField: 'countryName',
@@ -220,6 +221,143 @@ function countryParseWithSelect(view, country, csrfToken) {
         }
     });
 
+    $.getJSON('/js/json/sportActiveMain.json', function (data) {
+        tempArr = [];
+        $.each(data, function(key, val) {
+            tempArr.push({sportName: key,
+                sportViewName: val
+            });
+        });
+
+        myMs = $('#msActiveMain').magicSuggest({
+            data: tempArr,
+            placeholder: 'Распространенные виды спорта',
+            valueField: 'sportName',
+            displayField: 'sportViewName',
+            maxSelection: 10,
+            expandOnFocus: true,
+            hideTrigger: true,
+            disabled: true
+        });
+
+        switch (view) {
+            case 'calc':
+                $(myMs).on('selectionchange', function(e,m){
+                    chRequest('/calcajax', csrfToken);
+                });
+                break;
+            case 'details':
+                $(myMs).on('selectionchange', function(e,m){
+                    chDetails('/calcajax', csrfToken);
+                });
+                break;
+
+        }
+    });
+
+    $.getJSON('/js/json/sportActiveOther.json', function (data) {
+        tempArr = [];
+        $.each(data, function(key, val) {
+            tempArr.push({sportName: key,
+                sportViewName: val
+            });
+        });
+
+        myMs = $('#msActiveOther').magicSuggest({
+            data: tempArr,
+            placeholder: 'Другие виды спорта',
+            valueField: 'sportName',
+            displayField: 'sportViewName',
+            maxSelection: 10,
+            expandOnFocus: true,
+            hideTrigger: true,
+            disabled: true
+        });
+
+        switch (view) {
+            case 'calc':
+                $(myMs).on('selectionchange', function(e,m){
+                    chRequest('/calcajax', csrfToken);
+                });
+                break;
+            case 'details':
+                $(myMs).on('selectionchange', function(e,m){
+                    chDetails('/calcajax', csrfToken);
+                });
+                break;
+
+        }
+    });
+
+    $.getJSON('/js/json/sportActiveMain.json', function (data) {
+        tempArr = [];
+        $.each(data, function(key, val) {
+            tempArr.push({sportName: key,
+                sportViewName: val
+            });
+        });
+
+        myMs = $('#msProfiMain').magicSuggest({
+            data: tempArr,
+            placeholder: 'Распространенные виды спорта',
+            valueField: 'sportName',
+            displayField: 'sportViewName',
+            maxSelection: 10,
+            expandOnFocus: true,
+            hideTrigger: true,
+            disabled: true
+        });
+
+        switch (view) {
+            case 'calc':
+                $(myMs).on('selectionchange', function(e,m){
+                    chRequest('/calcajax', csrfToken);
+                });
+                break;
+            case 'details':
+                $(myMs).on('selectionchange', function(e,m){
+                    chDetails('/calcajax', csrfToken);
+                });
+                break;
+
+        }
+    });
+
+    $.getJSON('/js/json/sportActiveOther.json', function (data) {
+        tempArr = [];
+        $.each(data, function(key, val) {
+            tempArr.push({sportName: key,
+                sportViewName: val
+            });
+        });
+
+        myMs = $('#msProfiOther').magicSuggest({
+            data: tempArr,
+            placeholder: 'Другие виды спорта',
+            valueField: 'sportName',
+            displayField: 'sportViewName',
+            maxSelection: 10,
+            expandOnFocus: true,
+            hideTrigger: true,
+            disabled: true
+        });
+
+        switch (view) {
+            case 'calc':
+                $(myMs).on('selectionchange', function(e,m){
+                    chRequest('/calcajax', csrfToken);
+                });
+                break;
+            case 'details':
+                $(myMs).on('selectionchange', function(e,m){
+                    chDetails('/calcajax', csrfToken);
+                });
+                break;
+
+        }
+    });
+
+
     //console.log('Country with value parse');
 }
 
@@ -229,15 +367,26 @@ const setCalcDefaultData = (defaultData, csrf) => {
     defaultData = JSON.parse(defaultData);
 
     //сначала выделим страну, выбранную в начальной форме
-    countryParseWithSelect('calc', defaultData['countries'], csrf);
+    if ('countries' in defaultData) {countryParseWithSelect('calc', defaultData['countries'], csrf);}
+    else {countryParseWithSelect('calc', ['SCHENGEN'], csrf);}
 
     //потом даты поездки
     var myDatepicker = $('#dateFrom').datepicker().data('datepicker');
-    if (defaultData['dateFrom'] == null || defaultData['dateFrom'] == '') document.querySelector('#dateFrom').setAttribute('placeholder', 'Туда')
-    else myDatepicker.selectDate(new Date(defaultData['dateFrom']));
+    if (defaultData['dateFrom'] == null || defaultData['dateFrom'] == '') {
+        myDatepicker.selectDate(new Date());    //document.querySelector('#dateFrom').setAttribute('placeholder', 'Туда')
+        //myDatepicker.value =
+    } else {
+        myDatepicker.selectDate(new Date(defaultData['dateFrom']));
+    }
+
     myDatepicker = $('#dateTill').datepicker().data('datepicker');
-    if (defaultData['dateTill'] == null || defaultData['dateTill'] == '') document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
-    else myDatepicker.selectDate(new Date(defaultData['dateTill']));
+    if (defaultData['dateTill'] == null || defaultData['dateTill'] == '') {
+        tempDate = new Date(myDatepicker.date);
+        tempDate.setMonth(tempDate.getMonth() + 1);
+        myDatepicker.selectDate(tempDate);  //document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
+    } else {
+        myDatepicker.selectDate(new Date(defaultData['dateTill']));
+    }
 
     //потом количество путешественников (и возраст)
     var html, i, tempObj;
@@ -271,6 +420,22 @@ const setCalcDefaultData = (defaultData, csrf) => {
 const chRequest = (url, csrf) => {
 
     let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
+
+    if (document.querySelector('#sport_active').checked) {
+        $('#msActiveMain').magicSuggest().enable();
+        $('#msActiveOther').magicSuggest().enable();
+    } else {
+        $('#msActiveMain').magicSuggest().disable();
+        $('#msActiveOther').magicSuggest().disable();
+    }
+
+    if (document.querySelector('#sport_proffesional').checked) {
+        $('#msProfiMain').magicSuggest().enable();
+        $('#msProfiOther').magicSuggest().enable();
+    } else {
+        $('#msProfiMain').magicSuggest().disable();
+        $('#msProfiOther').magicSuggest().disable();
+    }
 
     let medical_amount = 30000;
     for( let i = 0; i < document.getElementsByName('medical_amount').length; i++) {
@@ -323,14 +488,34 @@ const chRequest = (url, csrf) => {
         tempArr[i].disabled = !document.querySelector('#additional_pregnancy').checked;
     }
 
-    let items = $('#ms').magicSuggest().getSelection();
+    let items = $('#msCountries').magicSuggest().getSelection();
     let args = 'countries[0]=';
-    if (items.length > 0)  args += items[0].countryName
+    if (items.length > 0) {
+        if (items[0].countryName != '') {
+            args += items[0].countryName;
+        } else {
+            args += 'SCHENGEN';
+        }
+    }
     if (items.length > 1) {
         for (let i = 1; i < items.length; i++) {
             args += '&countries[' + i + ']=' + items[i].countryName;
         }
     }
+
+    items = $('#msActiveMain').magicSuggest().getSelection();
+    if (items.length > 0) {
+        items.forEach (function (item, i) {
+            args += '&sportActiveMain[' + i + ']=' + item.sportName;
+        })
+    }
+    items = $('#msActiveOther').magicSuggest().getSelection();
+    if (items.length > 0) {
+        items.forEach (function (item, i) {
+            args += '&sportActiveOther[' + i + ']=' + item.sportName;
+        })
+    }
+
 
     args += '&dateFrom=' + document.querySelector('#dateFrom').value +
         '&dateTill=' + document.querySelector('#dateTill').value +
@@ -354,16 +539,13 @@ const chRequest = (url, csrf) => {
         '&risks[3][check]=' + document.querySelector('#additional_accident').checked + '&risks[3][amountAtRisk]=' + accident_amount +
         '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
         '&risks[4][check]=' + document.querySelector('#additional_laggage').checked + '&risks[4][amountAtRisk]=' + laggage_amount +
-        '&additionalConditions[0][name]=leisure&additionalConditions[0][check]=' + document.querySelector('#sport_0').checked +
-        '&additionalConditions[1][name]=competition&additionalConditions[1][check]=' + document.querySelector('#sport_1').checked +
-        '&additionalConditions[2][name]=extreme&additionalConditions[2][check]=' + document.querySelector('#sport_2').checked;
+        '&additionalConditions[0][name]=leisure&additionalConditions[0][check]=' + document.querySelector('#sport_active').checked +
+        '&additionalConditions[1][name]=competition&additionalConditions[1][check]=' + document.querySelector('#sport_proffesional').checked +
+        '&additionalConditions[2][name]=extreme&additionalConditions[2][check]=' + document.querySelector('#sport_extreme').checked;
 
     //console.log(args);
-
     let func = updCalc;
-
     ajaxRequest(url, csrf, args, func, 'post');
-
 };
 
 // Обновляем блок со страховкой
@@ -372,7 +554,7 @@ const updCalc = response => {
     let cards = document.getElementsByClassName('insCard');
     for ( let i = 0; i < cards.length; i++) {
         let id = cards[i].getAttribute('id');
-        if(response[id]) {
+        if(response[id] && response[id]['prem'] != '0.00') {
             console.log('API ' + id + ', cost ' + response[id]['prem']);
             cards[i].style.display = 'block';
             document.querySelector('#dis_' + id).style.display = 'none';
@@ -394,7 +576,7 @@ const showDetails = (cardId) => {
     var tempForm = document.forms.form_details;
     tempForm.companyId.value = cardId;
     tempForm.companyURL.value = 'img/logo-' + cardId + '.png';
-    tempForm.policeAmount.value = document.querySelector('#alpha p.amount.prem').innerText;
+    tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
     //var tempObj = document.querySelector('#alpha p.amount.prem').innerText;
     tempForm.submit();
 };
@@ -432,9 +614,12 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     if (defaultData['policeAmount'] != null) document.querySelector('#prem b').innerHTML = defaultData['policeAmount'];
 
     //и подготовим окно выбора даты рождения
-    $('#insurederDateBirth').datepicker({
+    tempVar = new Date();
+    tempVar.setFullYear(tempVar.getFullYear() - 30);
+    $('#insurederBirthDate').datepicker({
         view: 'years',
         autoClose: 'true',
+        startDate: tempVar
         /*onSelect: function (fd, date, inst) {
 
             if (document.querySelector('#dateFrom').value != '') {
@@ -509,7 +694,7 @@ const chDetails = (url, csrf) => {
         tempArr[i].disabled = !document.querySelector('#additional_pregnancy').checked;
     }
 
-    let items = $('#ms').magicSuggest().getSelection();
+    let items = $('#msCountries').magicSuggest().getSelection();
     let args = 'countries[0]=';
     if (items.length > 0)  args += items[0].countryName
     if (items.length > 1) {
@@ -522,13 +707,13 @@ const chDetails = (url, csrf) => {
         '&dateTill=' + document.querySelector('#dateTill').value +
         '&travelers[0][accept]=true' + //document.querySelector('#trAccept0').checked +
         '&travelers[0][age]=30' +
-        '&travelers[1][accept]=true' + //document.querySelector('#trAccept1').checked +
+        '&travelers[1][accept]=' + document.querySelector('#trAccept1').value +
         '&travelers[1][age]=30' +
-        '&travelers[2][accept]=false' + //document.querySelector('#trAccept2').checked +
+        '&travelers[2][accept]=' + document.querySelector('#trAccept2').value +
         '&travelers[2][age]=30' +
-        '&travelers[3][accept]=false' + //document.querySelector('#trAccept3').checked +
+        '&travelers[3][accept]=' + document.querySelector('#trAccept3').value +
         '&travelers[3][age]=30' +
-        '&travelers[4][accept]=false' + //document.querySelector('#trAccept4').checked +
+        '&travelers[4][accept]=' + document.querySelector('#trAccept4').value +
         '&travelers[4][age]=30' +
         '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
         '&risks[0][check]=true&risks[0][amountAtRisk]=' + medical_amount +
@@ -583,6 +768,17 @@ const updDetails = response => {
     console.log ('Details Parse');
     //console.log(response);
 
+};
+
+//Отображаем блок с деталями полиса
+const showDone = () => {
+
+    var tempForm = document.forms.form_done;
+    tempForm.companyId.value = 'alpha';
+    //tempForm.companyURL.value = 'img/logo-' + cardId + '.png';
+    //tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
+    //var tempObj = document.querySelector('#alpha p.amount.prem').innerText;
+    tempForm.submit();
 };
 
 

@@ -122,7 +122,7 @@ class AdvantAPI
             /**
              * сортировка видов рисков по типу (работа, спорт или отдых)
              */
-            //$resultArray[$sortArray[$i]->group->code][] = $sortArray[$i];
+            $resultArray[$sortArray[$i]->group->code][] = $sortArray[$i];
 
             $resultArray[] = $sortArray[$i];
         }
@@ -251,10 +251,12 @@ class AdvantAPI
     /**
      * Запрос списков рисков доступных к страхованию в выбранной программе
      */
-
     public static function getRisks ()
     {
-        return (self::makeGetRequest('/rest/full/additional_risk/'));
+        self::getToken();
+        return self::sortData(self::makeGetRequest('/rest/full/additional_risk/'));
     }
+
+
 
 }

@@ -17,7 +17,7 @@
     <div class="container">
 
             <div class="police_details">
-                <form action="{{ route('police_buy') }}" method="post" class="" id="form-2">
+                <form action="{{ route('police_buy') }}" method="post" class="" name="form_done">
                     {{ csrf_field() }}
 
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
@@ -31,7 +31,7 @@
                     </select><label for="page-country"></label-->
                     <div>
                         <label>Страны</label>
-                        <input id="ms" class="form-control" name="countries[]"/>
+                        <input id="msCountries" class="form-control" name="countries[]"/>
                     </div>
 
                     <input type="checkbox" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="i_am_travelling" id="i_am_travelling"
@@ -65,19 +65,18 @@
                         <div id="insureder">
                             <div>Страхователь</div>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input class="form-control" name="insureder[firstName]" required/>
+                                <input class="form-control" id="insurederFirstName" name="insureder[firstName]" required/>
                                 <label>Имя (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input class="form-control" name="insureder[lastName]" required/>
+                                <input class="form-control" id="insurederLastName" name="insureder[lastName]" required/>
                                 <label>Фамилия (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <input class="form-control" name="insureder[birthDate]" placeholder="ГГГГ-ММ-ДД" required/>
-                                <!--input name="insureder[birthDate]" type="text" id="insurederBirthDate"
+                                <!--input class="form-control" name="insureder[birthDate]" placeholder="ГГГГ-ММ-ДД" required/-->
+                                <input name="insureder[birthDate]" type="text" id="insurederBirthDate"
                                        class="form-control datepicker-here"
-                                       data-multiple-dates="1" data-date-format="yyyy-mm-dd"
-                                       data-multiple-dates-separator=", " style="cursor: pointer" readonly required/-->
+                                       data-date-format="yyyy-mm-dd" style="cursor: pointer" readonly required/>
                                 <label>Дата рождения</label>
                             </div>
                             <hr>
@@ -180,7 +179,8 @@
                         
                         <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>
 
-                        <button id="submitBtn" class="btn btn-danger" type="submit">Купить</button>
+                        <!--button id="submitBtn" class="btn btn-danger" type="submit">Купить</button-->
+                        <button id="submitBtn" class="btn btn-danger" onclick="showDone()">Купить</button>
 
                     </div>
                 </form>
@@ -195,10 +195,10 @@
 
                 <p class="filter_h3" style="margin-top: 10px;">Медицинское страхование</p>
                 <div class="medical_amount">
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="30000" id="radio_medical_amount_30000" class="check_and_radio" checked><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="30000" id="radio_medical_amount_30000" class="check_and_radio" ><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                     <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="35000" id="radio_medical_amount_35000" class="check_and_radio" ><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                     <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="40000" id="radio_medical_amount_40000" class="check_and_radio" ><label for="radio_medical_amount_40000" style="margin-right: 20px;">40&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" ><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" checked><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                     <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                 </div>
                 <a href="" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
@@ -287,25 +287,27 @@
                             for="additional_15" class="inlined padded">Помощь при наличии алкогольного
                         опьянения</label>
                 </div>
+
                 <p class="filter_h3">Занятия спортом и активный отдых</p>
 
-                <select id="sports1_select" class="blue_input_text textbox_100_percent" name="sports1[0]" style="cursor: pointer">
-                    <option selected value="randomword1">Распространенные виды спорта</option>
-                </select><label for="sports1_select"></label>
-                <select id="sports2_select" class="blue_input_text textbox_100_percent" name="sports2[0]" style="cursor: pointer">
-                    <option selected value="randomword2">Другие виды спорта</option>
-                </select><label for="sports2_select"></label>
+                <input type="checkbox" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_active" id="sport_active"
+                       class="check_and_radio"><label for="additional_6" class="inlined padded">Занятие спортом и активный отдых</label>
+
+                <input id="msActiveMain" class="form-control" name="activeMain[]"/>
+                <input id="msActiveOther" class="form-control" name="activeOther[]"/>
 
                 <br>
-                <input type="checkbox" name="pro_sport" id="pro_sport_1" class="check_and_radio"><label for="pro_sport_1">Передвижение на
-                    мотоцикле/мопеде</label>
+                <input type="checkbox" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_proffesional" id="sport_proffesional"
+                       class="check_and_radio"><label for="additional_6" class="inlined padded">Занятие проф. спортом и участие в соревнованиях</label>
+                <input id="msProfiMain" class="form-control" name="profiMain[]"/>
+                <input id="msProfiOther" class="form-control" name="profiOther[]"/>
+
                 <br>
-                <input type="checkbox" name="pro_sport" id="pro_sport_2" class="check_and_radio"><label
-                        for="pro_sport_2">Поисково-спасательные мероприятия</label>
+                <input type="checkbox" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_extreme" id="sport_extreme"
+                       class="check_and_radio"><label for="additional_6" class="inlined padded">Экстримальные виды спорта</label>
                 <br>
-                <input type="checkbox" name="pro_sport" id="pro_sport_3" class="check_and_radio"><label
-                        for="pro_sport_3">Эвакуация вертолетом</label>
                 <br>
+
                 <a href="" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                 <div id="toggle_options_list">
 

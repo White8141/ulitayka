@@ -33,7 +33,7 @@ class AdvantDirect
         'BAHRAIN'=>'54511',
         'BANGLADESH'=>'54509',
         'BARBADOS'=>'54510',
-        'BELARUS'=>'54737',
+        'BELORUSSIA'=>'54737',
         'BELGIUM'=>'54513',
         'BELIZE'=>'54512',
         'BENIN'=>'54514',

@@ -86,7 +86,7 @@
                         </a>
                         <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
                         </a>
-                        <a href="#" onclick=showDetails('vsk')>
+                        <a onclick=showDetails('vsk')>
                             <p class="blue_button_text">Купить</p>
                         </a>
                         <a href="#">
@@ -153,7 +153,7 @@
                         </a>
                         <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
                         </a>
-                        <a href="#" onclick=showDetails('advant')>
+                        <a onclick=showDetails('advant')>
                             <p class="blue_button_text">Купить</p>
                         </a>
                         <a href="#">
@@ -300,7 +300,7 @@
 
                                 <p class="filter_h3">Страны</p>
                                 <div>
-                                    <input id="ms" class="form-control" name="countries[]"/>
+                                    <input id="msCountries" class="form-control" name="countries[]"/>
                                     <label></label>
                                 </div>
 
@@ -482,14 +482,22 @@
 
                                 <p class="filter_h3">Занятия спортом и активный отдых</p>
 
-                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_0"
-                                       class="check_and_radio"><label for="additional_6" class="inlined padded">Активный отдых</label>
+                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_active" id="sport_active"
+                                       class="check_and_radio"><label for="additional_6" class="inlined padded">Занятие спортом и активный отдых</label>
+
+                                <input id="msActiveMain" class="form-control" name="activeMain[]"/>
+                                <input id="msActiveOther" class="form-control" name="activeOther[]"/>
+
                                 <br>
-                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_1"
-                                       class="check_and_radio"><label for="additional_6" class="inlined padded">Участие в соревнованиях</label>
+                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_proffesional" id="sport_proffesional"
+                                       class="check_and_radio"><label for="additional_6" class="inlined padded">Занятие проф. спортом и участие в соревнованиях</label>
+                                <input id="msProfiMain" class="form-control" name="profiMain[]"/>
+                                <input id="msProfiOther" class="form-control" name="profiOther[]"/>
+
                                 <br>
-                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_options" id="sport_2"
+                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_extreme" id="sport_extreme"
                                        class="check_and_radio"><label for="additional_6" class="inlined padded">Экстримальные виды спорта</label>
+                                <br>
                                 <br>
 
                                 <a href="" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
@@ -566,33 +574,35 @@
                                         <p class="margin_bottom5">На время перелета</p>
                                         <input type="radio" checked value="500" name="cancel" id="radio_cancel_500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_500" class="margined_text"
-                                                                              style="margin-right: 20px;">&nbsp;500<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">&nbsp;&nbsp;&nbsp;500<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="1000" name="cancel" id="radio_cancel_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_1000" class="margined_text"
-                                                                              style="margin-right: 20px;">1&nbsp;000<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">1&nbsp;000<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="1500" name="cancel" id="radio_cancel_1500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_1500" class="margined_text"
-                                                                              style="margin-right: 20px;">1&nbsp;500<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">1&nbsp;500<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="2000" name="cancel" id="radio_cancel_2000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_2000" class="margined_text"
-                                                                              style="margin-right: 20px;">2&nbsp;000<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">2&nbsp;000<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="2500" name="cancel" id="radio_cancel_2500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
-                                               class="check_and_radio" disabled><label for="radio_cancel_2500" class="margined_text">2&nbsp;500</label>
+                                               class="check_and_radio" disabled><label for="radio_cancel_2500" class="margined_text"
+                                                                               style="margin-right: 10px;">2&nbsp;500<p class="currency_symbol">€</p></label>
                                         <br>
                                         <input type="radio" value="3000" name="cancel" id="radio_cancel_3000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_3000" class="margined_text"
-                                                                              style="margin-right: 20px;">3&nbsp;000<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">3&nbsp;000<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="3500" name="cancel" id="radio_cancel_3500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_3500" class="margined_text"
-                                                                              style="margin-right: 20px;">3&nbsp;500<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">3&nbsp;500<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="4000" name="cancel" id="radio_cancel_4000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_4000" class="margined_text"
-                                                                              style="margin-right: 20px;">4&nbsp;000<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">4&nbsp;000<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="4500" name="cancel" id="radio_cancel_4500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_4500" class="margined_text"
-                                                                              style="margin-right: 20px;">4&nbsp;500<p class="currency_symbol">€</p></label>
+                                                                              style="margin-right: 10px;">4&nbsp;500<p class="currency_symbol">€</p></label>
                                         <input type="radio" value="5000" name="cancel" id="radio_cancel_5000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
-                                               class="check_and_radio" disabled><label for="radio_cancel_5000" class="margined_text">5&nbsp;000<p class="currency_symbol">€</p></label>
+                                               class="check_and_radio" disabled><label for="radio_cancel_5000" class="margined_text"
+                                                                               style="margin-right: 10px;">5&nbsp;000<p class="currency_symbol">€</p></label>
                                         <br>
                                         <input type="checkbox" name="cancel_visa" id="cancel_visa" class="check_and_radio" disabled><label
                                                 for="cancel_visa" class="margined_text">Страхование риска отказа в

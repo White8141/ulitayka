@@ -26,7 +26,7 @@
                 <div class="form-box">
                     <div class="box-4yo">
                         <select id="page-country" class="sel-text" name="countries[0]" style="cursor: pointer">
-                            <option selected value="SCHENGEN">Страна поездки</option>
+                            <option selected value="SCHENGEN" disabled>Страна поездки</option>
                         </select>
                     </div>
 

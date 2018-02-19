@@ -34,7 +34,7 @@ class AdvantCalcParams
         $this->additionalConditions = [];
 
         $this->countries = [];
-        foreach ($request['countries'] as $country) {
+        foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
             $this->countries[] = AdvantDirect::getCountryUID((string)$country);
         }
         //$this->countries = $request['countries'];
@@ -62,10 +62,10 @@ class AdvantCalcParams
 
         }
 
-        $this->countryUIDs = [];
-        foreach ($request['countries'] as $country) {
+       /*$this->countryUIDs = [];
+        foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
             $this->countryUIDs['countryUID'] = AdvantDirect::getCountryUID($country);
-        }
+        }*/
 
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
@@ -88,7 +88,7 @@ class AdvantCalcParams
                 switch ((string)$risk['name']) {
                     case 'medical':
                         $this->medical = [
-                            'insurance_plan' => '54747',
+                            'insurance_plan' => '54748',
                             'insurance_amount' => $risk['amountAtRisk'],
                             'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
                         ];
