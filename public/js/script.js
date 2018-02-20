@@ -181,7 +181,7 @@ function welcomeCountryParse() {
 }
 
 //обработка массива country.json и выбор заданных стран
-function countryParseWithSelect(view, country, csrfToken) {
+function countryParseWithSelect(view, defData, csrfToken) {
 
     var tempArr = [];
 
@@ -202,11 +202,11 @@ function countryParseWithSelect(view, country, csrfToken) {
             hideTrigger: true
         });
 
-        tempArr = [];
-        for (i = 0; i < country.length; i++) {
-            tempArr.push(country[i]);
-        }
-        myMs.setValue(tempArr);
+        /*tempArr = [];
+        for (i = 0; i < defData['countries'].length; i++) {
+            tempArr.push(defData['countries'][i]);
+        }*/
+        if ('countries' in defData) myMs.setValue(defData['countries']);
 
         switch (view) {
             case 'calc':
@@ -239,8 +239,10 @@ function countryParseWithSelect(view, country, csrfToken) {
             maxSelection: 10,
             expandOnFocus: true,
             hideTrigger: true,
-            disabled: true
+            disabled: !('sport_active' in defData)
         });
+
+        if ('activeMain' in defData) myMs.setValue(defData['activeMain']);
 
         switch (view) {
             case 'calc':
@@ -273,8 +275,9 @@ function countryParseWithSelect(view, country, csrfToken) {
             maxSelection: 10,
             expandOnFocus: true,
             hideTrigger: true,
-            disabled: true
+            disabled: !('sport_active' in defData)
         });
+        if ('activeOther' in defData) myMs.setValue(defData['activeOther']);
 
         switch (view) {
             case 'calc':
@@ -307,8 +310,9 @@ function countryParseWithSelect(view, country, csrfToken) {
             maxSelection: 10,
             expandOnFocus: true,
             hideTrigger: true,
-            disabled: true
+            disabled: !('sport_proffesional' in defData)
         });
+        if ('profiMain' in defData) myMs.setValue(defData['profiMain']);
 
         switch (view) {
             case 'calc':
@@ -341,8 +345,9 @@ function countryParseWithSelect(view, country, csrfToken) {
             maxSelection: 10,
             expandOnFocus: true,
             hideTrigger: true,
-            disabled: true
+            disabled: !('sport_proffesional' in defData)
         });
+        if ('profiOther' in defData) myMs.setValue(defData['profiOther']);
 
         switch (view) {
             case 'calc':
@@ -368,8 +373,8 @@ const setCalcDefaultData = (defaultData, csrf) => {
     defaultData = JSON.parse(defaultData);
 
     //сначала выделим страну, выбранную в начальной форме
-    if ('countries' in defaultData) {countryParseWithSelect('calc', defaultData['countries'], csrf);}
-    else {countryParseWithSelect('calc', ['SCHENGEN'], csrf);}
+    if ('countries' in defaultData) {countryParseWithSelect('calc', defaultData, csrf);}
+    else {countryParseWithSelect('calc', {"countries":{0:"SCHENGEN"}}, csrf);}
 
     //потом даты поездки
     var myDatepicker = $('#dateFrom').datepicker().data('datepicker');
@@ -461,7 +466,7 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     var tempVar;
 
     //сначала выделим страны, выбранные в начальной форме
-    countryParseWithSelect('details', defaultData['countries'], csrf);
+    countryParseWithSelect('details', defaultData, csrf);
 
     //потом даты поездки
     var myDatepicker = $('#dateFrom').datepicker().data('datepicker');
@@ -557,27 +562,9 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     }
 
     //показать выделенные на предыдущей странице виды спорта
-    if (defaultData['sport_active'] && defaultData['sport_active'] == 'on') {
-        document.querySelector('#sport_active').checked = true;
-        //$('#msActiveMain').magicSuggest().enable();
-        //$('#msActiveOther').magicSuggest().enable();
-        //if ('activeMain' in defaultData) $('#msActiveMain').magicSuggest().setValue(defaultData['activeMain']);
-        //if ('activeOther' in defaultData) $('#msActiveOther').magicSuggest().setValue(defaultData['activeOther']);
-    }
-    if (defaultData['sport_proffesional'] && defaultData['sport_proffesional'] == 'on') {
-        document.querySelector('#sport_proffesional').checked = true;
-        //$('#msProfiMain').magicSuggest().enable();
-        //$('#msProfiOther').magicSuggest().enable();
-        //if ('profiMain' in defaultData) $('#msProfiMain').magicSuggest().setValue(defaultData['profiMain']);
-        //if ('profiOther' in defaultData) $('#msProfiOther').magicSuggest().setValue(defaultData['profiOther']);
-    }
-    if (defaultData['sport_extreme'] && defaultData['sport_extreme'] == 'on') {
-        document.querySelector('#sport_extreme').checked = true;
-    }
-
-
-
-
+    if ('sport_active' in defaultData && defaultData['sport_active'] == 'on') document.querySelector('#sport_active').checked = true;
+    if ('sport_proffesional' in defaultData && defaultData['sport_proffesional'] == 'on') document.querySelector('#sport_proffesional').checked = true;
+    if ('sport_extreme' in defaultData && defaultData['sport_extreme'] == 'on') document.querySelector('#sport_extreme').checked = true;
 }
 
 //Отправка на рассчет деталей полиса
