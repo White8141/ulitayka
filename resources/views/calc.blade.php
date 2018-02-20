@@ -19,7 +19,7 @@
                         </a>
                         <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
                         </a>
-                        <a onclick=showDetails('alpha')>
+                        <a onclick=sendCalc('alpha')>
                             <p class="blue_button_text">Купить</p>
                         </a>
                         <a href="#">
@@ -86,7 +86,7 @@
                         </a>
                         <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
                         </a>
-                        <a onclick=showDetails('vsk')>
+                        <a onclick=sendCalc('vsk')>
                             <p class="blue_button_text">Купить</p>
                         </a>
                         <a href="#">
@@ -153,7 +153,7 @@
                         </a>
                         <a href="#"><img src="{{ asset('img/button_orange.png') }}" alt="" class="orange_button">
                         </a>
-                        <a onclick=showDetails('advant')>
+                        <a onclick=sendCalc('advant')>
                             <p class="blue_button_text">Купить</p>
                         </a>
                         <a href="#">
@@ -291,7 +291,7 @@
                     <div class="card card_right">
                         <div class="container_filters">
 
-                            <form action="{{ route('police_details') }}" method="post" class="jClever" name="form_details">
+                            <form action="{{ route('police_details') }}" method="post" class="jClever" name="form_calc">
                                 {{ csrf_field() }}
 
                                 <input name="companyId" id="companyId" type="hidden" />

@@ -155,6 +155,8 @@ $(document).ready(function () {
 
 });
 
+var i, tempObj;
+
 //обработка массива country.json и внесение результатов в выпадающий список в упрощенной форме для страховки
 function welcomeCountryParse() {
 
@@ -201,7 +203,7 @@ function countryParseWithSelect(view, country, csrfToken) {
         });
 
         tempArr = [];
-        for (var i = 0; i < country.length; i++) {
+        for (i = 0; i < country.length; i++) {
             tempArr.push(country[i]);
         }
         myMs.setValue(tempArr);
@@ -388,7 +390,7 @@ const setCalcDefaultData = (defaultData, csrf) => {
     }
 
     //потом количество путешественников (и возраст)
-    var html, i, tempObj;
+    var html;
     for (i = 1; i <= 100; i++) {
 
         if (i == 30) {
@@ -412,139 +414,12 @@ const setCalcDefaultData = (defaultData, csrf) => {
     }
 
     //укажем цену выбранного полиса, если она есть в данных
-    if (defaultData['prem'] != null) document.querySelector('#prem b').innerHTML = defaultData['prem'];
+    if ('prem' in defaultData) document.querySelector('#prem b').innerHTML = defaultData['prem'];
 }
 
 //Отправка запроса на расчёт страховок
 const chRequest = (url, csrf) => {
-
-    let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
-
-    if (document.querySelector('#sport_active').checked) {
-        $('#msActiveMain').magicSuggest().enable();
-        $('#msActiveOther').magicSuggest().enable();
-    } else {
-        $('#msActiveMain').magicSuggest().disable();
-        $('#msActiveOther').magicSuggest().disable();
-    }
-
-    if (document.querySelector('#sport_proffesional').checked) {
-        $('#msProfiMain').magicSuggest().enable();
-        $('#msProfiOther').magicSuggest().enable();
-    } else {
-        $('#msProfiMain').magicSuggest().disable();
-        $('#msProfiOther').magicSuggest().disable();
-    }
-
-    let medical_amount = 30000;
-    for( let i = 0; i < document.getElementsByName('medical_amount').length; i++) {
-        if(document.getElementsByName('medical_amount')[i].checked) {
-            medical_amount = document.getElementsByName('medical_amount')[i].value;
-            break;
-        }
-    }
-
-    let public_amount = 10000;
-    for( let i = 0; i < document.getElementsByName('civil_responsibility').length; i++) {
-        document.getElementsByName('civil_responsibility')[i].disabled = !document.querySelector('#additional_public').checked;
-        if(document.getElementsByName('civil_responsibility')[i].checked) {
-            public_amount = document.getElementsByName('civil_responsibility')[i].value;
-            //break;
-        }
-    }
-
-    let cancel_amount = 500;
-    document.getElementsByName('cancel_visa')[0].disabled = !document.querySelector('#additional_cancel').checked;
-    for( let i = 0; i < document.getElementsByName('cancel').length; i++) {
-        document.getElementsByName('cancel')[i].disabled = !document.querySelector('#additional_cancel').checked;
-        if(document.getElementsByName('cancel')[i].checked) {
-            cancel_amount = document.getElementsByName('cancel')[i].value;
-            //break;
-        }
-    }
-
-    let accident_amount = 1000;
-    document.getElementsByName('accident_flight')[0].disabled = !document.querySelector('#additional_accident').checked;
-    for (let i = 0; i < document.getElementsByName('accident').length; i++) {
-        document.getElementsByName('accident')[i].disabled = !document.querySelector('#additional_accident').checked;
-        if (document.getElementsByName('accident')[i].checked) {
-            accident_amount = document.getElementsByName('accident')[i].value;
-        }
-    }
-
-    let laggage_amount = 1000;
-    let tempArr = document.getElementsByName('laggage');
-    document.getElementsByName('laggage_time')[0].disabled = !document.querySelector('#additional_laggage').checked;
-    for( let i = 0; i < tempArr.length; i++) {
-        tempArr[i].disabled = !document.querySelector('#additional_laggage').checked;
-        if(tempArr[i].checked) {
-            laggage_amount = tempArr[i].value;
-        }
-    }
-
-    tempArr = document.getElementsByName('pregnancy');
-    for( let i = 0; i < tempArr.length; i++) {
-        tempArr[i].disabled = !document.querySelector('#additional_pregnancy').checked;
-    }
-
-    let items = $('#msCountries').magicSuggest().getSelection();
-    let args = 'countries[0]=';
-    if (items.length > 0) {
-        if (items[0].countryName != '') {
-            args += items[0].countryName;
-        } else {
-            args += 'SCHENGEN';
-        }
-    }
-    if (items.length > 1) {
-        for (let i = 1; i < items.length; i++) {
-            args += '&countries[' + i + ']=' + items[i].countryName;
-        }
-    }
-
-    items = $('#msActiveMain').magicSuggest().getSelection();
-    if (items.length > 0) {
-        items.forEach (function (item, i) {
-            args += '&sportActiveMain[' + i + ']=' + item.sportName;
-        })
-    }
-    items = $('#msActiveOther').magicSuggest().getSelection();
-    if (items.length > 0) {
-        items.forEach (function (item, i) {
-            args += '&sportActiveOther[' + i + ']=' + item.sportName;
-        })
-    }
-
-
-    args += '&dateFrom=' + document.querySelector('#dateFrom').value +
-        '&dateTill=' + document.querySelector('#dateTill').value +
-        '&travelers[0][accept]=' + document.querySelectorAll('.checkbox-one')[0].checked +
-        '&travelers[0][age]=' + document.querySelectorAll('.age-human')[0].selectedOptions[0].value +
-        '&travelers[1][accept]=' + document.querySelectorAll('.checkbox-one')[1].checked +
-        '&travelers[1][age]=' + document.querySelectorAll('.age-human')[1].selectedOptions[0].value +
-        '&travelers[2][accept]=' + document.querySelectorAll('.checkbox-one')[2].checked +
-        '&travelers[2][age]=' + document.querySelectorAll('.age-human')[2].selectedOptions[0].value +
-        '&travelers[3][accept]=' + document.querySelectorAll('.checkbox-one')[3].checked +
-        '&travelers[3][age]=' + document.querySelectorAll('.age-human')[3].selectedOptions[0].value +
-        '&travelers[4][accept]=' + document.querySelectorAll('.checkbox-one')[4].checked +
-        '&travelers[4][age]=' + document.querySelectorAll('.age-human')[4].selectedOptions[0].value +
-        '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
-        '&risks[0][check]=true&risks[0][amountAtRisk]=' + medical_amount +
-        '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
-        '&risks[1][check]=' + document.querySelector('#additional_public').checked + '&risks[1][amountAtRisk]=' + public_amount +
-        '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
-        '&risks[2][check]=' + document.querySelector('#additional_cancel').checked + '&risks[2][amountAtRisk]=' + cancel_amount +
-        '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
-        '&risks[3][check]=' + document.querySelector('#additional_accident').checked + '&risks[3][amountAtRisk]=' + accident_amount +
-        '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
-        '&risks[4][check]=' + document.querySelector('#additional_laggage').checked + '&risks[4][amountAtRisk]=' + laggage_amount +
-        '&additionalConditions[0][name]=leisure&additionalConditions[0][check]=' + document.querySelector('#sport_active').checked +
-        '&additionalConditions[1][name]=competition&additionalConditions[1][check]=' + document.querySelector('#sport_proffesional').checked +
-        '&additionalConditions[2][name]=extreme&additionalConditions[2][check]=' + document.querySelector('#sport_extreme').checked;
-
-    //console.log(args);
-    let func = updCalc;
-    ajaxRequest(url, csrf, args, func, 'post');
+    ajaxRequest(url, csrf, collectData(), updCalc, 'post');
 };
 
 // Обновляем блок со страховкой
@@ -570,9 +445,9 @@ const updCalc = response => {
 };
 
 //Послать форму что бы получить блок с деталями полиса
-const showDetails = (cardId) => {
+const sendCalc = (cardId) => {
 
-    var tempForm = document.forms.form_details;
+    var tempForm = document.forms.form_calc;
     tempForm.companyId.value = cardId;
     tempForm.companyURL.value = 'img/logo-' + cardId + '.png';
     tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
@@ -584,6 +459,7 @@ const setDetailsDefaultData = (defaultData, csrf) => {
 
     defaultData = JSON.parse(defaultData);
     var tempVar;
+
     //сначала выделим страны, выбранные в начальной форме
     countryParseWithSelect('details', defaultData['countries'], csrf);
 
@@ -596,20 +472,22 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     if (defaultData['dateTill'] == null || defaultData['dateTill'] == '') document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
     else myDatepicker.selectDate(new Date(defaultData['dateTill']));
 
-    //подготовим окно выбора даты рождения
+    //подготовим окно выбора даты рождения страхователя
     tempVar = new Date();
     tempVar.setFullYear(tempVar.getFullYear() - 30);
     $('#insurederBirthDate').datepicker({
         view: 'years',
         autoClose: 'true',
+        dateFormat: 'yyyy-mm-dd',
         startDate: tempVar
     });
 
     //потом количество путешественников (и их дату рождения)
-    for (var i = 0; i < 5; i++) {
+    for (i = 0; i < defaultData['travelers'].length; i++) {
         if (defaultData['travelers'][i]['accept']) {
             $('#traveler' + i).css('display', 'block');
             $('#trAccept' + i).prop('value', 'true');
+            $('#trAccept' + i).prop('checked', 'true');
             $('#trFirstName' + i).prop('disabled', false);
             $('#trLastName' + i).prop('disabled', false);
             $('#trBirthDate' + i).prop('disabled', false);
@@ -620,6 +498,7 @@ const setDetailsDefaultData = (defaultData, csrf) => {
             $('#trBirthDate' + i).datepicker({
                 view: 'years',
                 autoClose: 'true',
+                dateFormat: 'yyyy-mm-dd',
                 startDate: tempVar
             });
         }
@@ -629,120 +508,82 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     if (defaultData['policeAmount'] != null) document.querySelector('#prem b').innerHTML = defaultData['policeAmount'];
 
     //указать выбранную валюту
-    //let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
     if (defaultData['radio_currency'] == 'EUR') {
-        document.getElementsByName('radio_currency')[0].checked = true;
-        document.getElementsByName('radio_currency')[1].checked = false;
+        document.querySelector('#radio_euro').checked = true;
+        document.querySelector('#radio_dollar').checked = false;
     } else {
-        document.getElementsByName('radio_currency')[0].checked = false;
-        document.getElementsByName('radio_currency')[1].checked = true;
+        document.querySelector('#radio_euro').checked = false;
+        document.querySelector('#radio_dollar').checked = true;
     }
+
+    //показать выделенные на предыдущей странице риски
+    //сумма медицинской страховки
+    document.querySelector('#radio_medical_amount_' + defaultData['medical_amount']).checked = true;
+    //сумма страховки гражданской отвественности
+    if (defaultData['additional_public']) {
+        document.querySelector('#additional_public').checked = true;
+        tempObj = document.getElementsByName('civil_responsibility');
+        tempObj.forEach(function (item) {
+            item.disabled = false;
+        });
+        document.querySelector('#radio_civil_responsibility_' + defaultData['civil_responsibility']).checked = true;
+    }
+    //сумма страховки отмены поездки
+    if (defaultData['additional_cancel']) {
+        document.querySelector('#additional_cancel').checked = true;
+        tempObj = document.getElementsByName('cancel');
+        tempObj.forEach(function (item) {
+            item.disabled = false;
+        });
+        document.querySelector('#radio_cancel_' + defaultData['cancel']).checked = true;
+    }
+    //сумма страховки от несчастных случаев
+    if (defaultData['additional_accident']) {
+        document.querySelector('#additional_accident').checked = true;
+        tempObj = document.getElementsByName('accident');
+        tempObj.forEach(function (item) {
+            item.disabled = false;
+        });
+        document.querySelector('#radio_accident_' + defaultData['accident']).checked = true;
+    }
+    //сумма страховки багажа
+    if (defaultData['additional_laggage']) {
+        document.querySelector('#additional_laggage').checked = true;
+        tempObj = document.getElementsByName('laggage');
+        tempObj.forEach(function (item) {
+            item.disabled = false;
+        });
+        document.querySelector('#radio_laggage_' + defaultData['laggage']).checked = true;
+    }
+
+    //показать выделенные на предыдущей странице виды спорта
+    if (defaultData['sport_active'] && defaultData['sport_active'] == 'on') {
+        document.querySelector('#sport_active').checked = true;
+        //$('#msActiveMain').magicSuggest().enable();
+        //$('#msActiveOther').magicSuggest().enable();
+        //if ('activeMain' in defaultData) $('#msActiveMain').magicSuggest().setValue(defaultData['activeMain']);
+        //if ('activeOther' in defaultData) $('#msActiveOther').magicSuggest().setValue(defaultData['activeOther']);
+    }
+    if (defaultData['sport_proffesional'] && defaultData['sport_proffesional'] == 'on') {
+        document.querySelector('#sport_proffesional').checked = true;
+        //$('#msProfiMain').magicSuggest().enable();
+        //$('#msProfiOther').magicSuggest().enable();
+        //if ('profiMain' in defaultData) $('#msProfiMain').magicSuggest().setValue(defaultData['profiMain']);
+        //if ('profiOther' in defaultData) $('#msProfiOther').magicSuggest().setValue(defaultData['profiOther']);
+    }
+    if (defaultData['sport_extreme'] && defaultData['sport_extreme'] == 'on') {
+        document.querySelector('#sport_extreme').checked = true;
+    }
+
+
+
+
 }
 
 //Отправка на рассчет деталей полиса
 const chDetails = (url, csrf) => {
-
-    let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
-
-    let medical_amount = 30000;
-    for( let i = 0; i < document.getElementsByName('medical_amount').length; i++) {
-        if(document.getElementsByName('medical_amount')[i].checked) {
-            medical_amount = document.getElementsByName('medical_amount')[i].value;
-            break;
-        }
-    }
-
-    let public_amount = 10000;
-    for( let i = 0; i < document.getElementsByName('civil_responsibility').length; i++) {
-        document.getElementsByName('civil_responsibility')[i].disabled = !document.querySelector('#additional_public').checked;
-        if(document.getElementsByName('civil_responsibility')[i].checked) {
-            public_amount = document.getElementsByName('civil_responsibility')[i].value;
-            //break;
-        }
-    }
-
-    let cancel_amount = 500;
-    document.getElementsByName('cancel_visa')[0].disabled = !document.querySelector('#additional_cancel').checked;
-    for( let i = 0; i < document.getElementsByName('cancel').length; i++) {
-        document.getElementsByName('cancel')[i].disabled = !document.querySelector('#additional_cancel').checked;
-        if(document.getElementsByName('cancel')[i].checked) {
-            cancel_amount = document.getElementsByName('cancel')[i].value;
-            //break;
-        }
-    }
-
-    let accident_amount = 1000;
-    document.getElementsByName('accident_flight')[0].disabled = !document.querySelector('#additional_accident').checked;
-    for (let i = 0; i < document.getElementsByName('accident').length; i++) {
-        document.getElementsByName('accident')[i].disabled = !document.querySelector('#additional_accident').checked;
-        if (document.getElementsByName('accident')[i].checked) {
-            accident_amount = document.getElementsByName('accident')[i].value;
-        }
-    }
-
-    let laggage_amount = 1000;
-    let tempArr = document.getElementsByName('laggage');
-    document.getElementsByName('laggage_time')[0].disabled = !document.querySelector('#additional_laggage').checked;
-    for( let i = 0; i < tempArr.length; i++) {
-        tempArr[i].disabled = !document.querySelector('#additional_laggage').checked;
-        if(tempArr[i].checked) {
-            laggage_amount = tempArr[i].value;
-        }
-    }
-
-    tempArr = document.getElementsByName('pregnancy');
-    for( let i = 0; i < tempArr.length; i++) {
-        tempArr[i].disabled = !document.querySelector('#additional_pregnancy').checked;
-    }
-
-    let items = $('#msCountries').magicSuggest().getSelection();
-    let args = 'countries[0]=';
-    if (items.length > 0)  args += items[0].countryName
-    if (items.length > 1) {
-        for (let i = 1; i < items.length; i++) {
-            args += '&countries[' + i + ']=' + items[i].countryName;
-        }
-    }
-
-    args += '&dateFrom=' + document.querySelector('#dateFrom').value +
-        '&dateTill=' + document.querySelector('#dateTill').value +
-        '&travelers[0][accept]=true' + //document.querySelector('#trAccept0').checked +
-        '&travelers[0][age]=30' +
-        '&travelers[1][accept]=' + document.querySelector('#trAccept1').value +
-        '&travelers[1][age]=30' +
-        '&travelers[2][accept]=' + document.querySelector('#trAccept2').value +
-        '&travelers[2][age]=30' +
-        '&travelers[3][accept]=' + document.querySelector('#trAccept3').value +
-        '&travelers[3][age]=30' +
-        '&travelers[4][accept]=' + document.querySelector('#trAccept4').value +
-        '&travelers[4][age]=30' +
-        '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
-        '&risks[0][check]=true&risks[0][amountAtRisk]=' + medical_amount +
-        '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
-        '&risks[1][check]=' + document.querySelector('#additional_public').checked + '&risks[1][amountAtRisk]=' + public_amount +
-        '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
-        '&risks[2][check]=' + document.querySelector('#additional_cancel').checked + '&risks[2][amountAtRisk]=' + cancel_amount +
-        '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
-        '&risks[3][check]=' + document.querySelector('#additional_accident').checked + '&risks[3][amountAtRisk]=' + accident_amount +
-        '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
-        '&risks[4][check]=' + document.querySelector('#additional_laggage').checked + '&risks[4][amountAtRisk]=' + laggage_amount +
-        /*'&additionalConditions[0][name]=leisure&additionalConditions[0][check]=' + document.querySelector('#sport_0').checked +
-        '&additionalConditions[1][name]=competition&additionalConditions[1][check]=' + document.querySelector('#sport_1').checked +
-        '&additionalConditions[2][name]=extreme&additionalConditions[2][check]=' + document.querySelector('#sport_2').checked;*/
-
-    //console.log(args);
-
-    /*let func = updCalc;
-
-    ajaxRequest(url, csrf, args, func, 'post');*/
-
-    console.log(args);
-
-    let func = updDetails;
-
-    ajaxRequest(url, csrf, args, func, 'post');
-
-    console.log('Данные деталей отправлены')
+    ajaxRequest(url, csrf, collectData(), updDetails, 'post');
+    //console.log('Данные деталей отправлены')
 };
 
 // Обновляем блок с деталями полиса (ценой)
@@ -772,9 +613,9 @@ const updDetails = response => {
 };
 
 //Послать форму что бы получить блок результатом покупки
-const showDone = () => {
+const sendDetails = () => {
 
-    var tempForm = document.forms.form_done;
+    var tempForm = document.forms.form_details;
     var checked = false;
     if (tempForm.insurederFirstName.value != '' && tempForm.insurederLastName.value != '') {
         if (tempForm.insurederBirthDate.value != '') {
@@ -857,7 +698,7 @@ const travelersDetailsChange = (boxId, url, csrf) => {
 
 // переключение количества путешественников
 function conditions(boxId) {
-    var tempObj = $('#tr_check_' + boxId)[0];
+    tempObj = $('#tr_check_' + boxId)[0];
     if (tempObj.checked) {
         $('#tr' + boxId).show();
         //console.log ('Блок показан');
@@ -889,6 +730,158 @@ const ajaxRequest = (url, csrf, args, func, method) => {
     
     Request.send(args);
 };
+
+/**
+ * Собрать данные со страницы и создать из них строку типа form-urlencoded
+ */
+function collectData () {
+    let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
+
+    if (document.querySelector('#sport_active').checked) {
+        $('#msActiveMain').magicSuggest().enable();
+        $('#msActiveOther').magicSuggest().enable();
+    } else {
+        $('#msActiveMain').magicSuggest().disable();
+        $('#msActiveOther').magicSuggest().disable();
+    }
+
+    if (document.querySelector('#sport_proffesional').checked) {
+        $('#msProfiMain').magicSuggest().enable();
+        $('#msProfiOther').magicSuggest().enable();
+    } else {
+        $('#msProfiMain').magicSuggest().disable();
+        $('#msProfiOther').magicSuggest().disable();
+    }
+
+    let medical_amount = 30000;
+    for( i = 0; i < document.getElementsByName('medical_amount').length; i++) {
+        if(document.getElementsByName('medical_amount')[i].checked) {
+            medical_amount = document.getElementsByName('medical_amount')[i].value;
+            break;
+        }
+    }
+
+    let public_amount = 10000;
+    for( i = 0; i < document.getElementsByName('civil_responsibility').length; i++) {
+        document.getElementsByName('civil_responsibility')[i].disabled = !document.querySelector('#additional_public').checked;
+        if(document.getElementsByName('civil_responsibility')[i].checked) {
+            public_amount = document.getElementsByName('civil_responsibility')[i].value;
+            //break;
+        }
+    }
+
+    let cancel_amount = 500;
+    document.getElementsByName('cancel_visa')[0].disabled = !document.querySelector('#additional_cancel').checked;
+    for( i = 0; i < document.getElementsByName('cancel').length; i++) {
+        document.getElementsByName('cancel')[i].disabled = !document.querySelector('#additional_cancel').checked;
+        if(document.getElementsByName('cancel')[i].checked) {
+            cancel_amount = document.getElementsByName('cancel')[i].value;
+            //break;
+        }
+    }
+
+    let accident_amount = 1000;
+    document.getElementsByName('accident_flight')[0].disabled = !document.querySelector('#additional_accident').checked;
+    for (i = 0; i < document.getElementsByName('accident').length; i++) {
+        document.getElementsByName('accident')[i].disabled = !document.querySelector('#additional_accident').checked;
+        if (document.getElementsByName('accident')[i].checked) {
+            accident_amount = document.getElementsByName('accident')[i].value;
+        }
+    }
+
+    let laggage_amount = 1000;
+    let tempArr = document.getElementsByName('laggage');
+    document.getElementsByName('laggage_time')[0].disabled = !document.querySelector('#additional_laggage').checked;
+    for( i = 0; i < tempArr.length; i++) {
+        tempArr[i].disabled = !document.querySelector('#additional_laggage').checked;
+        if(tempArr[i].checked) {
+            laggage_amount = tempArr[i].value;
+        }
+    }
+
+    tempArr = document.getElementsByName('pregnancy');
+    for( i = 0; i < tempArr.length; i++) {
+        tempArr[i].disabled = !document.querySelector('#additional_pregnancy').checked;
+    }
+
+    let args = 'countries[0]=';
+    
+    //собираем массив стран путешествия
+    let items = $('#msCountries').magicSuggest().getSelection();
+    if (items.length > 0) {
+        if (items[0].countryName != '') {
+            args += items[0].countryName;
+        } else {
+            args += 'SCHENGEN';
+        }
+    }
+    if (items.length > 1) {
+        for (i = 1; i < items.length; i++) {
+            args += '&countries[' + i + ']=' + items[i].countryName;
+        }
+    }
+
+    //даты начала и конца страхования
+    args += '&dateFrom=' + document.querySelector('#dateFrom').value + '&dateTill=' + document.querySelector('#dateTill').value;
+
+    tempVar = document.querySelectorAll('.checkbox-one');
+    //данные о застрахованных
+    args += '&travelers[0][accept]=' + document.querySelectorAll('.checkbox-one')[0].checked +
+            '&travelers[0][age]=' + document.querySelectorAll('.age-human')[0].value +
+            '&travelers[1][accept]=' + document.querySelectorAll('.checkbox-one')[1].checked +
+            '&travelers[1][age]=' + document.querySelectorAll('.age-human')[1].value +
+            '&travelers[2][accept]=' + document.querySelectorAll('.checkbox-one')[2].checked +
+            '&travelers[2][age]=' + document.querySelectorAll('.age-human')[2].value +
+            '&travelers[3][accept]=' + document.querySelectorAll('.checkbox-one')[3].checked +
+            '&travelers[3][age]=' + document.querySelectorAll('.age-human')[3].value +
+            '&travelers[4][accept]=' + document.querySelectorAll('.checkbox-one')[4].checked +
+            '&travelers[4][age]=' + document.querySelectorAll('.age-human')[4].value;
+
+    //данные о рисках
+    args += '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
+            '&risks[0][check]=true&risks[0][amountAtRisk]=' + medical_amount +
+            '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
+            '&risks[1][check]=' + document.querySelector('#additional_public').checked + '&risks[1][amountAtRisk]=' + public_amount +
+            '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
+            '&risks[2][check]=' + document.querySelector('#additional_cancel').checked + '&risks[2][amountAtRisk]=' + cancel_amount +
+            '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
+            '&risks[3][check]=' + document.querySelector('#additional_accident').checked + '&risks[3][amountAtRisk]=' + accident_amount +
+            '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
+            '&risks[4][check]=' + document.querySelector('#additional_laggage').checked + '&risks[4][amountAtRisk]=' + laggage_amount;
+    //дополнительные условия страхования
+    args += '&additionalConditions[0][name]=leisure&additionalConditions[0][check]=' + document.querySelector('#sport_active').checked +
+            '&additionalConditions[1][name]=competition&additionalConditions[1][check]=' + document.querySelector('#sport_proffesional').checked +
+            '&additionalConditions[2][name]=extreme&additionalConditions[2][check]=' + document.querySelector('#sport_extreme').checked;
+
+    //данные о видах спорта
+    items = $('#msActiveMain').magicSuggest().getSelection();
+    if (items.length > 0) {
+        items.forEach (function (item, i) {
+            args += '&sportActiveMain[' + i + ']=' + item.sportName;
+        })
+    }
+    items = $('#msActiveOther').magicSuggest().getSelection();
+    if (items.length > 0) {
+        items.forEach (function (item, i) {
+            args += '&sportActiveOther[' + i + ']=' + item.sportName;
+        })
+    }
+
+    items = $('#msProfiMain').magicSuggest().getSelection();
+    if (items.length > 0) {
+        items.forEach (function (item, i) {
+            args += '&sportProfiMain[' + i + ']=' + item.sportName;
+        })
+    }
+    items = $('#msProfiOther').magicSuggest().getSelection();
+    if (items.length > 0) {
+        items.forEach (function (item, i) {
+            args += '&sportProfiOther[' + i + ']=' + item.sportName;
+        })
+    }
+
+    return args;
+}
 
 //Получить список различных данных
 function getInsurData(url, csrf) {

@@ -17,7 +17,7 @@
     <div class="container">
 
             <div class="police_details">
-                <form action="{{ route('police_buy') }}" method="post" class="" id="form_done" name="form_done">
+                <form action="{{ route('police_buy') }}" method="post" class="" id="form_done" name="form_details">
                     {{ csrf_field() }}
 
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
@@ -61,33 +61,28 @@
                         полис</label>
                     <br>
 
-                        <div class="text-center block-flex-hh"><h1>Данные о страхователе</h1></div>
-                        <div id="insureder">
-                            <div>Страхователь</div>
-                            <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input class="form-control" id="insurederFirstName" name="insureder[firstName]" required/>
-                                <label>Имя (латинскими)</label>
-                            </div>
-                            <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input class="form-control" id="insurederLastName" name="insureder[lastName]" required/>
-                                <label>Фамилия (латинскими)</label>
-                            </div>
-                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <!--input class="form-control" name="insureder[birthDate]" placeholder="ГГГГ-ММ-ДД" required/-->
-                                <input name="insureder[birthDate]" type="text" id="insurederBirthDate"
-                                       class="form-control datepicker-here"
-                                       data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
-                                <label>Дата рождения</label>
-                            </div>
-                            <hr>
+                    <div class="text-center block-flex-hh"><h1>Данные о страхователе</h1></div>
+                    <div id="insureder">
+                        <div>Страхователь</div>
+                        <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <input class="form-control" id="insurederFirstName" name="insureder[firstName]" required/>
+                            <label>Имя (латинскими)</label>
                         </div>
+                        <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <input class="form-control" id="insurederLastName" name="insureder[lastName]" required/>
+                            <label>Фамилия (латинскими)</label>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <input class="form-control" id="insurederBirthDate" name="insureder[birthDate]" type="text" style="cursor: pointer"/>
+                            <label>Дата рождения</label>
+                        </div>
+                        <hr>
+                    </div>
 
-
-                        <div class="text-center block-flex-hh"><h1>Данные о застрахованных</h1></div>
-
+                    <div class="text-center block-flex-hh"><h1>Данные о застрахованных</h1></div>
                     <div id="traveler0">
                         <div>Путешественник 1</div>
-                        <input id="trAccept0" name="travelers[0][accept]" value="true" type="hidden"/>
+                        <input class="checkbox-one" id="trAccept0" name="travelers[0][accept]" value="true" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <input class="form-control" name="travelers[0][firstName]" required/>
                             <label>Имя (латинскими)</label>
@@ -97,92 +92,86 @@
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <!--input class="form-control" name="travelers[0][birthDate]" placeholder="ГГГГ-ММ-ДД" required/-->
-                            <input id="trBirthDate0" name="travelers[0][birthDate]" class="form-control"
-                                    data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
+                            <input class="form-control" name="travelers[0][birthDate]" id="trBirthDate0" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
-                        <input name="travelers[0][age]" id="trAge0" type="hidden"/>
+                        <input class="age-human" id="trAge0" type="hidden"/>
                         <hr>
                     </div>
 
                     <div id="traveler1" style="display:none">
                         <div>Путешественник 2</div>
-                        <input     id="trAccept1"    name="travelers[1][accept]"    value="false" type="hidden"/>
+                        <input class="checkbox-one" id="trAccept1" name="travelers[1][accept]" value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trFirstName1" name="travelers[1][firstName]" class="form-control" required disabled/>
+                            <input class="form-control" id="trFirstName1" name="travelers[1][firstName]" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trLastName1"  name="travelers[1][lastName]"  class="form-control" required disabled/>
+                            <input class="form-control" id="trLastName1" name="travelers[1][lastName]" required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input id="trBirthDate1" name="travelers[1][birthDate]" class="form-control"
-                                   data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
+                            <input class="form-control" id="trBirthDate1" name="travelers[1][birthDate]" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
-                        <input name="travelers[1][age]" id="trAge1" type="hidden"/>
+                        <input class="age-human" name="travelers[1][age]" id="trAge1" type="hidden"/>
                         <hr>
                     </div>
 
                     <div id="traveler2" style="display:none">
                         <div>Путешественник 3</div>
-                        <input     id="trAccept2"    name="travelers[2][accept]"    value="false" type="hidden"/>
+                        <input class="checkbox-one" id="trAccept2" name="travelers[2][accept]" value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trFirstName2" name="travelers[2][firstName]" class="form-control" required disabled/>
+                            <input class="form-control" id="trFirstName2" name="travelers[2][firstName]" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trLastName2"  name="travelers[2][lastName]"  class="form-control" required disabled/>
+                            <input class="form-control" id="trLastName2"  name="travelers[2][lastName]"  required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input id="trBirthDate2" name="travelers[2][birthDate]" class="form-control"
-                                   data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
+                            <input class="form-control" id="trBirthDate2" name="travelers[2][birthDate]" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
-                        <input name="travelers[2][age]" id="trAge2" type="hidden"/>
+                        <input class="age-human" name="travelers[2][age]" id="trAge2" type="hidden"/>
                         <hr>
                     </div>
 
                     <div id="traveler3" style="display:none">
                         <div>Путешественник 4</div>
-                        <input     id="trAccept3"    name="travelers[3][accept]"    value="false" type="hidden"/>
+                        <input class="checkbox-one" id="trAccept3" name="travelers[3][accept]" value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trFirstName3" name="travelers[3][firstName]" class="form-control" required disabled/>
+                            <input class="form-control" id="trFirstName3" name="travelers[3][firstName]" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input id="trLastName3"  name="travelers[3][lastName]"  class="form-control" required disabled/>
+                            <input class="form-control" id="trLastName3"  name="travelers[3][lastName]" required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input id="trBirthDate3" name="travelers[3][birthDate]" class="form-control"
-                                   data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
+                            <input class="form-control" id="trBirthDate3" name="travelers[3][birthDate]" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
-                        <input name="travelers[3][age]" id="trAge3" type="hidden"/>
+                        <input class="age-human" name="travelers[3][age]" id="trAge3" type="hidden"/>
                         <hr>
                     </div>
 
                     <div id="traveler4" style="display:none">
                             <div>Путешественник 5</div>
-                            <input     id="trAccept4"    name="travelers[4][accept]"    value="false" type="hidden"/>
+                            <input class="checkbox-one" id="trAccept4"    name="travelers[4][accept]"    value="false" type="hidden"/>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input id="trFirstName4" name="travelers[4][firstName]" class="form-control" required disabled/>
+                                <input class="form-control" id="trFirstName4" name="travelers[4][firstName]" required disabled/>
                                 <label>Имя (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input id="trLastName4"  name="travelers[4][lastName]"  class="form-control" required disabled/>
+                                <input class="form-control" id="trLastName4"  name="travelers[4][lastName]" required disabled/>
                                 <label>Фамилия (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <input id="trBirthDate4" name="travelers[4][birthDate]" class="form-control"
-                                       data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
+                                <input class="form-control" id="trBirthDate4" name="travelers[4][birthDate]" style="cursor: pointer"/>
                                 <label>Дата рождения</label>
                             </div>
-                            <input name="travelers[4][age]" id="trAge4" type="hidden"/>
+                            <input class="age-human" name="travelers[4][age]" id="trAge4" type="hidden"/>
                             <hr>
                         </div>
 
@@ -209,7 +198,7 @@
                     <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="30000" id="radio_medical_amount_30000" class="check_and_radio" ><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                     <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="35000" id="radio_medical_amount_35000" class="check_and_radio" ><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                     <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="40000" id="radio_medical_amount_40000" class="check_and_radio" ><label for="radio_medical_amount_40000" style="margin-right: 20px;">40&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" checked><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" ><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                     <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                 </div>
                 <a href="" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
