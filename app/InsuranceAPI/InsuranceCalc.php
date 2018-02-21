@@ -93,12 +93,14 @@ class InsuranceCalc
     }
 
 
-    public function getInsuranceBuy($request, $companyId, $isJson = false)
+    public function getInsuranceBuy($request, $isJson = false)
     {
         $result = [];
         //dd($request->all());
+        //dd('Error!!!');
 
         $alpha = $this->getAlphaBuy($request) ?? null;
+        //dd($alpha);
         //dd($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = $alpha;
@@ -109,9 +111,14 @@ class InsuranceCalc
 
     public function getAlphaBuy($request)
     {
+        //return $request->all();
         $calcParams = new AlphaCalcParams($request->all());
-        return AlphaAPI::calculate($calcParams->getCalcParams('Create'));
+
         //return $calcParams->getCalcParams('Create');
+        return AlphaAPI::calculate($calcParams->getCalcParams('Create'));
+
+
+
     }
 
     /*public function getData($request) {

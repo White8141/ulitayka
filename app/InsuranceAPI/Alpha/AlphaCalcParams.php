@@ -15,7 +15,7 @@ class AlphaCalcParams
     public $policyPeriodFrom;
     public $policyPeriodTill;
     public $client;
-    public $insuredsCount;
+    public $currency;
     public $insureds;
 
     public $countryUIDs;
@@ -33,7 +33,6 @@ class AlphaCalcParams
         $this->client = [
             'name' => 'Testov Petr'
         ];
-
 
         $this->insureds = [];
         foreach ($request['travelers'] as $traveler) {
@@ -59,14 +58,14 @@ class AlphaCalcParams
             }
         }
 
-
         $this->risks = [];
         foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
             if ((string)$risk['check'] === 'true') {
+                $this->currency = $risk['amountCurrency'] ?? $request['radio_currency'];
                 $this->risks[] = [
                     'riskUID' => AlphaDirect::getRiskUID($risk['name']),
                     'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $risk['amountCurrency']
+                    'amountCurrency' => $this->currency
                 ];
             }
         }

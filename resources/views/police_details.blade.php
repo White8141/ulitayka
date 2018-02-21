@@ -23,12 +23,8 @@
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
                     <input name="companyURL" id="companyURL" type="hidden" value="{{ $companyURL }}"/>
 
-                    <!--p class="filter_h3">Страховая компания</p-->
                     <img src="{{ asset($companyURL) }}" alt="" class="center-block">
 
-                    <!--select onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" id="page-country" class="form-control blue_input_text textbox_100_percent"
-                            name="countries[0]" style="cursor: pointer">
-                    </select><label for="page-country"></label-->
                     <div>
                         <label>Страны</label>
                         <input id="msCountries" class="form-control" name="countries[]"/>
@@ -80,22 +76,22 @@
                     </div>
 
                     <div class="text-center block-flex-hh"><h1>Данные о застрахованных</h1></div>
-                    <div id="traveler0">
+                    <div id="traveler0" style="display:none">
                         <div>Путешественник 1</div>
-                        <input class="checkbox-one" id="trAccept0" name="travelers[0][accept]" value="true" type="hidden"/>
+                        <input class="checkbox-one" id="trAccept0" name="travelers[0][accept]" value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" name="travelers[0][firstName]" required/>
+                            <input class="form-control" id="trFirstName0" name="travelers[0][firstName]" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" name="travelers[0][lastName]" required/>
+                            <input class="form-control" id="trLastName0" name="travelers[0][lastName]" required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" name="travelers[0][birthDate]" id="trBirthDate0" style="cursor: pointer"/>
+                            <input class="form-control" id="trBirthDate0" name="travelers[0][birthDate]" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
-                        <input class="age-human" id="trAge0" type="hidden"/>
+                        <input class="age-human" name="travelers[0][age]" id="trAge0" type="hidden"/>
                         <hr>
                     </div>
 
@@ -183,23 +179,29 @@
                         <!--a id="submitBtn" class="btn btn-danger" onclick="showDone()">Купить</a-->
 
                     </div>
-                </form>
 
-                <div class="text-center block-flex-hh"><h1>Дополнительные данные</h1></div>
+                    <div class="text-center block-flex-hh"><h1>Дополнительные данные</h1></div>
 
                 <p class="filter_h3 radio_currency">Выбор курса</p>
-                <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="radio_currency" value="EUR" id="radio_euro" class="check_and_radio" checked onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')">
+                <input class="check_and_radio" name="radio_currency" id="radio_euro" type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" value="EUR">
                 <label for="radio_euro" style="margin-right: 20px;">Евро</label>
-                <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="radio_currency" value="USD" id="radio_dollar" class="check_and_radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')">
-                <label for="radio_dollar" style="margin-right: 20px;">Доллар</label>
+                <input class="check_and_radio" name="radio_currency" id="radio_usd"  type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" value="USD">
+                <label for="radio_usd" style="margin-right: 20px;">Доллар</label>
+                <!--p class="filter_h3 radio_currency">Выбор курса</p>
+                <input class="check_and_radio" name="radio_currency" id="radio_euro" value="EUR" type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')">
+                <label for="radio_euro" style="margin-right: 20px;">Евро</label>
+                <input class="check_and_radio" name="radio_currency" id="radio_usd"  value="USD" type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" >
+                <label for="radio_dollar" style="margin-right: 20px;">Доллар</label-->
 
                 <p class="filter_h3" style="margin-top: 10px;">Медицинское страхование</p>
                 <div class="medical_amount">
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="30000" id="radio_medical_amount_30000" class="check_and_radio" ><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="35000" id="radio_medical_amount_35000" class="check_and_radio" ><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="40000" id="radio_medical_amount_40000" class="check_and_radio" ><label for="radio_medical_amount_40000" style="margin-right: 20px;">40&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="50000" id="radio_medical_amount_50000" class="check_and_radio" ><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
-                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="medical_amount" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
+                    <input name="risks[0][check]" value="true"    hidden/>
+                    <input name="risks[0][name]"  value="medical" hidden/>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][amountAtRisk]" value="30000"  id="radio_medical_amount_30000"  class="check_and_radio"><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][amountAtRisk]" value="35000"  id="radio_medical_amount_35000"  class="check_and_radio"><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][amountAtRisk]" value="40000"  id="radio_medical_amount_40000"  class="check_and_radio"><label for="radio_medical_amount_40000" style="margin-right: 20px;">40&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][amountAtRisk]" value="50000"  id="radio_medical_amount_50000"  class="check_and_radio"><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
+                    <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][amountAtRisk]" value="100000" id="radio_medical_amount_100000" class="check_and_radio"><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                 </div>
                 <a href="" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
                             class="blue glyphicon glyphicon-chevron-down"
@@ -420,13 +422,15 @@
                         ответственности</label>
                     <br>
                     <div class="margined">
-                        <input type="radio" checked name="civil_responsibility" value="10000" id="radio_civil_responsibility_10000" onclick="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
+                        <input name="risks[1][check]" value="false"  hidden/>
+                        <input name="risks[1][name]"  value="public" hidden/>
+                        <input type="radio" checked name="risks[1][amountAtRisk]" value="10000" id="radio_civil_responsibility_10000" onclick="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                class="check_and_radio" disabled><label for="radio_civil_responsibility_10000"
                                                                        class="margined_text" style="margin-right: 20px;">10&nbsp;000<p class="currency_symbol">€</p></label>
-                        <input type="radio" name="civil_responsibility" value="30000" id="radio_civil_responsibility_30000" onclick="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
+                        <input type="radio" name="risks[1][amountAtRisk]" value="30000" id="radio_civil_responsibility_30000" onclick="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                class="check_and_radio" disabled><label for="radio_civil_responsibility_30000"
                                                                        class="margined_text" style="margin-right: 20px;">30&nbsp;000<p class="currency_symbol">€</p></label>
-                        <input type="radio" name="civil_responsibility" value="50000" id="radio_civil_responsibility_50000" onclick="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
+                        <input type="radio" name="risks[1][amountAtRisk]" value="50000" id="radio_civil_responsibility_50000" onclick="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                class="check_and_radio" disabled><label for="radio_civil_responsibility_50000"
                                                                        class="margined_text" style="margin-right: 20px;">50&nbsp;000<p class="currency_symbol">€</p></label>
                         <br>
@@ -465,6 +469,7 @@
                                                               class="margined_text">Эрго</label>
                         <br><br>
                     </div-->
+                    </form>
                 </div>
             </div>
 

@@ -66,7 +66,7 @@ $(document).ready(function () {
     /* Евро и доллар (Медицинское страхование) */
 
     function make_dollar() {
-        if ($("#radio_dollar").is(":checked")) {
+        if ($("#radio_usd").is(":checked")) {
             $(".currency_symbol").html("$");
         } else {
             console.log("ne rabotaet");
@@ -81,7 +81,7 @@ $(document).ready(function () {
         }
     }
 
-    var radiobuttonDollar = document.getElementById("radio_dollar");
+    var radiobuttonDollar = document.getElementById("radio_usd");
     if(radiobuttonDollar){
         radiobuttonDollar.addEventListener("click", make_dollar, false);
     }
@@ -155,7 +155,7 @@ $(document).ready(function () {
 
 });
 
-var i, tempObj;
+var i, tempObj, tempArr;
 
 //обработка массива country.json и внесение результатов в выпадающий список в упрощенной форме для страховки
 function welcomeCountryParse() {
@@ -183,7 +183,7 @@ function welcomeCountryParse() {
 //обработка массива country.json и выбор заданных стран
 function countryParseWithSelect(view, defData, csrfToken) {
 
-    var tempArr = [];
+    tempArr = [];
 
     $.getJSON('/js/json/country.json', function (data) {
         $.each(data, function(key, val) {
@@ -515,23 +515,24 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     //указать выбранную валюту
     if (defaultData['radio_currency'] == 'EUR') {
         document.querySelector('#radio_euro').checked = true;
-        document.querySelector('#radio_dollar').checked = false;
+        document.querySelector('#radio_usd').checked = false;
     } else {
         document.querySelector('#radio_euro').checked = false;
-        document.querySelector('#radio_dollar').checked = true;
+        document.querySelector('#radio_usd').checked = true;
     }
 
     //показать выделенные на предыдущей странице риски
     //сумма медицинской страховки
-    document.querySelector('#radio_medical_amount_' + defaultData['medical_amount']).checked = true;
+    document.querySelector('#radio_medical_amount_' + defaultData['risks'][0]['amountAtRisk']).checked = true;
     //сумма страховки гражданской отвественности
     if (defaultData['additional_public']) {
         document.querySelector('#additional_public').checked = true;
-        tempObj = document.getElementsByName('civil_responsibility');
+        document.getElementsByName('risks[1][check]')[0].value = true;
+        tempObj = document.getElementsByName('risks[1][amountAtRisk]');
         tempObj.forEach(function (item) {
             item.disabled = false;
         });
-        document.querySelector('#radio_civil_responsibility_' + defaultData['civil_responsibility']).checked = true;
+        document.querySelector('#radio_civil_responsibility_' + defaultData['risks'][1]['amountAtRisk']).checked = true;
     }
     //сумма страховки отмены поездки
     if (defaultData['additional_cancel']) {
@@ -722,7 +723,8 @@ const ajaxRequest = (url, csrf, args, func, method) => {
  * Собрать данные со страницы и создать из них строку типа form-urlencoded
  */
 function collectData () {
-    let currency = document.getElementsByName('radio_currency')[0].checked ? document.getElementsByName('radio_currency')[0].value : document.getElementsByName('radio_currency')[1].value;
+
+    let currency = document.querySelector('#radio_euro').checked ? 'EUR' : 'USD';
 
     if (document.querySelector('#sport_active').checked) {
         $('#msActiveMain').magicSuggest().enable();
@@ -741,18 +743,22 @@ function collectData () {
     }
 
     let medical_amount = 30000;
-    for( i = 0; i < document.getElementsByName('medical_amount').length; i++) {
-        if(document.getElementsByName('medical_amount')[i].checked) {
-            medical_amount = document.getElementsByName('medical_amount')[i].value;
+    tempObj = document.getElementsByName('risks[0][amountAtRisk]');
+    for( i = 0; i < tempObj.length; i++) {
+        if(tempObj[i].checked) {
+            medical_amount = tempObj[i].value;
             break;
         }
     }
 
     let public_amount = 10000;
-    for( i = 0; i < document.getElementsByName('civil_responsibility').length; i++) {
-        document.getElementsByName('civil_responsibility')[i].disabled = !document.querySelector('#additional_public').checked;
-        if(document.getElementsByName('civil_responsibility')[i].checked) {
-            public_amount = document.getElementsByName('civil_responsibility')[i].value;
+    document.getElementsByName('risks[1][check]')[0].value = document.querySelector('#additional_public').checked;
+    //tempVar[0].value =  document.querySelector('#additional_public').checked;
+    tempObj = document.getElementsByName('risks[1][amountAtRisk]');
+    for( i = 0; i < tempObj.length; i++) {
+        tempObj[i].disabled = !document.querySelector('#additional_public').checked;
+        if(tempObj[i].checked) {
+            public_amount = tempObj[i].value;
             //break;
         }
     }

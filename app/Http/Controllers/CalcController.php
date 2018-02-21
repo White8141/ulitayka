@@ -17,45 +17,40 @@ class CalcController extends Controller
         $this->request = $request;
     }
 
+    public function calculate()
+    {
+        //dd ($this->request->all());
+        return view('calc')->with([ 'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers')),
+            'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
+        ]);
+    }
+    
     public function ajax()
     {
         echo $this->insuranceCalc->getInsuranceCalc($this->request, true);
         //print_r($this->request->all());
     }
 
-    public function calculate()
-    {
-        return view('calc')->with([ 'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers')),
-                                    'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
-                                    ]);
-    }
-
+    
     /**
-     * Получить данные для отображения полиса конкретной компании
+     * Отображение полиса конкретной компании
      * @return $this
      */
     public function police_details()
     {
         //dd ($this->request->all());
-        return view('police_details')->with([   //'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers', 'risks', 'additionalConditions', 'companyId')),
-                                                'defaultData' => json_encode($this->request->all()),
+        return view('police_details')->with([   'defaultData' => json_encode($this->request->all()),
                                                 'companyId' => strval($this->request->input('companyId')),
-                                                'companyURL' => strval($this->request->input('companyURL')),
-                                                'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
+                                                'companyURL' => strval($this->request->input('companyURL'))
                                             ]);
     }
 
     public function police_buy()
     {
-        /*$this->validate($this->request, [
-            'dateFrom' => 'required',
-            'dateTill' => 'required',
-            'insureder.birthDate' => 'required'
-        ]);*/
-        //print_r($this->request->all());
-        //dd($this->insuranceCalc->getInsuranceBuy($this->request, 'alpha', false));
+        //dd ($this->request->all());
         return view('police_done')->with([ 'details' => $this->insuranceCalc->getInsuranceBuy($this->request, 'alpha', true)]);
-
+        //dd($this->insuranceCalc->getInsuranceBuy($this->request, 'alpha', false));
+        
     }
     
     /*public function getData()
