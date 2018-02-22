@@ -70,7 +70,7 @@ class AdvantCalcParams
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
             //$this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition);
-            if ((string)$additionalCondition['check'] === 'true') {
+            if ((string)$additionalCondition['accept'] === 'true') {
                 $this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
@@ -83,8 +83,8 @@ class AdvantCalcParams
         $this->laggage = null;
 
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if ((string)$risk['check'] === 'true') {
+        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
+            if ((string)$risk['accept'] === 'true') {
                 switch ((string)$risk['name']) {
                     case 'medical':
                         $this->medical = [

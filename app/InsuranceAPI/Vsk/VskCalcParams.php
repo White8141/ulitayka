@@ -59,8 +59,8 @@ class VskCalcParams
         }
 
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'check' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if ((string)$risk['check'] === 'true') {
+        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
+            if ((string)$risk['accept'] === 'true') {
                 $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),
                     'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0] ?? 'SCHENGEN'),
@@ -72,7 +72,7 @@ class VskCalcParams
 
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
-            if ((string)$additionalCondition['check'] === 'true') {
+            if ((string)$additionalCondition['accept'] === 'true') {
                 $this->additionalConditionsUIDs[] = VskDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }

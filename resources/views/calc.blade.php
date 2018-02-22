@@ -295,7 +295,6 @@
                                 {{ csrf_field() }}
 
                                 <input name="companyId" id="companyId" type="hidden" />
-                                <input name="companyURL" id="companyURL" type="hidden" />
                                 <input name="policeAmount" id="policeAmount" type="hidden" />
 
                                 <p class="filter_h3">Страны</p>
@@ -384,7 +383,7 @@
 
                                 <p class="filter_h3" style="margin-top: 10px;">Медицинское страхование</p>
                                 <div class="medical_amount">
-                                    <input name="risks[0][check]" value="true"    hidden/>
+                                    <input name="risks[0][accept]" value="true"   hidden/>
                                     <input name="risks[0][name]"  value="medical" hidden/>
                                     <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][amountAtRisk]" value="30000" id="radio_medical_amount_30000" class="check_and_radio" ><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                                     <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][amountAtRisk]" value="35000" id="radio_medical_amount_35000" class="check_and_radio" ><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
@@ -504,22 +503,23 @@
                                 <a href="" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                                 <div id="toggle_options_list">
 
-                                    <input type="checkbox" name="additional_accident" id="additional_accident" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                    <input type="checkbox" name="risks[3][accept]" id="additional_accident" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                            class="check_and_radio"><label for="additional_accident">Страхование от несчастных
                                         случаев</label>
                                     <br>
                                     <div class="margined">
+                                        <input name="risks[3][name]"  value="accidient" hidden/>
                                         <p class="margin_bottom5">На все время путешествия</p>
-                                        <input type="radio" checked value="1000" name="accident" id="radio_accident_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" checked value="1000" name="risks[3][amountAtRisk]" id="radio_accident_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_accident_1000" class="margined_text"
                                                                               style="margin-right: 20px;">1&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="3000" name="accident" id="radio_accident_3000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="3000" name="risks[3][amountAtRisk]" id="radio_accident_3000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_accident_3000" class="margined_text"
                                                                               style="margin-right: 20px;">3&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="5000" name="accident" id="radio_accident_5000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="5000" name="risks[3][amountAtRisk]" id="radio_accident_5000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_accident_5000" class="margined_text"
                                                                               style="margin-right: 20px;">5&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="10000" name="accident" id="radio_accident_10000"  onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="10000" name="risks[3][amountAtRisk]" id="radio_accident_10000"  onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label
                                                 for="radio_accident_10000" class="margined_text" style="margin-right: 20px;">10&nbsp;000<p class="currency_symbol">€</p></label>
                                         <br>
@@ -527,20 +527,21 @@
                                                class="check_and_radio" disabled><label for="accident_flight" class="margined_text">На время
                                             авиаперелета</label>
                                     </div>
-                                    <input type="checkbox" name="additional_laggage" id="additional_laggage"  onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                    <input type="checkbox" name="risks[4][accept]" id="additional_laggage"  onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                            class="check_and_radio"><label for="additional_laggage">Страховка багажа</label>
                                     <div class="margined">
                                         <p class="margin_bottom5">На время перелета</p>
-                                        <input type="radio" value ="500" checked name="laggage" id="radio_laggage_500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input name="risks[4][name]"  value="laggage" hidden/>
+                                        <input type="radio" value ="500" checked name="risks[4][amountAtRisk]" id="radio_laggage_500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_laggage_500" class="margined_text"
                                                                               style="margin-right: 20px;">500<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value ="1000" name="laggage" id="radio_laggage_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value ="1000" name="risks[4][amountAtRisk]" id="radio_laggage_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_laggage_1000" class="margined_text"
                                                                               style="margin-right: 20px;">1&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value ="1500" name="laggage" id="radio_laggage_1500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value ="1500" name="risks[4][amountAtRisk]" id="radio_laggage_1500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_laggage_1500" class="margined_text"
                                                                               style="margin-right: 20px;">1&nbsp;500<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value ="2000" name="laggage" id="radio_laggage_2000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value ="2000" name="risks[4][amountAtRisk]" id="radio_laggage_2000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_laggage_2000" class="margined_text"
                                                                               style="margin-right: 20px;">2&nbsp;000<p class="currency_symbol">€</p></label>
                                         <br>
@@ -568,40 +569,41 @@
                                     <input type="checkbox" name="additional_options2" id="additional2_5"
                                            class="check_and_radio"><label for="additional2_5">Юридическая помощь</label>
                                     <br>
-                                    <input type="checkbox" name="additional_cancel" id="additional_cancel" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                    <input type="checkbox" name="risks[2][accept]" id="additional_cancel" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                            class="check_and_radio"><label for="additional_cancel">Страхование отмены поездки</label>
                                     <br>
                                     <div class="margined">
                                         <p class="margin_bottom5">На время перелета</p>
-                                        <input type="radio" checked value="500" name="cancel" id="radio_cancel_500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input name="risks[2][name]"  value="cancel" hidden/>
+                                        <input type="radio" checked value="500" name="risks[2][amountAtRisk]" id="radio_cancel_500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_500" class="margined_text"
                                                                               style="margin-right: 10px;">&nbsp;&nbsp;&nbsp;500<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="1000" name="cancel" id="radio_cancel_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="1000" name="risks[2][amountAtRisk]" id="radio_cancel_1000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_1000" class="margined_text"
                                                                               style="margin-right: 10px;">1&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="1500" name="cancel" id="radio_cancel_1500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="1500" name="risks[2][amountAtRisk]" id="radio_cancel_1500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_1500" class="margined_text"
                                                                               style="margin-right: 10px;">1&nbsp;500<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="2000" name="cancel" id="radio_cancel_2000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="2000" name="risks[2][amountAtRisk]" id="radio_cancel_2000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_2000" class="margined_text"
                                                                               style="margin-right: 10px;">2&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="2500" name="cancel" id="radio_cancel_2500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="2500" name="risks[2][amountAtRisk]" id="radio_cancel_2500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_2500" class="margined_text"
                                                                                style="margin-right: 10px;">2&nbsp;500<p class="currency_symbol">€</p></label>
                                         <br>
-                                        <input type="radio" value="3000" name="cancel" id="radio_cancel_3000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="3000" name="risks[2][amountAtRisk]" id="radio_cancel_3000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_3000" class="margined_text"
                                                                               style="margin-right: 10px;">3&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="3500" name="cancel" id="radio_cancel_3500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="3500" name="risks[2][amountAtRisk]" id="radio_cancel_3500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_3500" class="margined_text"
                                                                               style="margin-right: 10px;">3&nbsp;500<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="4000" name="cancel" id="radio_cancel_4000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="4000" name="risks[2][amountAtRisk]" id="radio_cancel_4000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_4000" class="margined_text"
                                                                               style="margin-right: 10px;">4&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="4500" name="cancel" id="radio_cancel_4500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="4500" name="risks[2][amountAtRisk]" id="radio_cancel_4500" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_4500" class="margined_text"
                                                                               style="margin-right: 10px;">4&nbsp;500<p class="currency_symbol">€</p></label>
-                                        <input type="radio" value="5000" name="cancel" id="radio_cancel_5000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" value="5000" name="risks[2][amountAtRisk]" id="radio_cancel_5000" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_cancel_5000" class="margined_text"
                                                                                style="margin-right: 10px;">5&nbsp;000<p class="currency_symbol">€</p></label>
                                         <br>
@@ -610,20 +612,19 @@
                                             визе</label>
                                         <br>
                                     </div>
-                                    <input type="checkbox" value="false" name="additional_public" id="additional_public" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                    <input type="checkbox" name="risks[1][accept]" id="additional_public" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                            class="check_and_radio"><label for="additional2_7">Страхование гражданской
                                         ответственности</label>
                                     <br>
                                     <div class="margined">
-                                        <input name="risks[1][check]" value="false"    hidden/>
                                         <input name="risks[1][name]"  value="public" hidden/>
-                                        <input type="radio" name="risks[1][amountAtRisk]" value="10000" id="radio_civil_responsibility_10000" onclick="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" checked
+                                        <input type="radio" name="risks[1][amountAtRisk]" value="10000" id="radio_civil_responsibility_10000" onclick="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_civil_responsibility_10000"
                                                                               class="margined_text" style="margin-right: 20px;">10&nbsp;000<p class="currency_symbol">€</p></label>
                                         <input type="radio" name="risks[1][amountAtRisk]" value="30000" id="radio_civil_responsibility_30000" onclick="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
                                                class="check_and_radio" disabled><label for="radio_civil_responsibility_30000"
                                                                               class="margined_text" style="margin-right: 20px;">30&nbsp;000<p class="currency_symbol">€</p></label>
-                                        <input type="radio" name="risks[1][amountAtRisk]" value="50000" id="radio_civil_responsibility_50000" onclick="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
+                                        <input type="radio" name="risks[1][amountAtRisk]" value="50000" id="radio_civil_responsibility_50000" onclick="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" checked
                                                class="check_and_radio" disabled><label for="radio_civil_responsibility_50000"
                                                                               class="margined_text" style="margin-right: 20px;">50&nbsp;000<p class="currency_symbol">€</p></label>
                                         <br>
@@ -633,13 +634,13 @@
                                         беременности</label>
                                     <br>
                                     <div class="margined">
-                                        <input type="radio" name="pregnancy" id="radio_pregnancy_12" class="check_and_radio"  disabled><label
+                                        <input type="radio" name="pregnancy" id="radio_pregnancy_12" class="check_and_radio" disabled checked><label
                                                 for="radio_pregnancy_12" class="margined_text" style="margin-right: 20px;">до 12
                                             недель</label>
-                                        <input type="radio" name="pregnancy" id="radio_pregnancy_24" class="check_and_radio"  disabled><label
+                                        <input type="radio" name="pregnancy" id="radio_pregnancy_24" class="check_and_radio" disabled><label
                                                 for="radio_pregnancy_24" class="margined_text" style="margin-right: 20px;">до 24
                                             недель</label>
-                                        <input type="radio" name="pregnancy" id="radio_pregnancy_31" class="check_and_radio"  disabled><label
+                                        <input type="radio" name="pregnancy" id="radio_pregnancy_31" class="check_and_radio" disabled><label
                                                 for="radio_pregnancy_31" class="margined_text">до 31 недели</label>
                                         <br>
                                     </div>

@@ -21,7 +21,7 @@ class CalcController extends Controller
     {
         //dd ($this->request->all());
         return view('calc')->with([ 'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers')),
-            'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
+                                    'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
         ]);
     }
     
@@ -40,8 +40,7 @@ class CalcController extends Controller
     {
         //dd ($this->request->all());
         return view('police_details')->with([   'defaultData' => json_encode($this->request->all()),
-                                                'companyId' => strval($this->request->input('companyId')),
-                                                'companyURL' => strval($this->request->input('companyURL'))
+                                                'companyId' => strval($this->request->input('companyId'))
                                             ]);
     }
 

@@ -17,13 +17,12 @@
     <div class="container">
 
             <div class="police_details">
-                <form action="{{ route('police_buy') }}" method="post" class="" id="form_done" name="form_details">
+                <form action="{{ route('police_buy') }}" method="post" class="" id="form_details" name="form_details">
                     {{ csrf_field() }}
 
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
-                    <input name="companyURL" id="companyURL" type="hidden" value="{{ $companyURL }}"/>
 
-                    <img src="{{ asset($companyURL) }}" alt="" class="center-block">
+                    <img src="img/logo-{{ $companyId }}.png" alt="" class="center-block">
 
                     <div>
                         <label>Страны</label>
