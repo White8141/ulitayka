@@ -21,7 +21,7 @@ class InsuranceCalc
         $result = [];
 
         $alpha = $this->getAlphaCalc($request) ?? null;
-        //dd($alpha);
+        //print_r($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = [
                 'card' => 'alphaCard',
@@ -46,7 +46,7 @@ class InsuranceCalc
             ];
         }
 
-        $advant = $this->getAdvantCalc($request);
+        /*$advant = $this->getAdvantCalc($request);
         //dd($advant);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result['advant'] = [
@@ -57,16 +57,7 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }
-
-        /*result['alpha'] = [
-            'card' => 'alphaCard',
-            'prem' => '1234',
-            'assistance' => [
-                'name' => 'My Name',
-                'info' => 'My Info'
-            ]
-        ];*/
+        }*/
 
         return $isJson ? json_encode($result) : $result;
     }
@@ -75,7 +66,8 @@ class InsuranceCalc
     {
         $calcParams = new AlphaCalcParams($request->all());
         return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
-        //return AlphaAPI::getAdditionalConditions2();
+
+        //return $request->all();
         //return $calcParams->getCalcParams('calculate');
     }
 
@@ -101,7 +93,6 @@ class InsuranceCalc
 
         $alpha = $this->getAlphaBuy($request) ?? null;
         //dd($alpha);
-        //dd($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = $alpha;
         }
@@ -111,7 +102,6 @@ class InsuranceCalc
 
     public function getAlphaBuy($request)
     {
-        //return $request->all();
         $calcParams = new AlphaCalcParams($request->all());
 
         //return $calcParams->getCalcParams('Create');

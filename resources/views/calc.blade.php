@@ -482,21 +482,25 @@
 
                                 <p class="filter_h3">Занятия спортом и активный отдых</p>
 
-                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_active" id="sport_active"
-                                       class="check_and_radio"><label for="additional_6" class="inlined padded">Занятие спортом и активный отдых</label>
+                                <input name="additionalConditions[0][name]"  value="leisure" hidden/>
+                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="additionalConditions[0][accept]" id="additionalConditions0"
+                                       class="check_and_radio" value="false"><label for="additionalConditions[0][accept]" class="inlined padded">Занятие спортом и активный отдых</label>
 
                                 <input id="msActiveMain" class="form-control" name="activeMain[]"/>
                                 <input id="msActiveOther" class="form-control" name="activeOther[]"/>
-
                                 <br>
-                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_proffesional" id="sport_proffesional"
-                                       class="check_and_radio"><label for="additional_6" class="inlined padded">Занятие проф. спортом и участие в соревнованиях</label>
+
+                                <input name="additionalConditions[1][name]"  value="competition" hidden/>
+                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="additionalConditions[1][accept]" id="additionalConditions1"
+                                       class="check_and_radio" value="false"><label for="additionalConditions[1][accept]" class="inlined padded">Занятие проф. спортом и участие в соревнованиях</label>
+
                                 <input id="msProfiMain" class="form-control" name="profiMain[]"/>
                                 <input id="msProfiOther" class="form-control" name="profiOther[]"/>
-
                                 <br>
-                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="sport_extreme" id="sport_extreme"
-                                       class="check_and_radio"><label for="additional_6" class="inlined padded">Экстримальные виды спорта</label>
+
+                                <input name="additionalConditions[2][name]"  value="extreme" hidden/>
+                                <input type="checkbox" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="additionalConditions[2][accept]" id="additionalConditions2"
+                                       class="check_and_radio" value="false"><label for="additionalConditions[2][accept]" class="inlined padded">Экстримальные виды спорта</label>
                                 <br>
                                 <br>
 

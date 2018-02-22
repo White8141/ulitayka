@@ -9,25 +9,20 @@ class AlphaCalcParams
 {
     public $request;
 
+    public $client;
     public $countries;
-    public $additionalConditions;
-    public $risks;
     public $policyPeriodFrom;
     public $policyPeriodTill;
-    public $client;
     public $currency;
+    public $risks;
     public $insureds;
-
-    public $countryUIDs;
-    public $additionalConditionsUIDs;
-    public $riskUIDs;
+    public $additionalConditions;
 
     function __construct($request)
     {
         $this->request = $request;
 
         //$this->countries = $request['countries'];
-        $this->additionalConditions = [];
         $this->policyPeriodFrom = $request['dateFrom'] ?? date('Y-m-d') . 'T00:00:00';
         $this->policyPeriodTill = $request['dateTill'] ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
         $this->client = [
@@ -45,27 +40,25 @@ class AlphaCalcParams
 
         }
 
-        $this->countryUIDs = [];
+        $this->countries = [];
         foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
-            $this->countryUIDs['countryUID'] = AlphaDirect::getCountryUID($country);
+            $this->countries[] = AlphaDirect::getCountryUID($country);
         }
 
-        $this->additionalConditionsUIDs = [];
+        $this->additionalConditions = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
-            //$this->additionalConditionsUIDs[] = AlphaDirect::getAdditionalConditionUID($additionalCondition);
-            if ((string)$additionalCondition['accept'] === 'true') {
-                $this->additionalConditionsUIDs[] = AlphaDirect::getAdditionalConditionUID($additionalCondition['name']);
+            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] === 'true') {
+                $this->additionalConditions[] = AlphaDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
 
         $this->risks = [];
         foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if ((string)$risk['accept'] === 'true') {
-                $this->currency = $risk['amountCurrency'] ?? $request['radio_currency'];
+            if (array_key_exists('accept', $risk) && (string)$risk['accept'] === 'true') {
                 $this->risks[] = [
-                    'riskUID' => AlphaDirect::getRiskUID($risk['name']),
+                    'riskUID' => AlphaDirect::getRiskUID($risk['name']) ?? $risk['name'],
                     'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $this->currency
+                    'amountCurrency' => $risk['amountCurrency'] ?? $request['radio_currency']
                 ];
             }
         }
@@ -88,8 +81,8 @@ class AlphaCalcParams
                     ],
                     'insureds' => $this->insureds,
                     'risks' => $this->risks,
-                    'countryUIDs' => $this->countryUIDs,
-                    'additionalConditions' => $this->additionalConditionsUIDs
+                    'countryUIDs' => $this->countries,
+                    'additionalConditions' => $this->additionalConditions
                 ]
 
             ]
