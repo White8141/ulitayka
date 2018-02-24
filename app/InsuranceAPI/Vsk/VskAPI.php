@@ -19,7 +19,7 @@ class VskAPI
      * Метод отправки soap-запрса принимает метод и параметры, возвращает массив с ответом
      */
 
-    private static function soapRequest($method, $params)
+    private static function soaqwepRequest($method, $params)
     {
         try {
             $client = new \SoapClient(self::$wsdl, array('trace' => 1));
@@ -34,24 +34,23 @@ class VskAPI
         //return $request;
     }
 
-    public static function calculate($calcParams)
+    public static function calculate($calcParams, $method = 'Calc2')
     {
-        $method = 'Calc2';
-
         try {
             $client = new \SoapClient(self::$wsdl, array('trace' => 1));
 
             $result = @$client->__soapCall($method, $calcParams);
-            $request = @$client->__getLastRequest();
+            //$request = @$client->__getLastRequest();
 
         }
         catch (\SoapFault $e) {
             return 'Error';
         }
 
-        return self::sortData($result->Calc2Result ?? null);
+        $resp = $method.'Result';
+        return self::sortData($result->$resp ?? null);
         //return $result;
-        //return $request;
+        return $result;
     }
     
     /**
@@ -173,11 +172,11 @@ class VskAPI
                     ]
             ]
         ];
-        //$xmlResult =  self::soapRequest($method, $params);
-        $xmlResult = '';
+        $xmlResult =  self::soapRequest($method, $params);
+        //$xmlResult = 'Test Message';
 
-        return self::sortData($xmlResult);
-        //return json_encode($xmlResult);
+        //return self::sortData($xmlResult);
+        return json_encode($xmlResult);
     }
 
     /**

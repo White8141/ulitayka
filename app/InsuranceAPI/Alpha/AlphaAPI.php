@@ -46,6 +46,17 @@ class AlphaAPI
         
     }
 
+    public static function buyPolice($calcParams)
+    {
+        $method = 'NewPolicty';
+        $responce = self::soapRequest($method, $calcParams);
+
+        //($responce);
+        //return('Error buy');
+        return $responce;
+
+    }
+
     /**
      * Метод получения доступных агенту программ страхования
      */

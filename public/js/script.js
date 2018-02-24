@@ -884,13 +884,13 @@ function collectData () {
     args += '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
             '&risks[0][accept]=true&risks[0][amountAtRisk]=' + medical_amount +
             '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
-            '&risks[1][accept]=' + document.querySelector('#additional_public').checked + '&risks[1][amountAtRisk]=' + public_amount +
+            '&risks[1][accept]=' + document.querySelector('#additional_public').value + '&risks[1][amountAtRisk]=' + public_amount +
             '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
-            '&risks[2][accept]=' + document.querySelector('#additional_cancel').checked + '&risks[2][amountAtRisk]=' + cancel_amount +
+            '&risks[2][accept]=' + document.querySelector('#additional_cancel').value + '&risks[2][amountAtRisk]=' + cancel_amount +
             '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
-            '&risks[3][accept]=' + document.querySelector('#additional_accident').checked + '&risks[3][amountAtRisk]=' + accident_amount +
+            '&risks[3][accept]=' + document.querySelector('#additional_accident').value + '&risks[3][amountAtRisk]=' + accident_amount +
             '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
-            '&risks[4][accept]=' + document.querySelector('#additional_laggage').checked + '&risks[4][amountAtRisk]=' + laggage_amount;
+            '&risks[4][accept]=' + document.querySelector('#additional_laggage').value + '&risks[4][amountAtRisk]=' + laggage_amount;
     //дополнительные условия страхования
     args += '&additionalConditions[0][name]=leisure&additionalConditions[0][accept]=' + document.querySelector('#additionalConditions0').value +
             '&additionalConditions[1][name]=competition&additionalConditions[1][accept]=' + document.querySelector('#additionalConditions1').value +

@@ -312,7 +312,7 @@
                             случаев</label>
                         <br>
                         <div class="margined">
-                            <input name="risks[3][name]"  value="accidient" hidden/>
+                            <input name="risks[3][name]"  value="accident" hidden/>
                             <p class="margin_bottom5">На все время путешествия</p>
                             <input type="radio" checked value="1000" name="risks[3][amountAtRisk]" id="radio_accident_1000" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                    class="check_and_radio" disabled><label for="radio_accident_1000" class="margined_text"

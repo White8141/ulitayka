@@ -47,7 +47,7 @@ class CalcController extends Controller
     public function police_buy()
     {
         //dd ($this->request->all());
-        return view('police_done')->with([ 'details' => $this->insuranceCalc->getInsuranceBuy($this->request, 'alpha', true)]);
+        return view('police_done')->with([ 'details' => $this->insuranceCalc->getInsuranceBuy($this->request, true)]);
         //dd($this->insuranceCalc->getInsuranceBuy($this->request, 'alpha', false));
         
     }

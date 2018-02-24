@@ -20,7 +20,7 @@ class InsuranceCalc
     {
         $result = [];
 
-        $alpha = $this->getAlphaCalc($request) ?? null;
+       /*$alpha = $this->getAlphaCalc($request) ?? null;
         //print_r($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = [
@@ -31,10 +31,10 @@ class InsuranceCalc
                     'info' => $alpha->common->assistancePhones
                 ]
             ];
-        }
+        }*/
 
         $vsk = $this->getVskCalc($request) ?? null;
-        //dd($vsk);
+        print_r($vsk);
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result['vsk'] = [
                 'card' => 'vskCard',
@@ -74,7 +74,7 @@ class InsuranceCalc
     public function getVskCalc($request)
     {
         $calcParams = new VskCalcParams($request->all());
-        return VskAPI::calculate($calcParams->getCalcParams('Calc2'));
+        return VskAPI::calculate($calcParams->getCalcParams(), 'Calc2');
         //return $calcParams->getCalcParams('Calc2');
     }
 
@@ -89,14 +89,40 @@ class InsuranceCalc
     {
         $result = [];
         //dd($request->all());
-        //dd('Error!!!');
 
-        $alpha = $this->getAlphaBuy($request) ?? null;
-        //dd($alpha);
-        if (!is_null($alpha)) {
-            $result['alpha'] = $alpha;
+        switch ($request['companyId']) {
+            case 'alpha':
+                $alpha = $this->getAlphaBuy($request) ?? null;
+                //dd($alpha);
+                if (!is_null($alpha)) {
+                    $result['alpha'] = [
+                        'card' => 'alphaCard',
+                        'prem' => $alpha->common->premRUR,
+                        'assistance' => [
+                            'name' => $alpha->common->assistanceName,
+                            'info' => $alpha->common->assistancePhones
+                        ]
+                    ];
+                }
+                break;
+            case 'vsk':
+                $vsk = $this->getVskBuy($request) ?? null;
+                dd($vsk);
+                if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
+                    $result['vsk'] = [
+                        //'card' => 'vskCard',
+                        //'card' => $vsk,
+                        'prem' => $vsk['1. Премия RUR'],
+                        'assistance' => [
+                            'name' => 0,
+                            'info' => 0
+                        ]
+                    ];
+                }
+                break;
+
         }
-        
+
         return $isJson ? json_encode($result) : $result;
     }
 
@@ -104,11 +130,17 @@ class InsuranceCalc
     {
         $calcParams = new AlphaCalcParams($request->all());
 
-        //return $calcParams->getCalcParams('Create');
-        return AlphaAPI::calculate($calcParams->getCalcParams('Create'));
+        //return $calcParams->getCalcParams('Calculate');
+        return AlphaAPI::buyPolice($calcParams->getCalcParams('Create'));
 
+    }
 
-
+    public function getVskBuy($request)
+    {
+        $calcParams = new VskCalcParams($request->all());
+        //return VskAPI::calculate($calcParams->getCalcParams(), 'CreatePolicy');
+        //return VskAPI::getAdditionalConditions();
+        return $calcParams->getCalcParams('CreatePolicy');
     }
 
     /*public function getData($request) {

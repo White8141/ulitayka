@@ -60,19 +60,19 @@ class VskCalcParams
 
         $this->risks = [];
         foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if ((string)$risk['accept'] === 'true') {
+            if (array_key_exists('accept', $risk) && (string)$risk['accept'] === 'true') {
                 $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),
                     'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0] ?? 'SCHENGEN'),
                     'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $risk['amountCurrency']
+                    'amountCurrency' => $risk['amountCurrency'] ?? $request['radio_currency']
                 ];
             }
         }
 
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
-            if ((string)$additionalCondition['accept'] === 'true') {
+            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] === 'true') {
                 $this->additionalConditionsUIDs[] = VskDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
@@ -94,8 +94,32 @@ class VskCalcParams
                                         'content' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8'
                                     ],
                                     [
+                                        'tag' => 'AddressTel',
+                                        'content' => 'CCCP +375 123-123-123'
+                                    ],
+                                    [
+                                        'tag' => 'PolicyNumber'
+                                        //'content' => ''
+                                    ],
+                                    [
+                                        'tag' => 'InsuranceProgrammId'
+                                        //'content' => ''   InsuranceProgrammId
+                                    ],
+                                    [
+                                        'tag' => 'UsdRate'
+                                        //'content' => ''
+                                    ],
+                                    [
+                                        'tag' => 'EurRate'
+                                        //'content' => ''
+                                    ],
+                                    [
+                                        'tag' => 'AdditionalCondition',
+                                        'content' => '8cd88f7f-fa17-41bf-a214-379baa90598d'
+                                    ],
+                                    [
                                         'tag' => 'DtCreated',
-                                        'content' => date("d.m.Y")
+                                        'content' => date("24.02.2018")
                                     ],
                                     [
                                         'tag' => 'PolicyPeriodFrom',
@@ -141,7 +165,7 @@ class VskCalcParams
 
     }
 
-    public function getCalcParams($operation)
+    public function getCalcParams()
     {
         $insureds = [];
         $risks = [];

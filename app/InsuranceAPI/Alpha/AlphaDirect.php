@@ -195,7 +195,7 @@ class AlphaDirect
         'medical' => '4315533d-e4b2-4609-b4e4-df598cdd9705',
         'public' => '22e49815-4f76-4b84-a655-a9c19424c4b7',
         'cancel' => 'e041e5b7-6567-4210-8702-6a29e3fef229',
-        'accidient' => '1d71999c-be21-4bc9-a55d-d6af8129c3bf',
+        'accident' => '1d71999c-be21-4bc9-a55d-d6af8129c3bf',
         'property' => '6c37f82b-82a0-4ceb-8af6-d7f3e8c752f3',
         'laggage' => '9f1bbb12-e28d-4f36-92ba-ecf225af967e',
     ];
