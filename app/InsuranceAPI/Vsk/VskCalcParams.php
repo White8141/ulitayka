@@ -98,20 +98,20 @@ class VskCalcParams
                                         'content' => 'CCCP +375 123-123-123'
                                     ],
                                     [
-                                        'tag' => 'PolicyNumber'
-                                        //'content' => ''
+                                        'tag' => 'PolicyNumber',
+                                        'content' => ''
                                     ],
                                     [
-                                        'tag' => 'InsuranceProgrammId'
-                                        //'content' => ''   InsuranceProgrammId
+                                        'tag' => 'InsuranceProgrammId',
+                                        'content' => ''//   InsuranceProgrammId
                                     ],
                                     [
-                                        'tag' => 'UsdRate'
-                                        //'content' => ''
+                                        'tag' => 'UsdRate',
+                                        'content' => ''
                                     ],
                                     [
-                                        'tag' => 'EurRate'
-                                        //'content' => ''
+                                        'tag' => 'EurRate',
+                                        'content' => ''
                                     ],
                                     [
                                         'tag' => 'AdditionalCondition',
@@ -180,6 +180,10 @@ class VskCalcParams
                     [
                         'tag' => 'DateOfBirth',
                         'content' => $insured['DateOfBirth']
+                    ],
+                    [
+                        'tag' => 'Passport',
+                        'content' => ''
                     ]
                 ]
             ];

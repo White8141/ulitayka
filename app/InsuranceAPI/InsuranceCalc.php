@@ -34,7 +34,7 @@ class InsuranceCalc
         }*/
 
         $vsk = $this->getVskCalc($request) ?? null;
-        print_r($vsk);
+        //dd($vsk);
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result['vsk'] = [
                 'card' => 'vskCard',
@@ -107,18 +107,8 @@ class InsuranceCalc
                 break;
             case 'vsk':
                 $vsk = $this->getVskBuy($request) ?? null;
-                dd($vsk);
-                if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
-                    $result['vsk'] = [
-                        //'card' => 'vskCard',
-                        //'card' => $vsk,
-                        'prem' => $vsk['1. Премия RUR'],
-                        'assistance' => [
-                            'name' => 0,
-                            'info' => 0
-                        ]
-                    ];
-                }
+                //dd($vsk);
+                
                 break;
 
         }
@@ -129,18 +119,27 @@ class InsuranceCalc
     public function getAlphaBuy($request)
     {
         $calcParams = new AlphaCalcParams($request->all());
-
-        //return $calcParams->getCalcParams('Calculate');
         return AlphaAPI::buyPolice($calcParams->getCalcParams('Create'));
+        //return $calcParams->getCalcParams('Calculate');
 
     }
 
     public function getVskBuy($request)
     {
         $calcParams = new VskCalcParams($request->all());
-        //return VskAPI::calculate($calcParams->getCalcParams(), 'CreatePolicy');
-        //return VskAPI::getAdditionalConditions();
-        return $calcParams->getCalcParams('CreatePolicy');
+        $policeResult = VskAPI::calculate($calcParams->getCalcParams(), 'CreatePolicy');
+        //return $calcParams->getCalcParams('CreatePolicy');
+        if (!is_null($policeResult) && isset($policeResult['1. Полис создан'])) {
+            $result['vsk'] = [
+                'policeId' => $policeResult['1. Полис создан']
+            ];
+            $policeData = VskAPI::getPoliceData($calcParams->getCalcParams());
+            if (!is_null($policeData)) {
+                $result['vsk'] = [
+                    'policeId' => $policeData
+                ];
+            }
+        }
     }
 
     /*public function getData($request) {
