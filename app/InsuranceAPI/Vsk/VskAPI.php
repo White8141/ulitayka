@@ -58,36 +58,28 @@ class VskAPI
      * @param string $method
      * @return mixed|string
      */
-    public static function getPoliceData($calcParams, $policyNumber)
+    public static function getPoliceData($policyNumber)
     {
         $method = 'GetPrintForm';
         $params = [
-            [
-                'parameters' =>
-                    [
-                        'OrganizationId' => self::$organizationId,
-                        'CountryTypeId' => '8d98d27c-3202-492e-81ba-d5fe6f0bbc7c',
-                        'PolicyNumber' => $policyNumber
-                    ]
-            ]
+            'parameters' =>
+                [
+                    'PolicyNumber' => $policyNumber,
+                    'rid' => 3
+                ]
         ];
 
-        //$xmlResult =  self::soapRequest($method, $params);
-
         try {
-            $client = new \SoapClient(self::$asmx, array('trace' => 1));
+            $client = new \SoapClient('https://newtravel.vsk.ru/test/Front/ExternalWebServices/Policy.asmx?wsdl', array('trace' => 1));
 
-            $result = @$client->__soapCall($method, $calcParams);
+            $result = @$client->__soapCall($method, $params);
             //$request = @$client->__getLastRequest();
-
-        }
-        catch (\SoapFault $e) {
-            return 'Error';
+        } catch (\SoapFault $e) {
+            return $params;
         }
 
         $resp = $method.'Result';
-        //return self::sortData($result->$resp ?? null);
-        return $result;
+        return $result->$resp ?? null;
     }
     
     /**

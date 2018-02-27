@@ -107,8 +107,13 @@ class InsuranceCalc
                 break;
             case 'vsk':
                 $vsk = $this->getVskBuy($request) ?? null;
-                //dd($vsk);
-                
+                dd($vsk);
+                if (!is_null($vsk)) {
+                    $result['vsk'] = [
+                        'card' => 'vskCard',
+                        'data' => $vsk
+                    ];
+                }
                 break;
 
         }
@@ -130,16 +135,15 @@ class InsuranceCalc
         $policeResult = VskAPI::calculate($calcParams->getCalcParams(), 'CreatePolicy');
         //return $calcParams->getCalcParams('CreatePolicy');
         if (!is_null($policeResult) && isset($policeResult['1. Полис создан'])) {
-            $result['vsk'] = [
-                'policeId' => $policeResult['1. Полис создан']
-            ];
-            $policeData = VskAPI::getPoliceData($calcParams->getCalcParams());
-            if (!is_null($policeData)) {
+            $policeData = VskAPI::getPoliceData($policeResult['1. Полис создан']);
+            /*if (!is_null($policeData)) {
                 $result['vsk'] = [
-                    'policeId' => $policeData
+                    'policeData' => $policeData
                 ];
-            }
+            }*/
         }
+        return $policeData;
+
     }
 
     /*public function getData($request) {
