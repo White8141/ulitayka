@@ -60,7 +60,6 @@ class VskAPI
      */
     public static function getPoliceData($policyNumber)
     {
-        $method = 'GetPrintForm';
         $params = [
             'parameters' =>
                 [
@@ -72,14 +71,26 @@ class VskAPI
         try {
             $client = new \SoapClient('https://newtravel.vsk.ru/test/Front/ExternalWebServices/Policy.asmx?wsdl', array('trace' => 1));
 
-            $result = @$client->__soapCall($method, $params);
+            $result = @$client->__soapCall('GetPrintForm', $params);
             //$request = @$client->__getLastRequest();
         } catch (\SoapFault $e) {
-            return $params;
+            return $e;
+        }
+        //return $result->GetPrintFormResult ?? null;
+
+        if (isset($result->GetPrintFormResult)) {
+            $pdf = fopen ('/var/www/u0390786/data/www/ulitayka.ru/public/policy/'.$policyNumber.'.pdf','w');
+            fwrite ($pdf, $result->GetPrintFormResult);
+            fclose ($pdf);
+
+            return [
+                'policyLink' => 'https://ulitayka.ru/policy/'.$policyNumber.'.pdf'
+            ];
+        } else {
+            return null;
         }
 
-        $resp = $method.'Result';
-        return $result->$resp ?? null;
+
     }
     
     /**

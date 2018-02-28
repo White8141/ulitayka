@@ -53,7 +53,7 @@ class AlphaAPI
 
         //($responce);
         //return('Error buy');
-        return $responce;
+        return $responce->NewPolictyResult ?? null;
 
     }
 

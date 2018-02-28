@@ -8,7 +8,13 @@
 
     <div class="container">
 
-        <div id="succesfull">
+        <br>
+        <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
+
+        <img src="img/logo-{{ $companyId }}.png" alt="" class="center-block">
+
+
+        <div id="succesfull" style="display: none">
 
             <div class="text-center block-flex-hh">
                 <h1>
@@ -46,7 +52,7 @@
 @section('script')
 <script>
 
-    viewDone('{!! $details !!}');
+    viewDone('{!! $details !!}', '{!! $companyId !!}');
 
 </script>
 @stop

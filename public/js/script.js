@@ -466,7 +466,6 @@ const sendCalc = (cardId) => {
 
     var tempForm = document.forms.form_calc;
     tempForm.companyId.value = cardId;
-    //tempForm.companyURL.value = 'img/logo-' + cardId + '.png';
     tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
     tempForm.submit();
 };
@@ -555,7 +554,8 @@ const setDetailsDefaultData = (defaultData, csrf) => {
                         break;
                     case 'cancel':
                         document.querySelector('#additional_cancel').checked = true;
-                        tempObj = document.getElementsByName('cancel');
+                        document.getElementsByName('risks[2][accept]')[0].value = true;
+                        tempObj = document.getElementsByName('risks[2][amountAtRisk]');
                         tempObj.forEach(function (item) {
                             item.disabled = false;
                         });
@@ -563,7 +563,8 @@ const setDetailsDefaultData = (defaultData, csrf) => {
                         break;
                     case 'accidient':   //сумма страховки от несчастных случаев
                         document.querySelector('#additional_accident').checked = true;
-                        tempObj = document.getElementsByName('accident');
+                        document.getElementsByName('risks[3][accept]')[0].value = true;
+                        tempObj = document.getElementsByName('risks[3][amountAtRisk]');
                         tempObj.forEach(function (item) {
                             item.disabled = false;
                         });
@@ -571,7 +572,8 @@ const setDetailsDefaultData = (defaultData, csrf) => {
                         break;
                     case 'laggage': //сумма страховки багажа
                         document.querySelector('#additional_laggage').checked = true;
-                        tempObj = document.getElementsByName('laggage');
+                        document.getElementsByName('risks[4][accept]')[0].value = true;
+                        tempObj = document.getElementsByName('risks[4][amountAtRisk]');
                         tempObj.forEach(function (item) {
                             item.disabled = false;
                         });
@@ -617,8 +619,8 @@ const chDetails = (url, csrf) => {
 };
 
 // Обновляем блок с деталями полиса (ценой)
-const updDetails = response => {
-    response = JSON.parse(response);
+const updDetails = (defaultData, company) => {
+    response = JSON.parse(defaultData);
 
     var companyId = document.querySelector('#companyId').value;
     if (response.hasOwnProperty(companyId) && response[companyId].hasOwnProperty('prem')) {
@@ -653,27 +655,28 @@ const sendDetails = () => {
         }
     }
     if (checked) {
+        console.log ('Form submit');
         tempForm.submit();
     } else {
         console.log ('Form error');
     }
-    console.log ('Form submit');
+
 };
 
 // Отображаем блок с деталями купленного полиса полиса (ссылка на готовый полис в pdf)
 const viewDone = response => {
     response = JSON.parse(response);
 
-    if ('alpha' in response) {
+    var companyId = document.querySelector('#companyId').value;
+    if (response.hasOwnProperty(companyId) && response[companyId].hasOwnProperty('policyLink')) {
         document.querySelector('#succesfull').style.display = 'block';
         document.querySelector('#wrong').style.display = 'none';
-        document.querySelector('.police_link a').innerHTML = response['alpha']['common']['policyLink'];
-        document.querySelector('.police_link a').href = response['alpha']['common']['policyLink'];
+        document.querySelector('.police_link a').innerHTML = response[companyId]['policyLink'];
+        document.querySelector('.police_link a').href = response[companyId]['policyLink'];
     } else {
         document.querySelector('#succesfull').style.display = 'none';
         document.querySelector('#wrong').style.display = 'block';
     }
-
 
     console.log ('Done Parse');
     //console.log(response);
