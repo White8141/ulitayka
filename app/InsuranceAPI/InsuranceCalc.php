@@ -119,7 +119,21 @@ class InsuranceCalc
                     ];
                 }
                 break;
-
+            case 'advant':
+                $advant = $this->getAdvantBuy($request) ?? null;
+                //dd($advant);
+                if (!is_null($advant)) {
+                    $result['advant'] = [
+                        'card' => 'advantCard',
+                        'policyLink' => 'policyLink',
+                        'data' => $advant,
+                        'assistance' => [
+                            'name' => '',
+                            'info' => ''
+                        ]
+                    ];
+                }
+                break;
         }
 
         return $isJson ? json_encode($result) : $result;
@@ -143,6 +157,13 @@ class InsuranceCalc
 
     }
 
+    public function getAdvantBuy($request)
+    {
+        $calcParams = new AdvantCalcParams($request->all());
+        return AdvantAPI::calculate($calcParams->getCalcParams());
+        //return $calcParams->getCalcParams();
+    }
+    
     public function getInsuranseData($request)
     {
         $calcParams = new VskCalcParams($request->all());

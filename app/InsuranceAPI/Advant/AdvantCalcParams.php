@@ -54,7 +54,7 @@ class AdvantCalcParams
 
         $this->insureds = [];
         foreach ($request['travelers'] as $traveler) {
-            if (isset($traveler['accept']) && $traveler['accept'] === 'true')
+            if (array_key_exists('accept', $traveler) && $traveler['accept'] === 'true')
 
                 $this->insureds[] = [
                     'age' => $traveler['age'] ?? '30'
@@ -70,7 +70,7 @@ class AdvantCalcParams
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
             //$this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition);
-            if ((string)$additionalCondition['accept'] === 'true') {
+            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] === 'true') {
                 $this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
@@ -84,27 +84,27 @@ class AdvantCalcParams
 
         $this->risks = [];
         foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if ((string)$risk['accept'] === 'true') {
+            if (array_key_exists('accept', $risk) && (string)$risk['accept'] === 'true') {
                 switch ((string)$risk['name']) {
                     case 'medical':
                         $this->medical = [
                             'insurance_plan' => '54748',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
                         ];
                         break;
                     case 'public':
                         $this->public = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
                         ];
                         break;
                     case 'cancel':
                         $this->cancel = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
                         ];
                         break;
                     //
@@ -112,14 +112,14 @@ class AdvantCalcParams
                         $this->accident = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
                         ];
                         break;
                     case 'laggage':
                         $this->laggage = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency']),
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency']),
                             'accomodation' => 1
                         ];
                         break;
@@ -128,7 +128,7 @@ class AdvantCalcParams
                 $this->risks[] = [
                     'riskUID' => AdvantDirect::getRiskUID($risk['name']),
                     'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $risk['amountCurrency']
+                    'amountCurrency' => $risk['amountCurrency'] ?? $request['radio_currency']
                 ];
             }
         }
