@@ -79,12 +79,12 @@ class VskAPI
         //return $result->GetPrintFormResult ?? null;
 
         if (isset($result->GetPrintFormResult)) {
-            $pdf = fopen (public_path('policy/'.$policyNumber.'.pdf'),'w');
+            $pdf = fopen (public_path('policy/vsk/'.$policyNumber.'.pdf'),'w');
             fwrite ($pdf, $result->GetPrintFormResult);
             fclose ($pdf);
 
             return [
-                'policyLink' => public_path('policy/'.$policyNumber.'.pdf')
+                'policyLink' => 'https://ulitayka.ru/policy/vsk/'.$policyNumber.'.pdf'
             ];
         } else {
             return null;

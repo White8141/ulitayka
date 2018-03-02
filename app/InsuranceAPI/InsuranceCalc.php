@@ -52,6 +52,7 @@ class InsuranceCalc
             $result['advant'] = [
                 'logo' => 'advantCard',
                 'prem' => $advant[0]->variables->S,
+                'policeId' => $advant[0]->id,
                 'assistance' => [
                     'name' => 0,
                     'info' => 0
@@ -125,8 +126,8 @@ class InsuranceCalc
                 if (!is_null($advant)) {
                     $result['advant'] = [
                         'card' => 'advantCard',
-                        'policyLink' => 'policyLink',
-                        'data' => $advant,
+                        'policyLink' => $advant['url'],
+                        //'data' => $advant,
                         'assistance' => [
                             'name' => '',
                             'info' => ''
@@ -160,7 +161,7 @@ class InsuranceCalc
     public function getAdvantBuy($request)
     {
         $calcParams = new AdvantCalcParams($request->all());
-        return AdvantAPI::calculate($calcParams->getCalcParams());
+        return AdvantAPI::calculate($calcParams->getCalcParams(), true);
         //return $calcParams->getCalcParams();
     }
     

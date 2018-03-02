@@ -21,6 +21,7 @@
                     {{ csrf_field() }}
 
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
+                    <input name="policeId" id="policeId" value="0" type="hidden" />
 
                     <img src="img/logo-{{ $companyId }}.png" alt="" class="center-block">
 

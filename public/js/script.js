@@ -446,6 +446,7 @@ const updCalc = response => {
     for ( let i = 0; i < cards.length; i++) {
         let id = cards[i].getAttribute('id');
         if(response[id] && response[id]['prem'] != '0.00') {
+            if ('policeId' in response[id]) { console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId'])}
             console.log('API ' + id + ', cost ' + response[id]['prem']);
             cards[i].style.display = 'block';
             document.querySelector('#dis_' + id).style.display = 'none';

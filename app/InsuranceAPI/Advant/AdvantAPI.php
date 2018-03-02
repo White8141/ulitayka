@@ -133,7 +133,7 @@ class AdvantAPI
     /**
      * Запрос на рассчет и получение тарифов и стоимостей
      */
-    public static function calculate($options)
+    public static function calculate($options, $getPolicyForm = false)
     {
         self::getToken();
 
@@ -157,44 +157,48 @@ class AdvantAPI
             $str = $resp1[0]->variables->S;
             $pos = strpos($str, '.');
             $resp1[0]->variables->S = substr($str, 0, $pos + 3);
-            return $resp1;
-        } else {
+            //return $resp1;
+        }/* else {
             return null;
-        }
+        }*/
 
-        //Получение идентификатора полиса для дальнейшей работы с ним
-        /*if (isset($resp1[0]->id)) {
-            $options = [
-                'external_id' =>  null,
-                'valid_from' => '2018-03-03T00:00',
-                'valid_to' => '2018-03-07T23:59',
-                'result' => $resp1[0]->id,
-                //'policy_id' => 1655,
-                'insured_object' => 3825
+        if ($getPolicyForm) {
 
-            ];
-            $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
+            //Получение идентификатора полиса для дальнейшей работы с ним
+            if (isset($resp1[0]->id)) {
+                $options = [
+                    'external_id' =>  null,
+                    'valid_from' => '2018-03-03T00:00',
+                    'valid_to' => '2018-03-07T23:59',
+                    'result' => $resp1[0]->id,
+                    'insured_object' => 3825
+
+                ];
+                $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
+            } else {
+                return ['error1: ' => $resp1];
+            }
+
+            //Получение печатной формы полиса
+            if (isset($resp2->id)) {
+                $options = [
+                    'result' => $resp2->id,
+                    'is_cash' => true
+                ];
+                $url3 = '/policy/rest/result_policy/'.$resp2->id.'/print/';
+                $resp3 = self::makePostRequest($url3, $options);
+            } else {
+                return ['error2: ' => $resp2];
+            }
+
+            return (['url' => self::$wsdl.$resp3->documents[0]->url,
+
+                    ]);
+            //return $resp3;
         } else {
-            return ['error1: ' => $resp1];
+             return $resp1 ?? null;
         }
 
-        //Получение печатной формы полиса
-        if (isset($resp2->id)) {
-            $options = [
-                'result' => $resp2->id,
-                'is_cash' => true
-            ];
-            $url3 = '/policy/rest/result_policy/'.$resp2->id.'/print/';
-            $resp3 = self::makePostRequest($url3, $options);
-        } else {
-            return ['error2: ' => $resp2];
-        }
-
-        return (['/rest/full/calculation/' => $resp0,
-                  $url1 => $resp1,
-                 '/policy/rest/result_policy/'.$resp1[0]->id => $resp2,
-                  $url3 => $resp3
-                ]);*/
     }
 
     /**

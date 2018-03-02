@@ -48,7 +48,7 @@ class AdvantCalcParams
         $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
 
         $this->client = [
-            'name' => 'Testov Petr'
+            'name' => 'test policy'
         ];
 
 
@@ -138,6 +138,7 @@ class AdvantCalcParams
     public function getCalcParams()
     {
         return [
+            //'test' => $isTest,
             'is_multiple_policy' => false,
             'valid_from' => $this->policyPeriodFrom,
             'valid_to' => $this->policyPeriodTill,
