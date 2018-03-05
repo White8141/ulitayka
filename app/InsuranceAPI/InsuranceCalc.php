@@ -82,7 +82,7 @@ class InsuranceCalc
     public function getAdvantCalc($request)
     {
         $calcParams = new AdvantCalcParams($request->all());
-        return AdvantAPI::calculate($calcParams->getCalcParams());
+        return AdvantAPI::calculate($calcParams->getCalcParams($request->all()));
     }
 
 
@@ -122,7 +122,7 @@ class InsuranceCalc
                 break;
             case 'advant':
                 $advant = $this->getAdvantBuy($request) ?? null;
-                dd($advant);
+                //dd($advant);
                 if (!is_null($advant)) {
                     $result['advant'] = [
                         'card' => 'advantCard',
@@ -161,8 +161,8 @@ class InsuranceCalc
     public function getAdvantBuy($request)
     {
         $calcParams = new AdvantCalcParams($request->all());
-        //return $calcParams;
-        return AdvantAPI::buyPolicy($calcParams->getBuyParams());
+        //return $calcParams->getBuyParams($request->all());
+        return AdvantAPI::buyPolicy($calcParams->getBuyParams($request->all()));
 
     }
     

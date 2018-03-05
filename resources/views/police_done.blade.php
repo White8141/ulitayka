@@ -22,7 +22,7 @@
                 </h1>
             </div>
 
-            <p class="police_link">Ваш полис в электронном виде: <a></a></p>
+            <p class="police_link">Ваш полис в электронном виде: <a target="_blank"></a></p>
 
         </div>
 

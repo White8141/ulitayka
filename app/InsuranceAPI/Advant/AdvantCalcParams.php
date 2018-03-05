@@ -31,9 +31,19 @@ class AdvantCalcParams
 
     function __construct($request)
     {
+        if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("Y-m-d", strtotime($request['dateFrom'])); }
+        else { $this->policyPeriodFrom = date('Y-m-d'); }
+
+        if (isset($request['dateTill'])) { $this->policyPeriodTill = date("Y-m-d", strtotime($request['dateTill'])); }
+        else { $this->policyPeriodTill = date('Y-m-d', strtotime('+1 month')); }
+
+        $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
+
+    }
+
+    public function getCalcParams($request)
+    {
         $this->request = $request;
-        $this->policyId = $request['policeId'] ?? 0;
-        
 
         $this->additionalConditions = [];
 
@@ -43,18 +53,9 @@ class AdvantCalcParams
         }
         //$this->countries = $request['countries'];
 
-        if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("Y-m-d", strtotime($request['dateFrom'])); }
-        else { $this->policyPeriodFrom = date('Y-m-d'); }
-
-        if (isset($request['dateTill'])) { $this->policyPeriodTill = date("Y-m-d", strtotime($request['dateTill'])); }
-        else { $this->policyPeriodTill = date('Y-m-d', strtotime('+1 month')); }
-
-        $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
-
         $this->client = [
             'name' => 'test policy'
         ];
-
 
         $this->insureds = [];
         foreach ($request['travelers'] as $traveler) {
@@ -129,10 +130,6 @@ class AdvantCalcParams
             }
         }
 
-    }
-
-    public function getCalcParams()
-    {
         return [
             //'test' => $isTest,
             'is_multiple_policy' => false,
@@ -154,11 +151,15 @@ class AdvantCalcParams
         //return $options;
     }
 
-    public function getBuyParams()
+    public function getBuyParams($request)
     {
+        $this->policyId = $request['policeId'] ?? 0;
+
         return [
-            //"policyId" => $this->policyId,
-            "object_type"=>"vzr",
+            'validFrom' => $this->policyPeriodFrom.'T00:00:00',
+            'validTo' => $this->policyPeriodTill.'T23:59:59',
+            "policyId" => $this->policyId,
+
             "person"=>[
                 [
                     "role"=>["insurant"],
@@ -246,12 +247,12 @@ class AdvantCalcParams
                     ]
                 ]
             ],
-            "insurants_vzr"=>[
+            "insurants"=>[
                 [
-                    "first_name"=>"PEKKA",
+                    "first_name"=>"test",
                     "id"=>3885,
-                    "last_name"=>"KEKKONEN",
-                    "birth_date"=>"1943-12-23",
+                    "last_name"=>"policy",
+                    "birth_date"=>"1973-12-23",
                     "international_passport_series_number"=>"11554 5444646",
                     "address"=>[],
                     "contact"=>[],
@@ -259,33 +260,8 @@ class AdvantCalcParams
                         "credential_type"=>18,"number"=>"11554 5444646","external_id"=>238,"series"=>"Нет"
                     ],
                     "external_id"=>5844
-                ],
-                [
-                    "first_name"=>"MARTTI",
-                    "id"=>3886,
-                    "last_name"=>"AKHTISAARI",
-                    "birth_date"=>"1937-06-27",
-                    "international_passport_series_number"=>"5435435 32464326",
-                    "address"=>[],
-                    "contact"=>[],
-                    "credential"=>[
-                        "credential_type"=>18,"number"=>"5435435 32464326","external_id"=>7692,"series"=>"Нет"
-                    ],
-                    "external_id"=>1559
-                ],
-                [
-                    "first_name"=>"SAULE",
-                    "id"=>3887,
-                    "last_name"=>"NIISTE",
-                    "birth_date"=>"1964-09-17",
-                    "international_passport_series_number"=>"5445 4545235",
-                    "address"=>[],
-                    "contact"=>[],
-                    "credential"=>[
-                        "credential_type"=>18,"number"=>"5445 4545235","external_id"=>7089,"series"=>"Нет"
-                    ],
-                    "external_id"=>8736
                 ]
+
             ]
 
         ];

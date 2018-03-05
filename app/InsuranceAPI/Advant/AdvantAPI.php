@@ -209,16 +209,29 @@ class AdvantAPI
         //Получение идентификатора полиса для дальнейшей работы с ним
         $options = [
             'external_id' =>  null,
-            'valid_from' => '2018-03-03T00:00',
-            'valid_to' => '2018-03-07T23:59',
-            'result' => $params->policyId,
+            'valid_from' => $params['validFrom'],
+            'valid_to' => $params['validTo'],
+            'result' => $params['policyId'],
             'insured_object' => 3825
 
         ];
         $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
 
+        //Вносим данные о клиенте
+        /*if (isset($resp2->id)) {
+            $params['person'][0]['external_id'] = $resp2->id;
+            $options = [
+                "object_type"=>"vzr",
+                "person"=>$params['person'],
+                "insurants_vzr"=>$params['insurants']
 
-
+            ];
+            $resp4 = self::makePostRequest('/rest/default/client/insured-object-create', $options);
+        } else {
+            return ['error2: ' => $resp2];
+        }
+        return $resp4;*/
+            
         //Получение печатной формы полиса
         if (isset($resp2->id)) {
             $options = [
@@ -235,6 +248,7 @@ class AdvantAPI
         return (['url' => self::$wsdl.$resp3->documents[0]->url,
 
         ]);
+
     }
     
     /**

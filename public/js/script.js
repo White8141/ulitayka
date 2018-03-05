@@ -484,8 +484,8 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     //var tempVar;
 
     //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
-    if ('policeId' in defaultData) {
-        console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId']);
+    if ('policeId' in defaultData ) {
+        console.log ('У компании ' + defaultData['companyId'] + ' полис номер ' + defaultData['policeId']);
         document.querySelector('#policeId').value = defaultData['policeId'];
     }
 
@@ -667,7 +667,7 @@ const viewDone = response => {
         document.querySelector('#succesfull').style.display = 'block';
         document.querySelector('#wrong').style.display = 'none';
         //document.querySelector('.police_link a').innerHTML = response[companyId]['policyLink'];
-        document.querySelector('.police_link a').innerHTML = 'Click here';
+        document.querySelector('.police_link a').innerHTML = 'Полис.pdf';
         document.querySelector('.police_link a').href = response[companyId]['policyLink'];
     } else {
         document.querySelector('#succesfull').style.display = 'none';
