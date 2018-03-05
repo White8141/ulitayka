@@ -122,7 +122,7 @@ class InsuranceCalc
                 break;
             case 'advant':
                 $advant = $this->getAdvantBuy($request) ?? null;
-                //dd($advant);
+                dd($advant);
                 if (!is_null($advant)) {
                     $result['advant'] = [
                         'card' => 'advantCard',
@@ -149,8 +149,8 @@ class InsuranceCalc
     public function getVskBuy($request)
     {
         $calcParams = new VskCalcParams($request->all());
-        $policeResult = VskAPI::calculate($calcParams->getCalcParams(), 'CreatePolicy');
         //return $calcParams->getCalcParams('CreatePolicy');
+        $policeResult = VskAPI::calculate($calcParams->getCalcParams(), 'CreatePolicy');
         if (!is_null($policeResult) && isset($policeResult['1. Полис создан'])) {
             $policeData = VskAPI::getPoliceData($policeResult['1. Полис создан']);
         }
@@ -161,8 +161,9 @@ class InsuranceCalc
     public function getAdvantBuy($request)
     {
         $calcParams = new AdvantCalcParams($request->all());
-        return AdvantAPI::calculate($calcParams->getCalcParams(), true);
-        //return $calcParams->getCalcParams();
+        return $calcParams->getCalcParams();
+        //return AdvantAPI::buyPolicy($request->all());
+
     }
     
     public function getInsuranseData($request)

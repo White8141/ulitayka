@@ -442,22 +442,28 @@ const chRequest = (url, csrf) => {
 // Обновляем блок со страховкой
 const updCalc = response => {
     response = JSON.parse(response);
+    document.querySelector('#disparity_orange_text').style.display = 'none';
     let cards = document.getElementsByClassName('insCard');
     for ( let i = 0; i < cards.length; i++) {
         let id = cards[i].getAttribute('id');
         if(response[id] && response[id]['prem'] != '0.00') {
-            if ('policeId' in response[id]) { console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId'])}
             console.log('API ' + id + ', cost ' + response[id]['prem']);
             cards[i].style.display = 'block';
             document.querySelector('#dis_' + id).style.display = 'none';
             document.querySelector('#' + id + ' .prem b').innerHTML = response[id]['prem'];
             document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>' + response[id]['assistance']['name'] + '</b><br>' + response[id]['assistance']['info'];
+            //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
+            if ('policeId' in response[id]) {
+                //console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId']);
+                document.querySelector('#policeId').value = response[id]['policeId'];
+            }
+
         } else {
             cards[i].style.display = 'none';
             document.querySelector('#dis_' + id).style.display = 'block';
+            document.querySelector('#disparity_orange_text').style.display = 'block';
         }
     }
-
     console.log ('Insurance Parse');
 
 };
@@ -476,6 +482,12 @@ const setDetailsDefaultData = (defaultData, csrf) => {
 
     defaultData = JSON.parse(defaultData);
     //var tempVar;
+
+    //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
+    if ('policeId' in defaultData) {
+        //console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId']);
+        document.querySelector('#policeId').value = defaultData['policeId'];
+    }
 
     //сначала выделим страны, выбранные в начальной форме
     countryParseWithSelect('details', defaultData, csrf);
@@ -672,7 +684,8 @@ const viewDone = response => {
     if (response.hasOwnProperty(companyId) && response[companyId].hasOwnProperty('policyLink')) {
         document.querySelector('#succesfull').style.display = 'block';
         document.querySelector('#wrong').style.display = 'none';
-        document.querySelector('.police_link a').innerHTML = response[companyId]['policyLink'];
+        //document.querySelector('.police_link a').innerHTML = response[companyId]['policyLink'];
+        document.querySelector('.police_link a').innerHTML = 'Click here';
         document.querySelector('.police_link a').href = response[companyId]['policyLink'];
     } else {
         document.querySelector('#succesfull').style.display = 'none';

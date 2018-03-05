@@ -133,7 +133,7 @@ class AdvantAPI
     /**
      * Запрос на рассчет и получение тарифов и стоимостей
      */
-    public static function calculate($options, $getPolicyForm = false)
+    public static function calculate($options)
     {
         self::getToken();
 
@@ -157,12 +157,12 @@ class AdvantAPI
             $str = $resp1[0]->variables->S;
             $pos = strpos($str, '.');
             $resp1[0]->variables->S = substr($str, 0, $pos + 3);
-            //return $resp1;
-        }/* else {
+            return $resp1;
+        } else {
             return null;
-        }*/
+        }
 
-        if ($getPolicyForm) {
+        /*if ($getPolicyForm) {
 
             //Получение идентификатора полиса для дальнейшей работы с ним
             if (isset($resp1[0]->id)) {
@@ -195,12 +195,46 @@ class AdvantAPI
 
                     ]);
             //return $resp3;
-        } else {
-             return $resp1 ?? null;
-        }
+        }*/
 
     }
 
+    /**
+     * Запрос на обработку, сохранение рассчета и получение ссылки на него
+     */
+    public static function buyPolicy($policyId) {
+
+        self::getToken();
+
+        //Получение идентификатора полиса для дальнейшей работы с ним
+        $options = [
+            'external_id' =>  null,
+            'valid_from' => '2018-03-03T00:00',
+            'valid_to' => '2018-03-07T23:59',
+            'result' => $policyId,
+            'insured_object' => 3825
+
+        ];
+        $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
+
+        //Получение печатной формы полиса
+        if (isset($resp2->id)) {
+            $options = [
+                'result' => $resp2->id,
+                'is_cash' => false
+                //'test' => false,
+            ];
+            $url3 = '/policy/rest/result_policy/'.$resp2->id.'/print/';
+            $resp3 = self::makePostRequest($url3, $options);
+        } else {
+            return ['error2: ' => $resp2];
+        }
+
+        return (['url' => self::$wsdl.$resp3->documents[0]->url,
+
+        ]);
+    }
+    
     /**
      * Запрос справочника валют
      */

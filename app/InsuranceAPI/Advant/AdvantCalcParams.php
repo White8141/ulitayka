@@ -157,4 +157,142 @@ class AdvantCalcParams
 
         //return $options;
     }
+
+    public function getBuyParams()
+    {
+        return [
+            "object_type"=>"vzr",
+            "person"=>[
+                [
+                    "role"=>["insurant"],
+                    "external_id"=>9961,
+                    "natural_person"=>[
+                        "full_name"=>"КЕККОНЕНПЕККА",
+                        "phone"=>"4165416818",
+                        "passport"=>[
+                            "issue_date"=>null,
+                            "creator"=>10583,
+                            "series"=>"11554",
+                            "number"=>"5444646",
+                            "object_id"=>3884,
+                            "issue_point"=>null,
+                            "credential_type"=>1,
+                            "issue_point_code"=>null,
+                            "content_type"=>482,
+                            "expiration_date"=>null,
+                            "external_id"=>5926,
+                            "id"=>9443
+                        ],
+                        "address_registration"=>[
+                            "postal_index"=>null,
+                            "city"=>"Нет",
+                            "apartment"=>null,
+                            "address_date"=>null,
+                            "country"=>null,
+                            "region"=>null,
+                            "creator"=>10583,
+                            "object_id"=>3884,
+                            "street"=>"RF, Saint-Petersburg","flat"=>"Нет",
+                            "kladr"=>null,
+                            "content_type"=>482,
+                            "house"=>"Нет",
+                            "address_type"=>1,
+                            "id"=>3502,
+                            "structure"=>null,
+                            "housing"=>null,
+                            "full"=>"Нет, RF, Saint-Petersburg, д.Нет, Нет"
+                        ],
+                        "citizenship"=>"Финляндия",
+                        "id"=>3884,
+                        "birth_date"=>"1943-12-23",
+                        "first_name"=>"ПЕККА",
+                        "last_name"=>"КЕККОНЕН",
+                        "patronymic"=>"",
+                        "address"=>[
+                            "postal_index"=>null,
+                            "city"=>"Нет",
+                            "apartment"=>null,
+                            "address_date"=>null,
+                            "country"=>null,
+                            "region"=>null,
+                            "creator"=>10583,
+                            "object_id"=>3884,
+                            "street"=>"RF, Saint-Petersburg",
+                            "flat"=>"Нет",
+                            "kladr"=>null,
+                            "content_type"=>482,
+                            "house"=>"Нет",
+                            "address_type"=>1,
+                            "id"=>3502,
+                            "structure"=>null,
+                            "housing"=>null,
+                            "full"=>"Нет, RF, Saint-Petersburg, д.Нет, Нет"
+                        ],
+                        "credential"=>[
+                            "issue_date"=>null,
+                            "creator"=>10583,
+                            "series"=>"11554",
+                            "number"=>"5444646",
+                            "object_id"=>3884,
+                            "issue_point"=>null,
+                            "credential_type"=>1,
+                            "issue_point_code"=>null,
+                            "content_type"=>482,
+                            "expiration_date"=>null,
+                            "external_id"=>5926,
+                            "id"=>9443
+                        ],
+                        "contact"=>[
+                            "contact_type"=>1,"data"=>"4165416818"
+                        ],
+                        "external_id"=>3903
+                    ]
+                ]
+            ],
+            "insurants_vzr"=>[
+                [
+                    "first_name"=>"PEKKA",
+                    "id"=>3885,
+                    "last_name"=>"KEKKONEN",
+                    "birth_date"=>"1943-12-23",
+                    "international_passport_series_number"=>"11554 5444646",
+                    "address"=>[],
+                    "contact"=>[],
+                    "credential"=>[
+                        "credential_type"=>18,"number"=>"11554 5444646","external_id"=>238,"series"=>"Нет"
+                    ],
+                    "external_id"=>5844
+                ],
+                [
+                    "first_name"=>"MARTTI",
+                    "id"=>3886,
+                    "last_name"=>"AKHTISAARI",
+                    "birth_date"=>"1937-06-27",
+                    "international_passport_series_number"=>"5435435 32464326",
+                    "address"=>[],
+                    "contact"=>[],
+                    "credential"=>[
+                        "credential_type"=>18,"number"=>"5435435 32464326","external_id"=>7692,"series"=>"Нет"
+                    ],
+                    "external_id"=>1559
+                ],
+                [
+                    "first_name"=>"SAULE",
+                    "id"=>3887,
+                    "last_name"=>"NIISTE",
+                    "birth_date"=>"1964-09-17",
+                    "international_passport_series_number"=>"5445 4545235",
+                    "address"=>[],
+                    "contact"=>[],
+                    "credential"=>[
+                        "credential_type"=>18,"number"=>"5445 4545235","external_id"=>7089,"series"=>"Нет"
+                    ],
+                    "external_id"=>8736
+                ]
+            ]
+
+        ];
+
+        //return $options;
+    }
 }
