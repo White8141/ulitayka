@@ -161,8 +161,8 @@ class InsuranceCalc
     public function getAdvantBuy($request)
     {
         $calcParams = new AdvantCalcParams($request->all());
-        return $calcParams->getCalcParams();
-        //return AdvantAPI::buyPolicy($request->all());
+        //return $calcParams;
+        return AdvantAPI::buyPolicy($calcParams->getBuyParams());
 
     }
     

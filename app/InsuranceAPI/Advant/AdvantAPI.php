@@ -202,7 +202,7 @@ class AdvantAPI
     /**
      * Запрос на обработку, сохранение рассчета и получение ссылки на него
      */
-    public static function buyPolicy($policyId) {
+    public static function buyPolicy($params) {
 
         self::getToken();
 
@@ -211,11 +211,13 @@ class AdvantAPI
             'external_id' =>  null,
             'valid_from' => '2018-03-03T00:00',
             'valid_to' => '2018-03-07T23:59',
-            'result' => $policyId,
+            'result' => $params->policyId,
             'insured_object' => 3825
 
         ];
         $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
+
+
 
         //Получение печатной формы полиса
         if (isset($resp2->id)) {

@@ -485,7 +485,7 @@ const setDetailsDefaultData = (defaultData, csrf) => {
 
     //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
     if ('policeId' in defaultData) {
-        //console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId']);
+        console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId']);
         document.querySelector('#policeId').value = defaultData['policeId'];
     }
 
@@ -604,25 +604,7 @@ const setDetailsDefaultData = (defaultData, csrf) => {
             if (tempArr[key]['accept'] === 'true') document.querySelector('#additionalConditions' + key).checked = true;
         }
     }
-    if (document.querySelector('#additionalConditions0').checked) {
-        $('#msActiveMain').magicSuggest().enable();
-        $('#msActiveOther').magicSuggest().enable();
-    } else {
-        $('#msActiveMain').magicSuggest().disable();
-        $('#msActiveOther').magicSuggest().disable();
-    }
 
-    if (document.querySelector('#additionalConditions1').checked) {
-        $('#msProfiMain').magicSuggest().enable();
-        $('#msProfiOther').magicSuggest().enable();
-    } else {
-        $('#msProfiMain').magicSuggest().disable();
-        $('#msProfiOther').magicSuggest().disable();
-    }
-
-    /*if ('sport_active' in defaultData && defaultData['sport_active'] == 'on') document.querySelector('#sport_active').checked = true;
-    if ('sport_proffesional' in defaultData && defaultData['sport_proffesional'] == 'on') document.querySelector('#sport_proffesional').checked = true;
-    if ('sport_extreme' in defaultData && defaultData['sport_extreme'] == 'on') document.querySelector('#sport_extreme').checked = true;*/
 }
 
 //Отправка на рассчет деталей полиса

@@ -26,10 +26,14 @@ class AdvantCalcParams
     public $countryUIDs;
     public $additionalConditionsUIDs;
     public $riskUIDs;
+    
+    public $policyId;
 
     function __construct($request)
     {
         $this->request = $request;
+        $this->policyId = $request['policeId'] ?? 0;
+        
 
         $this->additionalConditions = [];
 
@@ -62,11 +66,6 @@ class AdvantCalcParams
 
         }
 
-       /*$this->countryUIDs = [];
-        foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
-            $this->countryUIDs['countryUID'] = AdvantDirect::getCountryUID($country);
-        }*/
-
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
             //$this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition);
@@ -74,7 +73,6 @@ class AdvantCalcParams
                 $this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
-
 
         $this->medical = null;
         $this->public = null;
@@ -107,7 +105,6 @@ class AdvantCalcParams
                             'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
                         ];
                         break;
-                    //
                     case 'accident':
                         $this->accident = [
                             'insurance_plan' => '54747',
@@ -123,7 +120,6 @@ class AdvantCalcParams
                             'accomodation' => 1
                         ];
                         break;
-
                 }
                 $this->risks[] = [
                     'riskUID' => AdvantDirect::getRiskUID($risk['name']),
@@ -161,13 +157,14 @@ class AdvantCalcParams
     public function getBuyParams()
     {
         return [
+            //"policyId" => $this->policyId,
             "object_type"=>"vzr",
             "person"=>[
                 [
                     "role"=>["insurant"],
                     "external_id"=>9961,
                     "natural_person"=>[
-                        "full_name"=>"КЕККОНЕНПЕККА",
+                        "full_name"=>"test policy",
                         "phone"=>"4165416818",
                         "passport"=>[
                             "issue_date"=>null,
@@ -205,8 +202,8 @@ class AdvantCalcParams
                         "citizenship"=>"Финляндия",
                         "id"=>3884,
                         "birth_date"=>"1943-12-23",
-                        "first_name"=>"ПЕККА",
-                        "last_name"=>"КЕККОНЕН",
+                        "first_name"=>"test",
+                        "last_name"=>"policy",
                         "patronymic"=>"",
                         "address"=>[
                             "postal_index"=>null,
