@@ -48,7 +48,7 @@ class AdvantAPI
      * @param $url
      * @return string
      */
-    private static function makeGetRequest($url) {
+    private static function makeGetRequest($url, $isResponceJSON = false) {
 
         try {
             $res = self::$client->get(self::$wsdl.$url, [
@@ -62,7 +62,7 @@ class AdvantAPI
             return json_decode($e->getResponse()->getBody()->getContents());
         }
 
-        return self::sortData($res->getBody()->getContents());
+        return $isResponceJSON ? (json_decode($res->getBody()->getContents())) : self::sortData($res->getBody()->getContents());
     }
 
     /**
@@ -89,6 +89,7 @@ class AdvantAPI
         }
         catch (RequestException $e) {
             return json_decode($e->getResponse()->getBody()->getContents());
+            //return $e->getResponse();
         }
 
         if ($isRespJSON) {
@@ -153,6 +154,7 @@ class AdvantAPI
             return ['error0: ' => $resp0];
         }
 
+        //подправить стоимость, а то у них 4 нуля после запятой
         if (isset($resp1[0]->variables->S)) {
             $str = $resp1[0]->variables->S;
             $pos = strpos($str, '.');
@@ -161,41 +163,6 @@ class AdvantAPI
         } else {
             return null;
         }
-
-        /*if ($getPolicyForm) {
-
-            //Получение идентификатора полиса для дальнейшей работы с ним
-            if (isset($resp1[0]->id)) {
-                $options = [
-                    'external_id' =>  null,
-                    'valid_from' => '2018-03-03T00:00',
-                    'valid_to' => '2018-03-07T23:59',
-                    'result' => $resp1[0]->id,
-                    'insured_object' => 3825
-
-                ];
-                $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
-            } else {
-                return ['error1: ' => $resp1];
-            }
-
-            //Получение печатной формы полиса
-            if (isset($resp2->id)) {
-                $options = [
-                    'result' => $resp2->id,
-                    'is_cash' => true
-                ];
-                $url3 = '/policy/rest/result_policy/'.$resp2->id.'/print/';
-                $resp3 = self::makePostRequest($url3, $options);
-            } else {
-                return ['error2: ' => $resp2];
-            }
-
-            return (['url' => self::$wsdl.$resp3->documents[0]->url,
-
-                    ]);
-            //return $resp3;
-        }*/
 
     }
 
@@ -219,14 +186,15 @@ class AdvantAPI
 
         //Вносим данные о клиенте
         /*if (isset($resp2->id)) {
-            $params['person'][0]['external_id'] = $resp2->id;
+            $params['person'][0]['natural_person']['external_id'] = $resp2->id;
+            $params['person'][0]['natural_person']['id'] = $resp2->id;
             $options = [
                 "object_type"=>"vzr",
                 "person"=>$params['person'],
                 "insurants_vzr"=>$params['insurants']
 
             ];
-            $resp4 = self::makePostRequest('/rest/default/client/insured-object-create', $options);
+            $resp4 = self::makePostRequest('/rest/default/client/insured-object-create', $options, false);
         } else {
             return ['error2: ' => $resp2];
         }
@@ -245,9 +213,16 @@ class AdvantAPI
             return ['error2: ' => $resp2];
         }
 
-        return (['url' => self::$wsdl.$resp3->documents[0]->url,
+        //Получаем данные о полисе
+        /*if (isset($resp2->id)) {
+            $resp5 = self::makeGetRequest('/policy/rest/result_policy/'.$resp2->id.'/', true);
+        } else {
+            return ['error2: ' => $resp2];
+        }
 
-        ]);
+        return $resp5;*/
+
+        return (['url' => self::$wsdl.$resp3->documents[0]->url,]);
 
     }
     
