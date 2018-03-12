@@ -257,7 +257,7 @@ class AdvantCalcParams
                     "address"=>[],
                     "contact"=>[],
                     "credential"=>[
-                        "credential_type"=>18,"number"=>"11554 5444646","external_id"=>238,"series"=>"Нет"
+                        "credential_type"=>18,"number"=>"11554 5444646","external_id"=>238,"series"=>""
                     ],
                     "external_id"=>5844
                 ]
