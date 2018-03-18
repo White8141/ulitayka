@@ -20,7 +20,7 @@ class InsuranceCalc
     {
         $result = [];
 
-        /*$alpha = $this->getAlphaCalc($request) ?? null;
+        $alpha = $this->getAlphaCalc($request) ?? null;
         if (!is_null($alpha)) {
             $result['alpha'] = [
                 'card' => 'alphaCard',
@@ -30,7 +30,7 @@ class InsuranceCalc
                     'info' => $alpha->common->assistancePhones
                 ]
             ];
-        }*/
+        }
 
         $vsk = $this->getVskCalc($request) ?? null;
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
@@ -44,8 +44,8 @@ class InsuranceCalc
             ];
         }
 
-        /*$advant = $this->getAdvantCalc($request);
-        //dd($advant);
+        $advant = $this->getAdvantCalc($request);
+        dd($advant);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result['advant'] = [
                 'logo' => 'advantCard',
@@ -56,7 +56,7 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }*/
+        }
 
         return $isJson ? json_encode($result) : $result;
     }

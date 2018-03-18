@@ -12,6 +12,7 @@ namespace App\InsuranceAPI\Advant;
  */
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 use phpDocumentor\Reflection\Location;
 use phpDocumentor\Reflection\Types\Object_;
@@ -88,8 +89,8 @@ class AdvantAPI
                     ]);
         }
         catch (RequestException $e) {
-            return json_decode($e->getResponse()->getBody()->getContents());
-            //return $e->getResponse();
+            //return json_decode($e->getResponse()->getBody()->getContents());
+            return Psr7\str($e->getResponse());
         }
 
         if ($isRespJSON) {
