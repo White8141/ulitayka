@@ -95,7 +95,7 @@ class VskCalcParams
                                     ],
                                     [
                                         'tag' => 'AddressTel',
-                                        'content' => 'CCCP +375 123-123-123'
+                                        'content' => '5123123123'
                                     ],
                                     [
                                         'tag' => 'PolicyNumber',

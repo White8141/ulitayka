@@ -45,7 +45,7 @@ class InsuranceCalc
         }
 
         $advant = $this->getAdvantCalc($request);
-        dd($advant);
+        //dd($advant);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result['advant'] = [
                 'logo' => 'advantCard',
@@ -74,13 +74,17 @@ class InsuranceCalc
     {
         $calcParams = new VskCalcParams($request->all());
         return VskAPI::calculate($calcParams->getCalcParams(), 'Calc2');
-        //return $calcParams->getCalcParams('Calc2');
+
+        //dd(VskAPI::calculate($calcParams->getCalcParams(), 'Calc2'));
+        //dd($calcParams->getCalcParams('Calc2'));
+
     }
 
     public function getAdvantCalc($request)
     {
         $calcParams = new AdvantCalcParams($request->all());
         return AdvantAPI::calculate($calcParams->getCalcParams($request->all()));
+        //return $calcParams->getCalcParams($request->all());
     }
 
 

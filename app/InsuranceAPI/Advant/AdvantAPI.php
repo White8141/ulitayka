@@ -186,23 +186,22 @@ class AdvantAPI
         $resp2 = self::makePostRequest('/policy/rest/result_policy/', $options);
 
         //Вносим данные о клиенте
-        /*if (isset($resp2->id)) {
+        if (isset($resp2->id)) {
             $params['person'][0]['natural_person']['external_id'] = $resp2->id;
             $params['person'][0]['natural_person']['id'] = $resp2->id;
             $options = [
                 "object_type"=>"vzr",
                 "person"=>$params['person'],
                 "insurants_vzr"=>$params['insurants']
-
             ];
             $resp4 = self::makePostRequest('/rest/default/client/insured-object-create', $options, false);
         } else {
             return ['error2: ' => $resp2];
         }
-        return $resp4;*/
+        return $resp4;
             
         //Получение печатной формы полиса
-        if (isset($resp2->id)) {
+        /*if (isset($resp2->id)) {
             $options = [
                 'result' => $resp2->id,
                 'is_cash' => false
@@ -212,7 +211,7 @@ class AdvantAPI
             $resp3 = self::makePostRequest($url3, $options);
         } else {
             return ['error2: ' => $resp2];
-        }
+        }*/
 
         //Получаем данные о полисе
         /*if (isset($resp2->id)) {
@@ -223,7 +222,7 @@ class AdvantAPI
 
         return $resp5;*/
 
-        return (['url' => self::$wsdl.$resp3->documents[0]->url,]);
+        //return (['url' => self::$wsdl.$resp3->documents[0]->url,]);
 
     }
     

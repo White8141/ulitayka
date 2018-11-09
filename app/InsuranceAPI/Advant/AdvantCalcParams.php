@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: CTAC
- * Date: 08.02.2018
- * Time: 10:52
- */
 
 namespace App\InsuranceAPI\Advant;
 
@@ -31,11 +25,15 @@ class AdvantCalcParams
 
     function __construct($request)
     {
-        if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("Y-m-d", strtotime($request['dateFrom'])); }
+        /*if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("Y-m-d", strtotime($request['dateFrom'])); }
         else { $this->policyPeriodFrom = date('Y-m-d'); }
 
         if (isset($request['dateTill'])) { $this->policyPeriodTill = date("Y-m-d", strtotime($request['dateTill'])); }
-        else { $this->policyPeriodTill = date('Y-m-d', strtotime('+1 month')); }
+        else { $this->policyPeriodTill = date('Y-m-d', strtotime('+1 month')); }*/
+
+        $this->policyPeriodFrom = "2018-12-23";
+        $this->policyPeriodTill = "2018-12-30";
+
 
         $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
 
@@ -62,7 +60,7 @@ class AdvantCalcParams
             if (array_key_exists('accept', $traveler) && $traveler['accept'] === 'true')
 
                 $this->insureds[] = [
-                    'age' => $traveler['age'] ?? '30'
+                    'birth_date' => date('Y-m-d', strtotime('-' . $traveler['age'] . ' year'))  //$traveler['age'] ?? '30'
                 ];
 
         }

@@ -47,11 +47,6 @@
                     </div>
                 </div>
                 <div class=" call_style">
-                    {{--<a class="callback_us" id="myLnk">--}}
-                        {{--<img src="{{ asset('img/top-tel.png') }}" alt="Заказать звонок"><span--}}
-                                {{--class="top_call"> Заказать звонок</span>--}}
-                    {{--</a>--}}
-
                     <div id="myModal" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
