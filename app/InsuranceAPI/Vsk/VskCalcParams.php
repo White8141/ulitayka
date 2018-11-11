@@ -119,15 +119,17 @@ class VskCalcParams
                                     ],
                                     [
                                         'tag' => 'DtCreated',
-                                        'content' => date("24.02.2018")
+                                        'content' => date("11.11.2018")
                                     ],
                                     [
                                         'tag' => 'PolicyPeriodFrom',
-                                        'content' => $this->policyPeriodFrom
+                                        //'content' => $this->policyPeriodFrom
+                                        'content' => date("01.12.2019")
                                     ],
                                     [
                                         'tag' => 'PolicyPeriodTill',
-                                        'content' => $this->policyPeriodTill
+                                        //'content' => $this->policyPeriodTill
+                                        'content' => date("31.12.2019")
                                     ],
                                     [
                                         'tag' => 'Days',

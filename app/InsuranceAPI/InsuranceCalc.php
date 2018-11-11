@@ -32,7 +32,7 @@ class InsuranceCalc
             ];
         }
 
-        $vsk = $this->getVskCalc($request) ?? null;
+        /*$vsk = $this->getVskCalc($request) ?? null;
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result['vsk'] = [
                 'card' => 'vskCard',
@@ -56,7 +56,7 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }
+        }*/
 
         return $isJson ? json_encode($result) : $result;
     }

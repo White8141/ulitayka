@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -19,7 +19,6 @@
         </div>
 
         <div class="formForAirplane">
-
             <button class="aircraftBox"></button>
             <form action="{{ route('calculate') }}" method="post" class="jClever chooseYourCountry" id="form-1">
                 {{ csrf_field() }}
@@ -89,12 +88,9 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <button class="magicZoomYo" type="submit"></button>
             </form>
-
         </div>
 
         <section class="content">

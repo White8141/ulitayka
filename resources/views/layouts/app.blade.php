@@ -99,7 +99,7 @@
                     </li>
                     <li><a>Страховой случай <span class="glyphicon glyphicon-chevron-down"></span></a>
                         <ul class="submenu">
-                            <li><a href="{{route('insertion_insurance')}}">Что делать при наступлении страхового
+                            <li><a href="{{route('ins_moment')}}">Что делать при наступлении страхового
                                     случая</a>
                             </li>
                             <li><a href="{{route('how_get_paid')}}">Как получить выплату</a>
@@ -176,7 +176,7 @@
                         <a href="{{route('what_e_policy')}}">Электронный полис</a>
                     </li>
                     <li>
-                        <a href="{{route('insertion_insurance')}}">Страховой случай</a>
+                        <a href="{{route('ins_moment_full')}}">Страховой случай</a>
                     </li>
                     {{--<li>--}}
                     {{--<a href="#">Путешественникам</a>--}}
@@ -188,7 +188,7 @@
                         <a href="{{ route('legend') }}">Легенда</a>
                     </li>
                     <li>
-                        <a href="#">Контакты</a>
+                        <a href="{{ route('contacts') }}">Контакты</a>
                     </li>
                 </ul>
             </div>
