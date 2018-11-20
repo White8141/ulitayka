@@ -13,12 +13,16 @@
     "axios": "^0.16.2",
     "bootstrap-sass": "^3.3.7",
     "cross-env": "^5.0.1",
-    //"gulp": "^3.9.1",
+    "gulp": "^3.9.1",
     "jquery": "^3.1.1",
-    //"laravel-elixir": "^6.0.0-17",
-    //"laravel-elixir-webpack-official": "^1.0.10",
+    "laravel-elixir": "^6.0.0-18",
+    "laravel-elixir-vue-2": "^0.3.0",
+    "laravel-elixir-webpack-official": "^1.0.10",
     "laravel-mix": "^1.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "gulp-css-scss": "^0.1.0"
   }
 }

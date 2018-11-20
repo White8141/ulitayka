@@ -41,9 +41,7 @@ class AlphaAPI
         $method = 'NewPolicty';
         $responce = self::soapRequest($method, $calcParams);
 
-        //($responce);
         return $responce->NewPolictyResult ?? null;
-        
     }
 
     public static function buyPolice($calcParams)

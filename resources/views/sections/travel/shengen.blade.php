@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -17,7 +17,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('/img/shen.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/shen.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Шенгенская зона— это 26 стран, имеющие общие границы и не имеющие друг другом паспортный и иммиграционный контроль.</p>

@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -17,7 +17,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/info_comp.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/info_comp.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Альфастрахование, ВСК , ЭРГО—наши партнеры, предоставляющие услуги в сфере страхования путешественников.</p>

@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -19,7 +19,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/chto_vhodit.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/chto_vhodit.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Выбирая страховой полис, Вы можете указать в нем дополнительные опции: страхование от отмены рейса самолета, кражи багажа, документов или других непредвиденных ситуаций.</p>

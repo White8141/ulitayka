@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -19,7 +19,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/st_2.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/st_2.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Если во время путешествия наступил страховой случай, нужно незамедлительно позвонить в сервис страховой компании и уведомить их об этом.

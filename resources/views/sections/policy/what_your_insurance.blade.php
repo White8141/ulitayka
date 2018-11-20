@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -19,7 +19,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/partner.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/partner.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>При выборе страховых компаний, мы ориентировались на их опыт, статус и качество работы.</p>

@@ -1,0 +1,130 @@
+footer {
+  margin-top: 20px;
+  background-color: #333333;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer-form {
+  padding: 0 !important;
+  margin: 5px 0 !important;
+  /*width: 75% !important;*/
+}
+
+.footer-link a{
+  color: #fff;
+}
+
+.footer-link a:hover{
+  color: #fff;
+}
+
+.footer-link a:visited{
+  color: #fff;
+}
+
+.footer-link p{
+  color: #fff;
+  margin-bottom: 0 !important;
+}
+
+/********footer************/
+.footer-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.footer-block1 {
+  width: 186px;
+}
+
+.footer-block3 {
+  width: 280px;
+}
+
+#form_validation_footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#contact_name::-webkit-input-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+#contact_name::-moz-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+/* Firefox 19+ */
+#contact_name:-moz-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+/* Firefox 18- */
+#contact_name:-ms-input-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+#contact_tel::-webkit-input-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+#contact_tel::-moz-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+/* Firefox 19+ */
+#contact_tel:-moz-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+/* Firefox 18- */
+#contact_tel:-ms-input-placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #111111;
+  font-size: 16px; /* Приближение из-за подстановки шрифтов */
+  font-weight: 600;
+  line-height: 24px; /* Приближение из-за подстановки шрифтов */
+  text-align: left;
+}
+
+/*--------------------------------end----------------------*/

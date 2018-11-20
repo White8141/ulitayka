@@ -12,6 +12,8 @@ $(document).ready(function () {
                 if (document.querySelector('#dateFrom').value > document.querySelector('#dateTill').value)  $('#dateTill').datepicker().data('datepicker').clear();
                 $('#dateTill').datepicker().data('datepicker').update('minDate', new Date(document.querySelector('#dateFrom').value));
                 $('#dateTill').datepicker().data('datepicker').show();
+                //document.querySelector('#dateFrom').value =
+                $('#dateFrom').trigger('change');
             }
         },
         onHide: function (dp, animationCompleted) {
@@ -29,6 +31,7 @@ $(document).ready(function () {
             if (document.querySelector('#dateTill').value != '') {
                 $('#dateTill').datepicker().data('datepicker').hide();
             }
+            $('#dateTill').trigger('change');
             //console.log ('Date from selected');
         },
         onHide: function (fd, date, inst) {
@@ -166,7 +169,7 @@ function welcomeCountryParse() {
         })
     });
 
-    var html, i, tempObj;
+    var html;
     for (i = 1; i <= 100; i++) {
 
         if (i == 30) {
@@ -206,7 +209,19 @@ function countryParseWithSelect(view, defData, csrfToken) {
         for (i = 0; i < defData['countries'].length; i++) {
             tempArr.push(defData['countries'][i]);
         }*/
-        if ('countries' in defData) myMs.setValue(defData['countries']);
+        if ('countries' in defData) {
+            tempArr = [];
+            //console.log (defData['countries']);
+            for (key in defData['countries']) {
+                tempArr.push(defData['countries'][key]['country_name']);
+            }
+            /*defData['countries'].foreach (function (country) {
+                tempArr.push(country['country_name']);
+            })*/
+            myMs.setValue(tempArr);
+        } else {
+            console.log ('Страна не выбрана');
+        }
 
         switch (view) {
             case 'calc':
@@ -434,12 +449,15 @@ const setCalcDefaultData = (defaultData, csrf) => {
     if ('prem' in defaultData) document.querySelector('#prem b').innerHTML = defaultData['prem'];
 }
 
-//Отправка запроса на расчёт страховок
+//Отправка запроса на расчёт полиса
 const chRequest = (url, csrf) => {
-    ajaxRequest(url, csrf, collectData(), updCalc, 'post');
+    //даты начала и конца страхования
+    var tempDate1 =  document.querySelector('#dateFrom').value;
+    var tempDate2 =  document.querySelector('#dateTill').value;
+    if (tempDate1 && tempDate2) ajaxRequest(url, csrf, collectData(), updCalc, 'post');
 };
 
-// Обновляем блок со страховкой
+// Обновляем блок с данными полиса
 const updCalc = response => {
     response = JSON.parse(response);
     document.querySelector('#disparity_orange_text').style.display = 'none';
@@ -464,11 +482,11 @@ const updCalc = response => {
             document.querySelector('#disparity_orange_text').style.display = 'block';
         }
     }
-    console.log ('Insurance Parse');
-
 };
 
-//Послать форму что бы получить блок с деталями полиса
+/**
+ * Послать форму что бы получить блок с деталями полиса
+ */
 const sendCalc = (cardId) => {
 
     var tempForm = document.forms.form_calc;
@@ -484,60 +502,92 @@ const setDetailsDefaultData = (defaultData, csrf) => {
     //var tempVar;
 
     //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
-    if ('policeId' in defaultData ) {
-        console.log ('У компании ' + defaultData['companyId'] + ' полис номер ' + defaultData['policeId']);
-        document.querySelector('#policeId').value = defaultData['policeId'];
-    }
+    console.log ('У компании ' + defaultData['company_id'] + ' полис номер ' + defaultData['id']);
+    document.querySelector('#policeId').value = defaultData['id'];
 
     //сначала выделим страны, выбранные в начальной форме
     countryParseWithSelect('details', defaultData, csrf);
 
     //потом даты поездки
     var myDatepicker = $('#dateFrom').datepicker().data('datepicker');
-    if (defaultData['dateFrom'] == null || defaultData['dateFrom'] == '') document.querySelector('#dateFrom').setAttribute('placeholder', 'Туда')
-    else myDatepicker.selectDate(new Date(defaultData['dateFrom']));
+    if (defaultData['policy_period_from'] == null || defaultData['policy_period_from'] == '') document.querySelector('#dateFrom').setAttribute('placeholder', 'Туда')
+    else myDatepicker.selectDate(new Date(defaultData['policy_period_from']));
 
     myDatepicker = $('#dateTill').datepicker().data('datepicker');
-    if (defaultData['dateTill'] == null || defaultData['dateTill'] == '') document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
-    else myDatepicker.selectDate(new Date(defaultData['dateTill']));
+    if (defaultData['policy_period_till'] == null || defaultData['policy_period_till'] == '') document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
+    else myDatepicker.selectDate(new Date(defaultData['policy_period_till']));
 
+    //данные страхователя
+    if (defaultData['client_first_name']) document.querySelector('#insurederFirstName').value = defaultData['client_first_name'];
+    if (defaultData['client_last_name']) document.querySelector('#insurederLastName').value = defaultData['client_last_name'];
     //подготовим окно выбора даты рождения страхователя
-    tempVar = new Date();
-    tempVar.setFullYear(tempVar.getFullYear() - 30);
+    if (defaultData['client_birthdate']) {
+        tempVar = new Date(defaultData['client_birthdate']);
+    } else {
+        tempVar = new Date();
+    }
+
     $('#insurederBirthDate').datepicker({
         view: 'years',
         autoClose: 'true',
-        dateFormat: 'yyyy-mm-dd',
+        dateFormat: 'dd.mm.yyyy',
         startDate: tempVar
     });
+    if (defaultData['client_birthdate']) {
+        $('#insurederBirthDate').datepicker().data('datepicker').selectDate(new Date(defaultData['client_birthdate']));
+        console.log ('У клиента указанна дата рождения');
+    } else {
+        
+    }
 
     //потом количество путешественников (и их дату рождения)
     for (i = 0; i < defaultData['travelers'].length; i++) {
-        if (defaultData['travelers'][i]['accept']) {
+        if (defaultData['travelers'][i]) {
             $('#traveler' + i).css('display', 'block');
             $('#trAccept' + i).prop('value', 'true');
             $('#trAccept' + i).prop('checked', 'true');
+            if (defaultData['travelers'][i]['id']) {
+                //var tempVar = defaultData['travelers'][i]['id'];
+                //var tempObj = document.querySelector('#trId' + i);
+                document.querySelector('#trId' + i).value = defaultData['travelers'][i]['id'];
+                //console.log('Tr Id ' + tempObj.value);
+            }
             $('#trFirstName' + i).prop('disabled', false);
+            if (defaultData['travelers'][i]['first_name']) document.querySelector('#trFirstName' + i).value = defaultData['travelers'][i]['first_name'];
             $('#trLastName' + i).prop('disabled', false);
+            if (defaultData['travelers'][i]['last_name']) document.querySelector('#trLastName' + i).value = defaultData['travelers'][i]['last_name'];
             $('#trBirthDate' + i).prop('disabled', false);
-            document.querySelector('#trAge' + i).value = defaultData['travelers'][i]['age'];
+
             //подготовим окно выбора даты рождения
-            tempVar = new Date();
-            tempVar.setFullYear(tempVar.getFullYear() - defaultData['travelers'][i]['age']);
-            $('#trBirthDate' + i).datepicker({
+            /*$('#trBirthDate' + i).datepicker({
                 view: 'years',
                 autoClose: 'true',
                 dateFormat: 'yyyy-mm-dd',
-                startDate: tempVar
-            });
+                startDate: tempBirhDate
+            });*/
+            if (defaultData['travelers'][i]['birth_date']) {
+                tempVar = new Date();
+                tempBirhDate = new Date(defaultData['travelers'][i]['birth_date']);
+                document.querySelector('#trAge' + i).value = tempVar.getFullYear() - tempBirhDate.getFullYear();
+
+                $('#trBirthDate' + i).datepicker({
+                    view: 'years',
+                    autoClose: 'true',
+                    dateFormat: 'dd.mm.yyyy',
+                    startDate: tempBirhDate
+                });
+
+                $('#trBirthDate' + i).datepicker().data('datepicker').selectDate(new Date(defaultData['travelers'][i]['birth_date']));
+            }
+            console.log ('Установили данные застрахованного ' + i);
         }
     }
 
     //укажем цену выбранного полиса, если она есть в данных
-    if (defaultData['policeAmount'] != null) document.querySelector('#prem b').innerHTML = defaultData['policeAmount'];
+    if (defaultData['policy_cost'] != null) document.querySelector('#prem b').innerHTML = defaultData['policy_cost'];
 
     //указать выбранную валюту
-    if (defaultData['radio_currency'] == 'EUR') {
+    if (defaultData['policy_currency'] == 'EUR') {
         document.querySelector('#radio_euro').checked = true;
         document.querySelector('#radio_usd').checked = false;
     } else {
@@ -547,61 +597,64 @@ const setDetailsDefaultData = (defaultData, csrf) => {
 
     //показать выделенные на предыдущей странице риски
     //сумма медицинской страховки
-    document.querySelector('#radio_medical_amount_' + defaultData['risks'][0]['amountAtRisk']).checked = true;
+    document.querySelector('#radio_medical_amount_' + defaultData['risks'][0]['risk_amount']).checked = true;
     
     //остальные риски
-    if ('risks' in defaultData) {
-        var tempArr = defaultData['risks'] ;
-        for (key in tempArr) {
-            if (tempArr[key]['accept']) {
-                //console.log ('Есть риск '+ tempObj[key]['name']);
-                switch (tempArr[key]['name']) {
-                    case 'public':  //сумма страховки гражданской отвественности
-                        document.querySelector('#additional_public').checked = true;
-                        document.getElementsByName('risks[1][accept]')[0].value = true;
-                        tempObj = document.getElementsByName('risks[1][amountAtRisk]');
-                        tempObj.forEach(function (item) {
+    if ('risks' in defaultData) {   //хз нужна ли эта проверка, массив в любом случае есть, один элемент (медицинская)
+        tempArr = defaultData['risks'];
+        tempArr.forEach(function (risk) {
+            switch (risk['risk_name']) {
+                case 'public':  //сумма страховки гражданской отвественности
+                    document.querySelector('#additional_public').checked = true;
+                    document.getElementsByName('risks[1][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[1][risk_amount]');
+                    tempObj.forEach(function (item) {
                         item.disabled = false;
-                        });
-                        document.querySelector('#radio_civil_responsibility_' + tempArr[key]['amountAtRisk']).checked = true;
-                        break;
-                    case 'cancel':
-                        document.querySelector('#additional_cancel').checked = true;
-                        document.getElementsByName('risks[2][accept]')[0].value = true;
-                        tempObj = document.getElementsByName('risks[2][amountAtRisk]');
-                        tempObj.forEach(function (item) {
-                            item.disabled = false;
-                        });
-                        document.querySelector('#radio_cancel_' + tempArr[key]['amountAtRisk']).checked = true;
-                        break;
-                    case 'accidient':   //сумма страховки от несчастных случаев
-                        document.querySelector('#additional_accident').checked = true;
-                        document.getElementsByName('risks[3][accept]')[0].value = true;
-                        tempObj = document.getElementsByName('risks[3][amountAtRisk]');
-                        tempObj.forEach(function (item) {
-                            item.disabled = false;
-                        });
-                        document.querySelector('#radio_accident_' + tempArr[key]['amountAtRisk']).checked = true;
-                        break;
-                    case 'laggage': //сумма страховки багажа
-                        document.querySelector('#additional_laggage').checked = true;
-                        document.getElementsByName('risks[4][accept]')[0].value = true;
-                        tempObj = document.getElementsByName('risks[4][amountAtRisk]');
-                        tempObj.forEach(function (item) {
-                            item.disabled = false;
-                        });
-                        document.querySelector('#radio_laggage_' + tempArr[key]['amountAtRisk']).checked = true;
-                        break;
-                }
+                    });
+                    document.querySelector('#radio_civil_responsibility_' + risk['risk_amount']).checked = true;
+                    break;
+                case 'cancel':
+                    document.querySelector('#additional_cancel').checked = true;
+                    document.getElementsByName('risks[2][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[2][risk_amount]');
+                    tempObj.forEach(function (item) {
+                        item.disabled = false;
+                    });
+                    document.querySelector('#radio_cancel_' + risk['risk_amount']).checked = true;
+                    break;
+                case 'accidient':   //сумма страховки от несчастных случаев
+                    document.querySelector('#additional_accident').checked = true;
+                    document.getElementsByName('risks[3][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[3][risk_amount]');
+                    tempObj.forEach(function (item) {
+                        item.disabled = false;
+                    });
+                    document.querySelector('#radio_accident_' + risk['risk_amount']).checked = true;
+                    break;
+                case 'laggage': //сумма страховки багажа
+                    document.querySelector('#additional_laggage').checked = true;
+                    document.getElementsByName('risks[4][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[4][risk_amount]');
+                    tempObj.forEach(function (item) {
+                        item.disabled = false;
+                    });
+                    document.querySelector('#radio_laggage_' + risk['risk_amount']).checked = true;
+                    break;
             }
-        }
+
+        });
     }
 
     //показать выделенные на предыдущей странице виды спорта
-    if ('additionalConditions' in defaultData) {
+    /*if ('additionalConditions' in defaultData) {
         tempArr = defaultData['additionalConditions'] ;
         for (key in tempArr) {
             if (tempArr[key]['accept'] === 'true') document.querySelector('#additionalConditions' + key).checked = true;
+        }
+    }*/
+    for (i = 0; i <3; i++) {
+        if (defaultData['additional_condition_' + i]){
+            document.querySelector('#additionalConditions' + i).checked = true;
         }
     }
 
@@ -755,7 +808,8 @@ const ajaxRequest = (url, csrf, args, func, method) => {
     Request.setRequestHeader("X-CSRF-TOKEN", csrf);
     Request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-    console.log(args);
+    var tempArray = args.split('&');
+    console.log(tempArray);
     
     Request.send(args);
 };
@@ -784,7 +838,7 @@ function collectData () {
     }
 
     let medical_amount = 30000;
-    tempObj = document.getElementsByName('risks[0][amountAtRisk]');
+    tempObj = document.getElementsByName('risks[0][risk_amount]');
     for( i = 0; i < tempObj.length; i++) {
         if(tempObj[i].checked) {
             medical_amount = tempObj[i].value;
@@ -794,7 +848,7 @@ function collectData () {
 
     let public_amount = 10000;
     document.getElementsByName('risks[1][accept]')[0].value = document.querySelector('#additional_public').checked;
-    tempObj = document.getElementsByName('risks[1][amountAtRisk]');
+    tempObj = document.getElementsByName('risks[1][risk_amount]');
     for( i = 0; i < tempObj.length; i++) {
         tempObj[i].disabled = !document.querySelector('#additional_public').checked;
         if(tempObj[i].checked) {
@@ -806,7 +860,7 @@ function collectData () {
     let cancel_amount = 500;
     document.getElementsByName('risks[2][accept]')[0].value = document.querySelector('#additional_cancel').checked;
     document.getElementsByName('cancel_visa')[0].disabled = !document.querySelector('#additional_cancel').checked;
-    tempObj = document.getElementsByName('risks[2][amountAtRisk]');
+    tempObj = document.getElementsByName('risks[2][risk_amount]');
     for( i = 0; i < tempObj.length; i++) {
         tempObj[i].disabled = !document.querySelector('#additional_cancel').checked;
         if(tempObj[i].checked) {
@@ -818,7 +872,7 @@ function collectData () {
     let accident_amount = 1000;
     document.getElementsByName('risks[3][accept]')[0].value = document.querySelector('#additional_accident').checked;
     document.getElementsByName('accident_flight')[0].disabled = !document.querySelector('#additional_accident').checked;
-    tempObj = document.getElementsByName('risks[3][amountAtRisk]');
+    tempObj = document.getElementsByName('risks[3][risk_amount]');
     for (i = 0; i < tempObj.length; i++) {
         tempObj[i].disabled = !document.querySelector('#additional_accident').checked;
         if (tempObj[i].checked) {
@@ -829,7 +883,7 @@ function collectData () {
     let laggage_amount = 1000;
     document.getElementsByName('risks[4][accept]')[0].value = document.querySelector('#additional_laggage').checked;
     document.getElementsByName('laggage_time')[0].disabled = !document.querySelector('#additional_laggage').checked;
-    tempObj = document.getElementsByName('risks[4][amountAtRisk]');
+    tempObj = document.getElementsByName('risks[4][risk_amount]');
     for( i = 0; i < tempObj.length; i++) {
         tempObj[i].disabled = !document.querySelector('#additional_laggage').checked;
         if(tempObj[i].checked) {
@@ -846,7 +900,7 @@ function collectData () {
     document.querySelector('#additionalConditions1').value = document.querySelector('#additionalConditions1').checked;
     document.querySelector('#additionalConditions2').value = document.querySelector('#additionalConditions2').checked;
 
-    let args = 'countries[0]=';
+    let args = 'countries[0][country_name]=';
     
     //собираем массив стран путешествия
     let items = $('#msCountries').magicSuggest().getSelection();
@@ -859,7 +913,7 @@ function collectData () {
     }
     if (items.length > 1) {
         for (i = 1; i < items.length; i++) {
-            args += '&countries[' + i + ']=' + items[i].countryName;
+            args += '&countries[' + i + '][country_name]=' + items[i].countryName;
         }
     }
 

@@ -1,12 +1,11 @@
-/**
- * Created by CTAC on 10.03.2018.
- */
-
 const elixir = require('laravel-elixir');
 
 require('laravel-elixir-webpack-official');
+require('laravel-elixir-vue-2');
 
 elixir(mix => {
-    mix.webpack('script.js', 'public/js/script.js')
-       //.sass(['style.scss'],'public/css/style.css')
+    mix.sass(['app.scss'],'public/assets/css/app.css')
+    //.webpack('app.js','public/assets/js/app.js')
+    //.webpack('typed.js','public/assets/js/typed.js')
+    //.version(['assets/css/style.css', 'assets/js/app.js'])
 });

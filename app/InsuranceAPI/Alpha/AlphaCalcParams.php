@@ -41,8 +41,9 @@ class AlphaCalcParams
         }
 
         $this->countries = [];
-        foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
-            $this->countries[] = AlphaDirect::getCountryUID($country);
+        foreach ($request['countries'] ?? [['country_name' => 'SCHENGEN']] as $country) {
+            //dd($country);
+            $this->countries[] = AlphaDirect::getCountryUID($country['country_name']);
         }
 
         $this->additionalConditions = [];

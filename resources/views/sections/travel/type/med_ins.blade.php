@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -18,7 +18,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/med_1.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/med_1.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Медицинский страховой полис включает в себя базовый набор услуг и является основой всех страховок.Такой вид страхования необходим каждому путешественнику для минимальной уверенности в безопасном отдыхе.</p>

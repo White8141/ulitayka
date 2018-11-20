@@ -1,12 +1,21 @@
 <?php
-Route::post('/kalkulyator', 'CalcController@calculate')->name('calculate');
+Auth::routes();
+
+//Route::post('/policies', 'PolicyController@select')->name('policy_select');
+Route::post('/policy', 'PolicyController@create')->name('policy_create');
+Route::match(['get', 'post'], '/policy/{policy}', 'PolicyController@edit')->name('policy_edit');
+Route::post('/policy/calc', 'PolicyController@calc')->name('policy_calc');
+Route::put('/policy', 'PolicyController@save')->name('policy_save');
+Route::delete('/policy/{policy}', 'PolicyController@delete')->name('policy_delete');
+
+Route::post('/calculator', 'CalcController@calculate')->name('calculate');
 Route::post('/calcajax', 'CalcController@ajax')->name('calcajax');
-Route::post('/police_details', 'CalcController@police_details')->name('police_details');
-Route::post('/police_buy', 'CalcController@police_buy')->name('police_buy');
 Route::post('/getData', 'CalcController@getData')->name('getData');
 
+Route::get('/home', 'HomeController@index')->name('home');
+
 // Статические страницы
-Route::get('/', 'PagesController@index');
+Route::get('/', 'PagesController@index')->name('main_page');
 
 //Раздел Электронный полис
 Route::get('/kak_eto_rabotaet', 'PagesController@how_it_works')->name('how_it_works');
@@ -53,4 +62,3 @@ Route::get('/chernogoria', 'PagesController@montenegro')->name('montenegro');
 Route::get('/gruziya', 'PagesController@georgia')->name('georgia');
 Route::get('/germaniya', 'PagesController@germany')->name('germany');
 Route::get('/usa', 'PagesController@usa')->name('usa');
-

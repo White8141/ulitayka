@@ -110,7 +110,7 @@ class PagesController extends Controller
     }
     public function legend()
     {
-        return view('legend');
+        return view('sections/legend');
     }
     
     //страны

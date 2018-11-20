@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -11,7 +11,7 @@
 
             <div class="block-flex-hh">
                 <h1>
-                    Как получить плис?
+                    Как получить полис?
                 </h1>
                 <hr class="hr-bottom">
             </div>
@@ -19,7 +19,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/kak_polis.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/kak_polis.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>После оплаты мы вышлем его на электронную почту, и вы сразу же сможете им воспользоваться.</p>

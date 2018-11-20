@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -17,7 +17,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/group_1.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/group_1.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Отличие групповой страховки от индивидуальной заключается в количестве застрахованных лиц.Так групповой полис обеспечивает защиту и возмещение всех компенсаций группе лиц, внесенных в него.Самый главный вопрос, который может возникнуть по этому поводу.

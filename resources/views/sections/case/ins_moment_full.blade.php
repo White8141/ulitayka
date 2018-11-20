@@ -1,5 +1,4 @@
-
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -20,7 +19,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('img/st_1.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/st_1.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Страховой случай—ситуация, в которой объект страхования подвергается ущербу. Независимо от степени и тяжести повреждений, страхования компания обязана возместить компенсацию по заключенному договору. </p>
@@ -48,7 +47,7 @@
             <div class="block-flex-2">
                 <div class="block-flex-2-img">
                     <div class="block-img2">
-                        <img src="{{asset('img/st_2.jpg')}}" alt="">
+                        <img src="{{asset('assets/img/st_2.jpg')}}" alt="">
                     </div>
                 </div>
                 <div class="block-flex-2-text">
@@ -84,7 +83,7 @@
 
                 </div>
                 <div class="block-flex-1-img">
-                    <div class="block-img3"><img src="{{asset('img/st_3.jpg')}}" alt=""></div>
+                    <div class="block-img3"><img src="{{asset('assets/img/st_3.jpg')}}" alt=""></div>
                 </div>
             </div>
 

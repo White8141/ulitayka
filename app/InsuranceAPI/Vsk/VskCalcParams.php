@@ -37,13 +37,15 @@ class VskCalcParams
 
         $this->client = [ 'name' => 'Testov Petr' ];
 
-        $this->countries = VskDirect::getCountryUID($request['countries'][0] ?? 'SCHENGEN');
+        $this->countries = VskDirect::getCountryUID($request['countries'][0]['country_name'] ?? 'SCHENGEN');
 
         if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("d.m.Y", strtotime($request['dateFrom'])); }
         else { $this->policyPeriodFrom = date('d.m.Y'); }
 
         if (isset($request['dateTill'])) { $this->policyPeriodTill = date("d.m.Y", strtotime($request['dateTill'])); }
         else { $this->policyPeriodTill = date('d.m.Y', strtotime('+1 month')); }
+
+
 
         $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
 
@@ -63,9 +65,9 @@ class VskCalcParams
             if (array_key_exists('accept', $risk) && (string)$risk['accept'] === 'true') {
                 $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),
-                    'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0] ?? 'SCHENGEN'),
+                    'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0]['country_name'] ?? 'SCHENGEN'),
                     'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $risk['amountCurrency'] ?? $request['radio_currency']
+                    'amountCurrency' => $risk['amountCurrency'] ?? $request['policy_currency']
                 ];
             }
         }

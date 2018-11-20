@@ -2,19 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-
-use App\InsuranceAPI\InsuranceCalc;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\ServiceProvider;
+use App\InsuranceAPI\InsuranceCalc;
 
 class InsuranceServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
     public function boot()
     {
         //

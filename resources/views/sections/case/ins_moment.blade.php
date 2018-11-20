@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -26,7 +26,7 @@
 
                 </div>
                 <div class="block-flex-1-img">
-                    <div class="block-img"><img src="{{asset('img/st_1.jpg')}}" alt=""></div>
+                    <div class="block-img"><img src="{{asset('assets/img/st_1.jpg')}}" alt=""></div>
                 </div>
             </div>
         </div>

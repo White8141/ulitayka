@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -19,7 +19,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('/img/kakue_dannue.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/kakue_dannue.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Казалось бы, чтобы оформить такой серьезный документ потребуется куча различных документов.Совершенно нет.</p>

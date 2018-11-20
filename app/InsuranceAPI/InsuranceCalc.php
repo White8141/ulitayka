@@ -19,8 +19,8 @@ class InsuranceCalc
     public function getInsuranceCalc($request, $isJson = false)
     {
         $result = [];
-
         $alpha = $this->getAlphaCalc($request) ?? null;
+        //dd($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = [
                 'card' => 'alphaCard',
@@ -32,7 +32,7 @@ class InsuranceCalc
             ];
         }
 
-        /*$vsk = $this->getVskCalc($request) ?? null;
+        $vsk = $this->getVskCalc($request) ?? null;
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result['vsk'] = [
                 'card' => 'vskCard',
@@ -56,14 +56,17 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }*/
+        }
 
         return $isJson ? json_encode($result) : $result;
     }
 
     public function getAlphaCalc($request)
     {
+        //dd($request->all());
+
         $calcParams = new AlphaCalcParams($request->all());
+        
         return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
 
         //return $request->all();
@@ -84,9 +87,8 @@ class InsuranceCalc
     {
         $calcParams = new AdvantCalcParams($request->all());
         return AdvantAPI::calculate($calcParams->getCalcParams($request->all()));
-        //return $calcParams->getCalcParams($request->all());
+        //dd( $calcParams->getCalcParams($request->all()));
     }
-
 
     public function getInsuranceBuy($request, $isJson = false)
     {
@@ -145,7 +147,7 @@ class InsuranceCalc
     public function getAlphaBuy($request)
     {
         $calcParams = new AlphaCalcParams($request->all());
-        return AlphaAPI::buyPolice($calcParams->getCalcParams('Create'));
+        return AlphaAPI::buyPolice($calcParams->getCalcParams('Draft'));
     }
 
     public function getVskBuy($request)
@@ -174,4 +176,5 @@ class InsuranceCalc
         return $calcParams->getCalcParams('Calc2');
         //return 'getInsData';
     }
+
 }

@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -21,7 +21,7 @@
                     <p>Любители серфинга и дайвинга постоянно приезжают в Австралию, чтобы опробовать свое новое оборудование или отточить навыки. Важность страхования заключается в опасности на воде. Из-за сильных волн в океане и прибоев количество туристов, тонущих каждый сезон, неумолимо растет.</p>
                 </div>
                     <div class="block-flex-1-img">
-                        <div class="block-img" style="padding-top: 0 !important;"><img src="{{asset('img/australia_1.jpg')}}" alt=""></div>
+                        <div class="block-img" style="padding-top: 0 !important;"><img src="{{asset('assets/img/australia_1.jpg')}}" alt=""></div>
 
                     </div>
 
@@ -38,7 +38,7 @@
             <div class="block-flex-2">
                 <div class="block-flex-2-img">
                     <div class="block-img2">
-                        <img src="{{asset('img/australia_2.jpg')}}" alt="">
+                        <img src="{{asset('assets/img/australia_2.jpg')}}" alt="">
                     </div>
                 </div>
                 <div class="block-flex-2-text">

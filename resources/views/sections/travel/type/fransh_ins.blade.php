@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/app')
 
 @section('meta')
     <title>Улитайка - страхование для туристов</title>
@@ -19,7 +19,7 @@
 
             <div class="block-flex-2 ">
                 <div class="block-flex-2-img">
-                    <img src="{{asset('/img/franshiza_1.jpg')}}" alt="">
+                    <img src="{{asset('assets/img/franshiza_1.jpg')}}" alt="">
                 </div>
                 <div class="block-flex-2-text">
                     <p>Страхование с франшизой является одним из самых популярных на рынке страховых услуг.</p>

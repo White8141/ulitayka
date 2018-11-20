@@ -3,6 +3,8 @@
 namespace App\InsuranceAPI\Advant;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+
 //use App\InsuranceAPI\Advant\AdvantDirect;
 
 class AdvantCalcParams
@@ -30,13 +32,6 @@ class AdvantCalcParams
 
         if (isset($request['dateTill'])) { $this->policyPeriodTill = date("Y-m-d", strtotime($request['dateTill'])); }
         else { $this->policyPeriodTill = date('Y-m-d', strtotime('+1 month')); }*/
-
-        $this->policyPeriodFrom = "2018-12-23";
-        $this->policyPeriodTill = "2018-12-30";
-
-
-        $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
-
     }
 
     public function getCalcParams($request)
@@ -46,8 +41,9 @@ class AdvantCalcParams
         $this->additionalConditions = [];
 
         $this->countries = [];
+        //dd($request['countries']);
         foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
-            $this->countries[] = AdvantDirect::getCountryUID((string)$country);
+            $this->countries[] = AdvantDirect::getCountryUID((string)$country['country_name']);
         }
         //$this->countries = $request['countries'];
 
@@ -87,35 +83,35 @@ class AdvantCalcParams
                         $this->medical = [
                             'insurance_plan' => '54748',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
                         ];
                         break;
                     case 'public':
                         $this->public = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
                         ];
                         break;
                     case 'cancel':
                         $this->cancel = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
                         ];
                         break;
                     case 'accident':
                         $this->accident = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency'])
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
                         ];
                         break;
                     case 'laggage':
                         $this->laggage = [
                             'insurance_plan' => '54747',
                             'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['radio_currency']),
+                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency']),
                             'accomodation' => 1
                         ];
                         break;
@@ -123,16 +119,21 @@ class AdvantCalcParams
                 $this->risks[] = [
                     'riskUID' => AdvantDirect::getRiskUID($risk['name']),
                     'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $risk['amountCurrency'] ?? $request['radio_currency']
+                    'amountCurrency' => $risk['amountCurrency'] ?? $request['policy_currency']
                 ];
             }
         }
 
+        $this->policyPeriodFrom = Carbon::createFromFormat('Y-m-d', $request['dateFrom'])->addYear(1);//->toDateString();
+        $this->policyPeriodTill = Carbon::createFromFormat('Y-m-d', $request['dateTill'])->addYear(1);//->toDateString();
+        //$this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
+        $this->policyDays = $this->policyPeriodTill->diffInDays($this->policyPeriodFrom, true);
+
         return [
             //'test' => $isTest,
             'is_multiple_policy' => false,
-            'valid_from' => $this->policyPeriodFrom,
-            'valid_to' => $this->policyPeriodTill,
+            'valid_from' => $this->policyPeriodFrom->toDateString(),
+            'valid_to' => $this->policyPeriodTill->toDateString(),
             'insurance_days_up_to' => $this->policyDays,
             'insurance_territory' => [ ],
             'insurance_country' => $this->countries,
