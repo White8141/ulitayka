@@ -33,6 +33,7 @@
 
           &.last-block {
             width: auto;
+            background-color: #ff6508;
 
             a {
               padding-left: 12px;
@@ -139,7 +140,6 @@ hr.orange_dashed1 {
   left: calc(15% - 10px);
 }
 
-
 .top_info{
 
   background-color: #f3f3f3;
@@ -174,7 +174,8 @@ hr.orange_dashed1 {
   font-size: 28px;
   color: #4daeda;
   font-weight: 700;
-  padding-top: 10px;
+  padding-top: 0px;
+  margin-bottom: 0px;
 }
 
 .top_info .col-md-2{

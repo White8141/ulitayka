@@ -83,21 +83,21 @@
 
                         <div class="container_new">
                             <div class="tabs">
-                                <input id="tab1" type="radio" name="tabs">
-                                <label for="tab1" title="Ассистанс">Ассистанс</label>
+                                <input id="tab4" type="radio" name="tabs">
+                                <label for="tab4" title="Ассистанс">Ассистанс</label>
 
-                                <input id="tab2" type="radio" name="tabs">
-                                <label for="tab2" title="Франшиза">Франшиза</label>
+                                <input id="tab5" type="radio" name="tabs">
+                                <label for="tab5" title="Франшиза">Франшиза</label>
 
-                                <input id="tab3" type="radio" name="tabs">
-                                <label for="tab3" title="Правила страхования">Правила страхования</label>
-                                {{--<hr class="orange2">--}}
-                                <section id="content-tab1" class="assistance">
+                                <input id="tab6" type="radio" name="tabs">
+                                <label for="tab6" title="Правила страхования">Правила страхования</label>
+
+                                <section id="content-tab4" class="assistance">
                                     <p style="text-align: justify;" >
 
                                     </p>
                                 </section>
-                                <section id="content-tab2">
+                                <section id="content-tab5">
                                     <p style="text-align: justify;">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -110,7 +110,7 @@
                                         deserunt mollit anim id est laborum.
                                     </p>
                                 </section>
-                                <section id="content-tab3">
+                                <section id="content-tab6">
                                     <p style="text-align: justify;">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -141,21 +141,21 @@
 
                         <div class="container_new">
                             <div class="tabs">
-                                <input id="tab1" type="radio" name="tabs">
-                                <label for="tab1" title="Ассистанс">Ассистанс</label>
+                                <input id="tab7" type="radio" name="tabs">
+                                <label for="tab7" title="Ассистанс">Ассистанс</label>
 
-                                <input id="tab2" type="radio" name="tabs">
-                                <label for="tab2" title="Франшиза">Франшиза</label>
+                                <input id="tab8" type="radio" name="tabs">
+                                <label for="tab8" title="Франшиза">Франшиза</label>
 
-                                <input id="tab3" type="radio" name="tabs">
-                                <label for="tab3" title="Правила страхования">Правила страхования</label>
+                                <input id="tab9" type="radio" name="tabs">
+                                <label for="tab9" title="Правила страхования">Правила страхования</label>
                                 {{--<hr class="orange2">--}}
-                                <section id="content-tab1" class="assistance">
+                                <section id="content-tab7" class="assistance">
                                     <p style="text-align: justify;" >
 
                                     </p>
                                 </section>
-                                <section id="content-tab2">
+                                <section id="content-tab8">
                                     <p style="text-align: justify;">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -168,7 +168,7 @@
                                         deserunt mollit anim id est laborum.
                                     </p>
                                 </section>
-                                <section id="content-tab3">
+                                <section id="content-tab9">
                                     <p style="text-align: justify;">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -273,7 +273,7 @@
 
                                 <p class="filter_h3">Страны</p>
                                 <div>
-                                    <input id="msCountries" class="form-control" name="countries[]"/>
+                                    <input id="msCountries" class="form-control" name="countries[][country_name]"/>
                                     <label></label>
                                 </div>
 
@@ -285,12 +285,10 @@
 
                                 <input name="dateFrom" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" id="dateFrom" type="text" placeholder="Туда"
                                        class="datepicker-here calendar blue_input_text textbox_49_percent auto-correct"
-                                       data-multiple-dates="1" data-date-format="yyyy-mm-dd" data-multiple-dates-separator=", "
                                        style="cursor: pointer" readonly/>
 
                                 <input name="dateTill" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" id="dateTill" type="text" placeholder="Обратно"
                                        class="datepicker-here calendar blue_input_text textbox_49_percent auto-correct"
-                                       data-multiple-dates="1" data-date-format="yyyy-mm-dd" data-multiple-dates-separator=", "
                                        style="cursor: pointer" readonly/>
                                 <!--span class="fa fa-calendar"></span-->
 
@@ -307,7 +305,7 @@
                                                    onclick="travelersChange(0, '{{route('calcajax')}}', '{{csrf_token()}}')"><label for="tr_check_0">1 путешественник</label>
                                        <span>
                                        <select name="travelers[0][age]" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" class="age-human"
-                                               id="tr0"></select>
+                                               id="tr0" value=""></select>
                                </span>
                                         </div>
                                         <div>
@@ -363,7 +361,7 @@
                                     <input type="radio" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][risk_amount]" value="100000" id="radio_medical_amount_100000" class="check_and_radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
                                 </div>
 
-                                <a href="" id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
+                                <a id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
                                             class="blue glyphicon glyphicon-chevron-down"
                                             style="margin-bottom: 20px !important;"></span></a>
                                 <div id="toggle_insurance_list">
@@ -387,7 +385,7 @@
                                 </div>
                                 <br>
 
-                                <a href="" id="toggle_additional"><p class="filter_h3 blue inlined">Дополнительно </p><span
+                                <a id="toggle_additional"><p class="filter_h3 blue inlined">Дополнительно </p><span
                                             class="blue glyphicon glyphicon-chevron-down"
                                             style="margin-bottom: 20px !important;"></span></a>
                                 <div id="toggle_additional_list">
@@ -475,7 +473,7 @@
                                 <br>
                                 <br>
 
-                                <a href="" id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
+                                <a id="toggle_options"><p class="filter_h3 blue inlined">Дополнительные опции </p><span class="blue glyphicon glyphicon-chevron-down" style="margin-bottom: 20px !important;"></span></a>
                                 <div id="toggle_options_list">
 
                                     <input type="checkbox" name="risks[3][accept]" id="additional_accident" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')"
@@ -654,11 +652,12 @@
 
 @section('script')
 
-<script>
+    <script src="{{ asset('js/calculate.js') }}"></script>
+    <script>
 
-    setCalcDefaultData ('{!! $defaultData !!}', '{{ csrf_token() }}');
-    updCalc ('{!! $calculation !!}');
+        setCalcDefaultData ('{!! $defaultData !!}', '{{ csrf_token() }}');
+        updCalc ('{!! $calculation !!}');
 
-</script>
+    </script>
 
 @stop

@@ -23,31 +23,26 @@
                     <li>
                         <a href="{{ route('legend') }}">Легенда</a>
                     </li>
-                    <li>
-                        <a href="{{ route('contacts') }}">Контакты</a>
-                    </li>
                 </ul>
             </div>
             <div class="footer-block2 footer-link footer-text">
                 <ul>
                     <li style="color: #fff; list-style-type: none;">
-                        КОНТАКТЫ
+                        <a href="{{ route('contacts') }}">КОНТАКТЫ</a>
                     </li>
                     <br>
                     <li>
-                        <a href="tel:88009002010">8 (800) 900-20-10</a>
+                        <a href="tel:79657801000">+7 (965) 780-10-00</a>
                     </li>
                     <li>
-                        <a href="mailto:example@yandex.ru">example@yandex.ru</a>
+                        <a href="tel:79659833534">+7 (965) 983-35-34</a>
                     </li>
+                    <br>
                     <li>
                         <p>Санкт-Петербург</p>
                     </li>
                     <li>
-                        <p>Комендантский пр. 4а</p>
-                    </li>
-                    <li>
-                        <p>офис 409</p>
+                        <p>Коломяжский пр.20</p>
                     </li>
                 </ul>
             </div>

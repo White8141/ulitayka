@@ -36,7 +36,8 @@
                 </div>
             </div>
 
-            <a href="tel:88009002010"><p class="top_number">8 (800) 900-20-10</p></a>
+            <a href="tel:79657801000"><p class="top_number">+7 (965) 780-10-00</p></a>
+            <a href="tel:79659833534"><p class="top_number">+7 (965) 983-35-34</p></a>
         </div>
     </div>
 </div>
@@ -111,12 +112,12 @@
                     <li><a href="{{route('contacts')}}">Контакты</a></li>
 
                     @guest
-                        <li class="last-block"><a href="{{ route ('login') }}" class="lk"><img src="{{ asset('assets/img/lk.png') }}" alt="Личный кабинет"></a></li>
+                        <li class="last-block"><a href="{{ route ('login') }}">Личный кабинет</a></li>
                     @else
                         <li class="last-block">
                             <a>{{ Auth::user()->name }}<span class="glyphicon glyphicon-chevron-down"></span></a>
                             <ul class="submenu">
-                                <li><a href="{{route('home')}}">Мои полисы</a>
+                                <li><a href="{{route('home')}}">Мой кабинет</a>
                                 <li>
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

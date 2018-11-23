@@ -1,8 +1,8 @@
 <?php
 Auth::routes();
 
-//Route::post('/policies', 'PolicyController@select')->name('policy_select');
-Route::post('/policy', 'PolicyController@create')->name('policy_create');
+//Route::post('/policies', 'PolicyController@select')->name('policy_select');   policies_list
+Route::match(['get', 'post'], '/policy', 'PolicyController@create')->name('policy_create');
 Route::match(['get', 'post'], '/policy/{policy}', 'PolicyController@edit')->name('policy_edit');
 Route::post('/policy/calc', 'PolicyController@calc')->name('policy_calc');
 Route::put('/policy', 'PolicyController@save')->name('policy_save');
@@ -13,6 +13,8 @@ Route::post('/calcajax', 'CalcController@ajax')->name('calcajax');
 Route::post('/getData', 'CalcController@getData')->name('getData');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/policies', 'HomeController@policies_list')->name('policies_list');
+Route::post('/home/user', 'HomeController@user_save')->name('user_save');
 
 // Статические страницы
 Route::get('/', 'PagesController@index')->name('main_page');

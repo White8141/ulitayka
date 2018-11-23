@@ -1,33 +1,35 @@
-var i, tempVar, tempArray, tempObj, tempDate;
+var i, tempArray, tempObj, tempDate;
 
 $(document).ready(function () {
+    console.log ('Edit JS Start');
 
     // календарь  min Date
     $('#dateFrom').datepicker({
         minDate: new Date(),
         dateFormat: 'dd.mm.yyyy',
+        keyboardNav: 'false',
         //autoClose: 'true',
         onSelect: function (fd, date, inst) {
-
             if (document.querySelector('#dateFrom').value != '') {
                 $('#dateFrom').datepicker().data('datepicker').hide();
                 //if (document.querySelector('#dateFrom').value > document.querySelector('#dateTill').value)  $('#dateTill').datepicker().data('datepicker').clear();
                 //если последняя дата установленна раньше первой, удаляем ее
                 tempArray = document.querySelector('#dateFrom').value.split('.');
-                tempFrom = new Date(tempArray[2], tempArray[1]-1, tempArray[0]);
+                tempFrom = new Date(tempArray[2], tempArray[1] - 1, tempArray[0]);
                 if (document.querySelector('#dateTill').value) {
                     tempObj = document.querySelector('#dateTill').value.split('.');
-                    tempTill = new Date(tempObj[2], tempObj[1]-1, tempObj[0]);
-                    var tempDiff = tempFrom - tempTill;
-                    if (tempDiff > 0) {
+                    tempTill = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
+                    if (tempFrom - tempTill > 0) {
                         $('#dateTill').datepicker().data('datepicker').clear();
                     }
                 }
                 $('#dateTill').datepicker().data('datepicker').update('minDate', tempFrom);
                 $('#dateTill').datepicker().data('datepicker').show();
-                //document.querySelector('#dateFrom').value =
                 $('#dateFrom').trigger('change');
             }
+        },
+        onShow: function () {
+            $('#dateTill').datepicker().data('datepicker').hide();
         },
         onHide: function (dp, animationCompleted) {
             if (document.querySelector('#dateFrom').value == '' && document.querySelectorAll('#dateFrom.auto-correct').length > 0) {
@@ -59,6 +61,61 @@ $(document).ready(function () {
                 }
 
                 $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
+            }
+        }
+    });
+
+    tempArray = [];
+
+    $.getJSON('/js/json/country.json', function (data) {
+        $.each(data, function(key, val) {
+            tempArray.push({countryName: key,
+                countryViewName: val
+            });
+        });
+
+        var myMs = $('#mainCountries').magicSuggest({
+            data: tempArray,
+            placeholder: 'Страна поездки',
+            valueField: 'countryName',
+            displayField: 'countryViewName',
+            maxSelection: 10,
+            expandOnFocus: true,
+            hideTrigger: true
+        });
+    });
+
+    // выпадающий список путешественников
+    $('.box-2').click(function () {
+        $(this).next().toggle();
+        $('.human-drop').mouseleave(function () {
+            $(this).hide();
+        });
+    });
+
+    //отзывы
+    $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        navText: ["", ""],
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: false
+            },
+            400: {
+                items: 1,
+                nav: false
+            },
+            600: {
+                items: 1,
+                nav: false
+            },
+            1000: {
+                items: 1,
+                nav: true,
+                loop: true
             }
         }
     });
@@ -107,111 +164,20 @@ $(document).ready(function () {
         radiobuttonEuro.addEventListener("click", make_euro, false);
     }
 
-    /* Модалка */
-    /*var modal = document.getElementById('myModal');
-
-    var lnk = document.getElementById("myLnk");
-
-    var span = document.getElementsByClassName("close")[0];
-
-    lnk.onclick = function () {
-        modal.style.display = "block";
-    };
-
-    span.onclick = function () {
-        modal.style.display = "none";
-    };
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };*/
-    /* Конец - Модалка */
 
 });
 
-$(document).ready(function () {
-
-    //плагин слайдер
-    $('.owl-carousel').owlCarousel({
-        loop: true,
-        margin: 10,
-        navText: ["", ""],
-        responsiveClass: true,
-        responsive: {
-            0: {
-                items: 1,
-                nav: false
-            },
-            400: {
-                items: 1,
-                nav: false
-            },
-            600: {
-                items: 1,
-                nav: false
-            },
-            1000: {
-                items: 1,
-                nav: true,
-                loop: true
-            }
-        }
-    });
-
-
-    // выпадающий список
-    $('.box-2').click(function () {
-        $(this).next().toggle();
-        $('.human-drop').mouseleave(function () {
-            //$(this).hide();
-        });
-    });
-
-});
-
-//обработка массива country.json и внесение результатов в выпадающий список в упрощенной форме для страховки
-function welcomeCountryParse() {
-
-    tempArray = [];
-
-    $.getJSON('/js/json/country.json', function (data) {
-        $.each(data, function(key, val) {
-            tempArray.push({countryName: key,
-                countryViewName: val
-            });
-        });
-
-        var myMs = $('#mainCountries').magicSuggest({
-            data: tempArray,
-            placeholder: 'Страна поездки',
-            valueField: 'countryName',
-            displayField: 'countryViewName',
-            maxSelection: 10,
-            expandOnFocus: true,
-            hideTrigger: true
-        });
-    });
-
-    /*$.getJSON('/js/json/country.json', function (data) {
-        $.each(data, function (key, val) {
-            $('#page-country').append('<option value="' + key + '">' + val + '</option>');
-        })
-    });*/
-
-    var html;
-    for (i = 1; i <= 100; i++) {
-
-        if (i == 30) {
-            html += '<option value="' + i + '" selected>' + i + ' лет </option>';
-        } else {
-            html += '<option value="' + i + '">' + i + '</option>';
-        }
+// переключение количества путешественников
+function conditions(boxId) {
+    tempObj = $('#tr_check_' + boxId)[0];
+    if (tempObj.checked) {
+        $('#tr' + boxId).show();
+        console.log ('Блок показан');
+    } else {
+        $('#tr' + boxId).hide();
+        console.log ('Блок спрятан');
     }
-    $('.age-human').append(html);
 
-    //console.log('Country parse');
 }
 
 //обработка массива country.json и выбор заданных стран
@@ -222,7 +188,7 @@ function countryParseWithSelect(view, defData, csrfToken) {
     $.getJSON('/js/json/country.json', function (data) {
         $.each(data, function(key, val) {
             tempArr.push({countryName: key,
-                    countryViewName: val
+                countryViewName: val
             });
         });
 
@@ -236,19 +202,12 @@ function countryParseWithSelect(view, defData, csrfToken) {
             hideTrigger: true
         });
 
-        /*tempArr = [];
-        for (i = 0; i < defData['countries'].length; i++) {
-            tempArr.push(defData['countries'][i]);
-        }*/
         if ('countries' in defData) {
             tempArr = [];
             //console.log (defData['countries']);
             for (key in defData['countries']) {
                 tempArr.push(defData['countries'][key]['country_name']);
             }
-            /*defData['countries'].foreach (function (country) {
-                tempArr.push(country['country_name']);
-            })*/
             myMs.setValue(tempArr);
         } else {
             console.log ('Страна не выбрана');
@@ -426,188 +385,221 @@ function countryParseWithSelect(view, defData, csrfToken) {
 }
 
 // Вносим в страховку данные, введенные в форму на главной странице
-const setCalcDefaultData = (defaultData, csrf) => {
+const setDetailsDefaultData = (defaultData, csrf) => {
 
     defaultData = JSON.parse(defaultData);
+    //var tempVar;
 
-    //сначала выделим страну, выбранную в начальной форме
-    if ('countries' in defaultData) {countryParseWithSelect('calc', defaultData, csrf);}
-    else {countryParseWithSelect('calc', {"countries":{0:"SCHENGEN"}}, csrf);}
+    //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
+    console.log ('У компании ' + defaultData['company_id'] + ' полис номер ' + defaultData['id']);
+    document.querySelector('#policeId').value = defaultData['id'];
+
+    //сначала выделим страны, выбранные в начальной форме
+    countryParseWithSelect('details', defaultData, csrf);
 
     //потом даты поездки
     var myDatepicker = $('#dateFrom').datepicker().data('datepicker');
-    if (defaultData['dateFrom'] == null || defaultData['dateFrom'] == '') {
-        myDatepicker.selectDate(new Date());    //document.querySelector('#dateFrom').setAttribute('placeholder', 'Туда')
-        //myDatepicker.value =
-    } else {
-        myDatepicker.selectDate(new Date(defaultData['dateFrom']));
+    if (defaultData['policy_period_from'] == null || defaultData['policy_period_from'] == '') document.querySelector('#dateFrom').setAttribute('placeholder', 'Туда')
+    else {
+        tempArray = defaultData['policy_period_from'].split('.');
+        tempFrom = new Date(tempArray[2], tempArray[1]-1, tempArray[0]);
+        myDatepicker.selectDate(tempFrom);
     }
 
     myDatepicker = $('#dateTill').datepicker().data('datepicker');
-    if (defaultData['dateTill'] == null || defaultData['dateTill'] == '') {
-        tempDate = new Date(myDatepicker.date);
-        tempDate.setMonth(tempDate.getMonth() + 1);
-        myDatepicker.selectDate(tempDate);  //document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
+    if (defaultData['policy_period_till'] == null || defaultData['policy_period_till'] == '') document.querySelector('#dateTill').setAttribute('placeholder', 'Обратно')
+    else {
+        tempArray = defaultData['policy_period_till'].split('.');
+        tempTill = new Date(tempArray[2], tempArray[1]-1, tempArray[0]);
+        myDatepicker.selectDate(tempTill);
+    }
+
+    //данные страхователя
+    if (defaultData['client_first_name']) document.querySelector('#insurederFirstName').value = defaultData['client_first_name'];
+    if (defaultData['client_last_name']) document.querySelector('#insurederLastName').value = defaultData['client_last_name'];
+    //подготовим окно выбора даты рождения страхователя
+    if (defaultData['client_birthdate']) {
+        tempVar = new Date(defaultData['client_birthdate']);
     } else {
-        myDatepicker.selectDate(new Date(defaultData['dateTill']));
+        tempVar = new Date();
     }
 
-    //потом количество путешественников (и возраст)
-    var html;
-    for (i = 1; i <= 100; i++) {
+    $('#insurederBirthDate').datepicker({
+        view: 'years',
+        autoClose: 'true',
+        dateFormat: 'dd.mm.yyyy',
+        startDate: tempVar
+    });
+    if (defaultData['client_birthdate']) {
+        tempArray = defaultData['client_birthdate'].split('.');
+        tempDate = new Date(tempArray[2], tempArray[1]-1, tempArray[0]);
+        $('#insurederBirthDate').datepicker().data('datepicker').selectDate(tempDate);
+        //console.log ('У клиента указанна дата рождения');
+    } else {
 
-        if (i == 30) {
-            html += '<option value="' + i + '" selected>' + i + ' лет </option>';
-        } else {
-            html += '<option value="' + i + '">' + i + '</option>';
-        }
     }
-    $('.age-human').append(html);
 
-    for (i = 0; i < 5; i++) {
-        tempObj = $('#tr' + i);
-        if (defaultData['travelers'][i].hasOwnProperty('accept') && defaultData['travelers'][i]['accept']) {
-            document.querySelector('#tr_check_' + i).checked = true;
-            tempObj.show();
-            tempObj[0].value = defaultData['travelers'][i]['age'];
-        } else {
-            document.querySelector('#tr_check_' + i).checked = false;
-            tempObj.hide();
+    //потом количество путешественников (и их дату рождения)
+    for (i = 0; i < defaultData['travelers'].length; i++) {
+        if (defaultData['travelers'][i]) {
+            $('#traveler' + i).css('display', 'block');
+            $('#trAccept' + i).prop('value', 'true');
+            $('#trAccept' + i).prop('checked', 'true');
+            if (defaultData['travelers'][i]['id']) {
+                //var tempVar = defaultData['travelers'][i]['id'];
+                //var tempObj = document.querySelector('#trId' + i);
+                document.querySelector('#trId' + i).value = defaultData['travelers'][i]['id'];
+                //console.log('Tr Id ' + tempObj.value);
+            }
+            $('#trFirstName' + i).prop('disabled', false);
+            if (defaultData['travelers'][i]['first_name']) document.querySelector('#trFirstName' + i).value = defaultData['travelers'][i]['first_name'];
+            $('#trLastName' + i).prop('disabled', false);
+            if (defaultData['travelers'][i]['last_name']) document.querySelector('#trLastName' + i).value = defaultData['travelers'][i]['last_name'];
+            $('#trBirthDate' + i).prop('disabled', false);
+
+            if (defaultData['travelers'][i]['birth_date']) {
+                tempVar = new Date();
+                tempArray = defaultData['travelers'][i]['birth_date'].split('.');
+                tempBirhDate = new Date(tempArray[2], tempArray[1]-1, tempArray[0]);
+                document.querySelector('#trAge' + i).value = tempVar.getFullYear() - tempBirhDate.getFullYear();
+
+                $('#trBirthDate' + i).datepicker({
+                    view: 'years',
+                    autoClose: 'true',
+                    dateFormat: 'dd.mm.yyyy',
+                    startDate: tempBirhDate
+                });
+
+                $('#trBirthDate' + i).datepicker().data('datepicker').selectDate(tempBirhDate);
+            }
+            console.log ('Установили данные застрахованного ' + i);
         }
     }
 
     //укажем цену выбранного полиса, если она есть в данных
-    if ('prem' in defaultData) document.querySelector('#prem b').innerHTML = defaultData['prem'];
-}
+    if (defaultData['policy_cost'] != null) document.querySelector('#prem b').innerHTML = defaultData['policy_cost'];
 
-//Отправка запроса на расчёт полиса
-const chRequest = (url, csrf) => {
-    //даты начала и конца страхования
-    var tempDate1 =  document.querySelector('#dateFrom').value;
-    var tempDate2 =  document.querySelector('#dateTill').value;
-    if (tempDate1 && tempDate2) ajaxRequest(url, csrf, collectData(), updCalc, 'post');
-};
+    //указать выбранную валюту
+    if (defaultData['policy_currency'] == 'EUR') {
+        document.querySelector('#radio_euro').checked = true;
+        document.querySelector('#radio_usd').checked = false;
+    } else {
+        document.querySelector('#radio_euro').checked = false;
+        document.querySelector('#radio_usd').checked = true;
+    }
 
-// Обновляем блок с данными полиса
-const updCalc = response => {
-    response = JSON.parse(response);
-    document.querySelector('#disparity_orange_text').style.display = 'none';
-    let cards = document.getElementsByClassName('insCard');
-    for ( let i = 0; i < cards.length; i++) {
-        let id = cards[i].getAttribute('id');
-        if(response[id] && response[id]['prem'] != '0.00') {
-            console.log('API ' + id + ', cost ' + response[id]['prem']);
-            cards[i].style.display = 'block';
-            document.querySelector('#dis_' + id).style.display = 'none';
-            document.querySelector('#' + id + ' .prem b').innerHTML = response[id]['prem'];
-            if (response[id]['assistance']['name'] != 0) {
-                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>' + response[id]['assistance']['name'] + '</b><br>' + response[id]['assistance']['info'];
-            } else {
-                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>Дополнительная информация о страховой компании</b>';
+    //показать выделенные на предыдущей странице риски
+    //сумма медицинской страховки
+    document.querySelector('#radio_medical_amount_' + defaultData['risks'][0]['risk_amount']).checked = true;
+
+    //остальные риски
+    if ('risks' in defaultData) {   //хз нужна ли эта проверка, массив в любом случае есть, один элемент (медицинская)
+        tempArr = defaultData['risks'];
+        tempArr.forEach(function (risk) {
+            switch (risk['risk_name']) {
+                case 'public':  //сумма страховки гражданской отвественности
+                    document.querySelector('#additional_public').checked = true;
+                    document.getElementsByName('risks[1][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[1][risk_amount]');
+                    tempObj.forEach(function (item) {
+                        item.disabled = false;
+                    });
+                    document.querySelector('#radio_civil_responsibility_' + risk['risk_amount']).checked = true;
+                    break;
+                case 'cancel':
+                    document.querySelector('#additional_cancel').checked = true;
+                    document.getElementsByName('risks[2][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[2][risk_amount]');
+                    tempObj.forEach(function (item) {
+                        item.disabled = false;
+                    });
+                    document.querySelector('#radio_cancel_' + risk['risk_amount']).checked = true;
+                    break;
+                case 'accidient':   //сумма страховки от несчастных случаев
+                    document.querySelector('#additional_accident').checked = true;
+                    document.getElementsByName('risks[3][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[3][risk_amount]');
+                    tempObj.forEach(function (item) {
+                        item.disabled = false;
+                    });
+                    document.querySelector('#radio_accident_' + risk['risk_amount']).checked = true;
+                    break;
+                case 'laggage': //сумма страховки багажа
+                    document.querySelector('#additional_laggage').checked = true;
+                    document.getElementsByName('risks[4][accept]')[0].value = true;
+                    tempObj = document.getElementsByName('risks[4][risk_amount]');
+                    tempObj.forEach(function (item) {
+                        item.disabled = false;
+                    });
+                    document.querySelector('#radio_laggage_' + risk['risk_amount']).checked = true;
+                    break;
             }
-            //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
-            if ('policeId' in response[id]) {
-                //console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId']);
-                document.querySelector('#policeId').value = response[id]['policeId'];
-            }
 
-        } else {
-            cards[i].style.display = 'none';
-            document.querySelector('#dis_' + id).style.display = 'block';
-            document.querySelector('#disparity_orange_text').style.display = 'block';
+        });
+    }
+
+    //показать выделенные на предыдущей странице виды спорта
+    /*if ('additionalConditions' in defaultData) {
+     tempArr = defaultData['additionalConditions'] ;
+     for (key in tempArr) {
+     if (tempArr[key]['accept'] === 'true') document.querySelector('#additionalConditions' + key).checked = true;
+     }
+     }*/
+    for (i = 0; i <3; i++) {
+        if (defaultData['additional_condition_' + i]){
+            document.querySelector('#additionalConditions' + i).checked = true;
         }
     }
+
+}
+
+//Отправка на рассчет деталей полиса
+const chDetails = (url, csrf) => {
+    ajaxRequest(url, csrf, collectData(), updDetails, 'post');
+    //console.log('Данные деталей отправлены')
 };
 
-/**
- * Послать форму что бы получить блок с деталями полиса
- */
-const sendCalc = (cardId) => {
-
-    var tempForm = document.forms.form_calc;
-    tempForm.companyId.value = cardId;
-    tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
-    tempForm.submit();
-};
-
-// Отображаем блок с деталями купленного полиса полиса (ссылка на готовый полис в pdf)
-const viewDone = response => {
-    response = JSON.parse(response);
+// Обновляем блок с деталями полиса (ценой)
+const updDetails = (defaultData, company) => {
+    response = JSON.parse(defaultData);
 
     var companyId = document.querySelector('#companyId').value;
-    if (response.hasOwnProperty(companyId) && response[companyId].hasOwnProperty('policyLink')) {
-        document.querySelector('#succesfull').style.display = 'block';
-        document.querySelector('#wrong').style.display = 'none';
-        //document.querySelector('.police_link a').innerHTML = response[companyId]['policyLink'];
-        document.querySelector('.police_link a').innerHTML = 'Полис.pdf';
-        document.querySelector('.police_link a').href = response[companyId]['policyLink'];
+    if (response.hasOwnProperty(companyId) && response[companyId].hasOwnProperty('prem')) {
+        document.querySelector('.prem b').innerHTML = response[companyId]['prem'];
+        document.querySelector('.fa').style.display = 'inline';
+        document.querySelector('#submitBtn').disabled = false;
     } else {
-        document.querySelector('#succesfull').style.display = 'none';
-        document.querySelector('#wrong').style.display = 'block';
+        document.querySelector('.prem b').textContent = 'Нет в наличии';
+        document.querySelector('.fa').style.display = 'none';
+        document.querySelector('#submitBtn').disabled = true;
     }
 
-    console.log ('Done Parse');
+    /*if (response.hasOwnProperty('vsk') && response['vsk'].hasOwnProperty('prem')) {
+     document.querySelector('.prem b').innerHTML = response['vsk']['prem'];
+     } else {
+     document.querySelector('.prem b').textContent = 'Нет в наличии';
+     }*/
+
+    console.log ('Details Parse');
     //console.log(response);
 
 };
 
-//переключатель "годовой полис"
-function chYearPolice() {
-    if (document.querySelector('#policy_for_year').checked) {
-        console.log ('On');
-        if (document.querySelector('#dateFrom').value != '') {
-            tempDate = new Date(document.querySelector('#dateFrom').value);
-        } else {
-            tempDate = new Date();
-            $('#dateFrom').datepicker().data('datepicker').selectDate(new Date());
-        }
-        tempDate.setFullYear(tempDate.getFullYear() + 1);
-        tempDate.setDate(tempDate.getDate() - 1);
-        $('#dateTill').datepicker().data('datepicker').clear();
-        $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
-        //$('#dateTill').datepicker().data('datepicker').update(['value', tempDate]);
+//Послать форму что бы получить блок результатом покупки
+const sendDetails = (cardId) => {
+
+    var tempForm = document.forms.form_details;
+    var checked = false;
+    tempForm.policeAmount.value = document.querySelector('#prem b').innerText;
+    checked = true;
+    if (checked) {
+        console.log ('Form submit');
+        tempForm.submit();
     } else {
-        console.log ('Off');
-        if (document.querySelector('#dateFrom').value != '') {
-            tempDate = new Date(document.querySelector('#dateFrom').value);
-        } else {
-            tempDate = new Date();
-
-        }
-        tempDate.setMonth(tempDate.getMonth() + 1);
-        $('#dateTill').datepicker().data('datepicker').clear();
-        //$('#dateTill').datepicker().data('datepicker').update(['value', tempDate]);
-        $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
-
-    }
-}
-
-//Оплётка для смены путешественников в калькуляторе
-const travelersChange = (boxId, url, csrf) => {
-    conditions(boxId);
-    setTimeout(2000);
-    chRequest(url, csrf);
-}
-
-//Оплётка для смены путешественников в деталях полиса
-const travelersDetailsChange = (boxId, url, csrf) => {
-    conditions(boxId);
-    setTimeout(2000);
-    chDetails(url, csrf);
-}
-
-// переключение количества путешественников
-function conditions(boxId) {
-    tempObj = $('#tr_check_' + boxId)[0];
-    if (tempObj.checked) {
-        $('#tr' + boxId).show();
-        console.log ('Блок показан');
-    } else {
-        $('#tr' + boxId).hide();
-        console.log ('Блок спрятан');
+        console.log ('Form error');
     }
 
-}
+};
 
 //Аджакс запрос
 const ajaxRequest = (url, csrf, args, func, method) => {
@@ -628,7 +620,7 @@ const ajaxRequest = (url, csrf, args, func, method) => {
 
     tempArray = args.split('&');
     console.log(tempArray);
-    
+
     Request.send(args);
 };
 
@@ -719,7 +711,7 @@ function collectData () {
     document.querySelector('#additionalConditions2').value = document.querySelector('#additionalConditions2').checked;
 
     let args = 'countries[0][country_name]=';
-    
+
     //собираем массив стран путешествия
     let items = $('#msCountries').magicSuggest().getSelection();
     if (items.length > 0) {
@@ -741,31 +733,31 @@ function collectData () {
     tempVar = document.querySelectorAll('.checkbox-one');
     //данные о застрахованных
     args += '&travelers[0][accept]=' + document.querySelectorAll('.checkbox-one')[0].checked +
-            '&travelers[0][age]=' + document.querySelectorAll('.age-human')[0].value +
-            '&travelers[1][accept]=' + document.querySelectorAll('.checkbox-one')[1].checked +
-            '&travelers[1][age]=' + document.querySelectorAll('.age-human')[1].value +
-            '&travelers[2][accept]=' + document.querySelectorAll('.checkbox-one')[2].checked +
-            '&travelers[2][age]=' + document.querySelectorAll('.age-human')[2].value +
-            '&travelers[3][accept]=' + document.querySelectorAll('.checkbox-one')[3].checked +
-            '&travelers[3][age]=' + document.querySelectorAll('.age-human')[3].value +
-            '&travelers[4][accept]=' + document.querySelectorAll('.checkbox-one')[4].checked +
-            '&travelers[4][age]=' + document.querySelectorAll('.age-human')[4].value;
+        '&travelers[0][age]=' + document.querySelectorAll('.age-human')[0].value +
+        '&travelers[1][accept]=' + document.querySelectorAll('.checkbox-one')[1].checked +
+        '&travelers[1][age]=' + document.querySelectorAll('.age-human')[1].value +
+        '&travelers[2][accept]=' + document.querySelectorAll('.checkbox-one')[2].checked +
+        '&travelers[2][age]=' + document.querySelectorAll('.age-human')[2].value +
+        '&travelers[3][accept]=' + document.querySelectorAll('.checkbox-one')[3].checked +
+        '&travelers[3][age]=' + document.querySelectorAll('.age-human')[3].value +
+        '&travelers[4][accept]=' + document.querySelectorAll('.checkbox-one')[4].checked +
+        '&travelers[4][age]=' + document.querySelectorAll('.age-human')[4].value;
 
     //данные о рисках
     args += '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
-            '&risks[0][accept]=true&risks[0][amountAtRisk]=' + medical_amount +
-            '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
-            '&risks[1][accept]=' + document.querySelector('#additional_public').value + '&risks[1][amountAtRisk]=' + public_amount +
-            '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
-            '&risks[2][accept]=' + document.querySelector('#additional_cancel').value + '&risks[2][amountAtRisk]=' + cancel_amount +
-            '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
-            '&risks[3][accept]=' + document.querySelector('#additional_accident').value + '&risks[3][amountAtRisk]=' + accident_amount +
-            '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
-            '&risks[4][accept]=' + document.querySelector('#additional_laggage').value + '&risks[4][amountAtRisk]=' + laggage_amount;
+        '&risks[0][accept]=true&risks[0][amountAtRisk]=' + medical_amount +
+        '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
+        '&risks[1][accept]=' + document.querySelector('#additional_public').value + '&risks[1][amountAtRisk]=' + public_amount +
+        '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
+        '&risks[2][accept]=' + document.querySelector('#additional_cancel').value + '&risks[2][amountAtRisk]=' + cancel_amount +
+        '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
+        '&risks[3][accept]=' + document.querySelector('#additional_accident').value + '&risks[3][amountAtRisk]=' + accident_amount +
+        '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
+        '&risks[4][accept]=' + document.querySelector('#additional_laggage').value + '&risks[4][amountAtRisk]=' + laggage_amount;
     //дополнительные условия страхования
     args += '&additionalConditions[0][name]=leisure&additionalConditions[0][accept]=' + document.querySelector('#additionalConditions0').value +
-            '&additionalConditions[1][name]=competition&additionalConditions[1][accept]=' + document.querySelector('#additionalConditions1').value +
-            '&additionalConditions[2][name]=extreme&additionalConditions[2][accept]=' + document.querySelector('#additionalConditions2').value;
+        '&additionalConditions[1][name]=competition&additionalConditions[1][accept]=' + document.querySelector('#additionalConditions1').value +
+        '&additionalConditions[2][name]=extreme&additionalConditions[2][accept]=' + document.querySelector('#additionalConditions2').value;
 
     //данные о видах спорта
     items = $('#msActiveMain').magicSuggest().getSelection();
@@ -796,24 +788,3 @@ function collectData () {
 
     return args;
 }
-
-//Получить список различных данных
-function getInsurData(url, csrf) {
-    console.log ('Get Insur Data');
-
-    args = '';
-
-    var func = viewData;
-
-    ajaxRequest(url, csrf, args, func, 'post');
-}
-
-function viewData(response) {
-
-    //response = JSON.parse(response);
-
-
-
-    console.log ('Answer Data' + response);
-}
-

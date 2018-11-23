@@ -45,7 +45,8 @@
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                     <div class="wrap_map">
-                        <iframe src="https://yandex.ru/map-widget/v1/-/CBUsy6qzsD" width="560" height="400" frameborder="0"></iframe>
+                        <iframe src="https://yandex.by/map-widget/v1/-/CBF5b-GcHB" width="560" height="400" frameborder="0"></iframe>
+                        <!--iframe src="https://yandex.ru/map-widget/v1/-/CBUsy6qzsD" width="560" height="400" frameborder="0"></iframe-->
                     </div>
                 </div>
             </div>

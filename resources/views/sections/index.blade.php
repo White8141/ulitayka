@@ -22,25 +22,19 @@
                 <form action="{{ route('calculate') }}" method="post" class="jClever chooseYourCountry" id="form-1">
                     {{ csrf_field() }}
                     <div class="form-box">
-                        <div class="box-4yo">
-                            <select id="page-country" class="sel-text" name="countries[0][country_name]" style="cursor: pointer">
-                                <option selected value="SCHENGEN" disabled>Страна поездки</option>
-                            </select>
-                        </div>
 
+                        <div class="box-4yo">
+                            <input id="mainCountries" class="form-control" name="countries[][country_name]"/>
+                            <label></label>
+                        </div>
                         <div class="box-1">
                             <input name="dateFrom" type="text" placeholder="Туда" id="dateFrom"
-                                   class="datepicker-here calendar sel-text"
-                                   data-multiple-dates="1" data-date-format="yyyy-mm-dd"
-                                   data-multiple-dates-separator=", " style="cursor: pointer" readonly/>
+                                   class="datepicker-here calendar sel-text" style="cursor: pointer"/>
                         </div>
                         <div class="box-1">
                             <input name="dateTill" type="text" placeholder="Обратно" id="dateTill"
-                                   class="datepicker-here calendar sel-text"
-                                   data-multiple-dates="1" data-date-format="yyyy-mm-dd"
-                                   data-multiple-dates-separator=", " style="cursor: pointer" readonly/>
+                                   class="datepicker-here calendar sel-text" style="cursor: pointer"/>
                         </div>
-
                         <div class="box-3">
                             <div class="box-2" placeholder="Сколько человек, возраст" style="cursor: pointer"></div>
                             <div class="human-drop sel-text">
@@ -49,17 +43,17 @@
                                     <input name="travelers[0][accept]" type="checkbox" value="true" id="tr_check_0" checked
                                            class="checkbox-one" onchange="conditions(0);">
                                     <label class="label_check-radio" for="tr_check_0">1<sup>й</sup> путешественник</label>
-                               <span>
-                                   <select name="travelers[0][age]" class="age-human" id="tr0"></select>
-                           </span>
+                                    <span>
+                                        <select name="travelers[0][age]" class="age-human" id="tr0"></select>
+                                    </span>
                                 </div>
                                 <div>
                                     <input name="travelers[1][accept]" type="checkbox" value="true" id="tr_check_1"
                                            class="checkbox-one" onchange="conditions(1)">
                                     <label class="label_check-radio" for="tr_check_1">2<sup>й</sup> путешественник</label>
-                               <span>
-                                   <select name="travelers[1][age]" class="age-human" id="tr1" style="display:none"></select>
-                            </span>
+                                    <span>
+                                        <select name="travelers[1][age]" class="age-human" id="tr1" style="display:none"></select>
+                                    </span>
                                 </div>
                                 <div>
                                     <input name="travelers[2][accept]" type="checkbox" value="true" id="tr_check_2"
@@ -393,9 +387,5 @@
 @endsection
 
 @section('script')
-    <script>
-
-        welcomeCountryParse();
-
-    </script>
+    <script src="{{ asset('js/index.js') }}"></script>
 @endsection

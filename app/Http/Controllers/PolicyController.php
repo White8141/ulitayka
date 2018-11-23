@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Risk;
 use App\Traveler;
 use Illuminate\Http\Request;
 use App\InsuranceAPI\InsuranceCalc;
@@ -67,7 +68,7 @@ class PolicyController extends Controller
 
         foreach ($request->countries as $country) {
             $policy->countries()->create([
-                'country_name' => $country
+                'country_name' => $country['country_name']
             ]);
         }
         $policy->countries;
@@ -76,7 +77,7 @@ class PolicyController extends Controller
             if (array_get($traveler, 'accept')) {
                 $birhDate = new Carbon('-'.array_get($traveler, 'age').' years');
                 $policy->travelers()->create([
-                    'birth_date' => $birhDate->toDateString()
+                    'birth_date' => $birhDate->format('d.m.Y')
                 ]);
             }
         }
@@ -133,28 +134,33 @@ class PolicyController extends Controller
 
     public function save () {
 
-        $defData = $this->request->all();
+        //dd($this->request->all());
 
-        $tempArray = [];
-        foreach ($this->request->input('countries') as $country) {
-            $tempArray[] = ['country_name' => $country];
-        }
-        $defData['countries'] = $tempArray;
+        //dd($this->request);
 
-        $policy = Policy::find($defData['policeId']);
+        $policy = Policy::find($this->request['policeId']);
         $policy->countries;
         $policy->travelers;
         $policy->risks;
 
-        $policy->client_first_name = $defData['insureder']['firstName'];
-        $policy->client_last_name = $defData['insureder']['lastName'];
-        $policy->client_birthdate = $defData['insureder']['birthDate'];
+        $policy->policy_period_from = $this->request->dateFrom;
+        $policy->policy_period_till = $this->request->dateTill;
+        $policy->policy_cost = $this->request->policeAmount;
+        $policy->policy_currency = $this->request->policy_currency;
+        $policy->additional_condition_0 = $this->request->has('additionalConditions.0.accept') ? true : false;
+        $policy->additional_condition_1 = $this->request->has('additionalConditions.1.accept') ? true : false;
+        $policy->additional_condition_2 = $this->request->has('additionalConditions.2.accept') ? true : false;
+
+        $policy->client_first_name = $this->request['insureder']['firstName'];
+        $policy->client_last_name = $this->request['insureder']['lastName'];
+        $policy->client_birthdate = $this->request['insureder']['birthDate'];
         $policy->status = 1;
 
         $policy->save();
 
-        foreach ($defData['travelers'] as $traveler) {
+        foreach ($this->request['travelers'] as $traveler) {
             if ($traveler['id'] != 0) {
+                //dump($traveler);
                 $trModel = Traveler::find($traveler['id']);
                 $trModel->first_name = array_get($traveler, 'firstName');
                 $trModel->last_name = array_get($traveler, 'lastName');
@@ -163,11 +169,21 @@ class PolicyController extends Controller
             }
         }
 
+        foreach ($this->request['risks'] as $risk) {
+            //dump($policy->risks()->where('risk_name', $risk['name'])->first());
+            $currRisk = $policy->risks()->where('risk_name', $risk['name'])->first();
+            if ($currRisk) {
+                //dump($traveler);
+                $currRisk->risk_amount = array_get($risk, 'risk_amount');
+                $currRisk->save();
+            }
+        }
+
         //dd($policy);
-        //dd($defData['travelers']);
+        //dd($this->request['travelers']);
         //dd($policy->travelers()->get());
 
-        return redirect('/home');
+        return redirect('/home/policies');
     }
 
     public function delete (Policy $policy) {

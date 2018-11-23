@@ -1,33 +1,35 @@
-var i, tempVar, tempArray, tempObj, tempDate;
+var i, tempArray, tempObj, tempDate;
 
 $(document).ready(function () {
+    console.log ('Calc JS Start');
 
     // календарь  min Date
     $('#dateFrom').datepicker({
         minDate: new Date(),
         dateFormat: 'dd.mm.yyyy',
+        keyboardNav: 'false',
         //autoClose: 'true',
         onSelect: function (fd, date, inst) {
-
             if (document.querySelector('#dateFrom').value != '') {
                 $('#dateFrom').datepicker().data('datepicker').hide();
                 //if (document.querySelector('#dateFrom').value > document.querySelector('#dateTill').value)  $('#dateTill').datepicker().data('datepicker').clear();
                 //если последняя дата установленна раньше первой, удаляем ее
                 tempArray = document.querySelector('#dateFrom').value.split('.');
-                tempFrom = new Date(tempArray[2], tempArray[1]-1, tempArray[0]);
+                tempFrom = new Date(tempArray[2], tempArray[1] - 1, tempArray[0]);
                 if (document.querySelector('#dateTill').value) {
                     tempObj = document.querySelector('#dateTill').value.split('.');
-                    tempTill = new Date(tempObj[2], tempObj[1]-1, tempObj[0]);
-                    var tempDiff = tempFrom - tempTill;
-                    if (tempDiff > 0) {
+                    tempTill = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
+                    if (tempFrom - tempTill > 0) {
                         $('#dateTill').datepicker().data('datepicker').clear();
                     }
                 }
                 $('#dateTill').datepicker().data('datepicker').update('minDate', tempFrom);
                 $('#dateTill').datepicker().data('datepicker').show();
-                //document.querySelector('#dateFrom').value =
                 $('#dateFrom').trigger('change');
             }
+        },
+        onShow: function () {
+            $('#dateTill').datepicker().data('datepicker').hide();
         },
         onHide: function (dp, animationCompleted) {
             if (document.querySelector('#dateFrom').value == '' && document.querySelectorAll('#dateFrom.auto-correct').length > 0) {
@@ -59,6 +61,61 @@ $(document).ready(function () {
                 }
 
                 $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
+            }
+        }
+    });
+
+    tempArray = [];
+
+    $.getJSON('/js/json/country.json', function (data) {
+        $.each(data, function(key, val) {
+            tempArray.push({countryName: key,
+                countryViewName: val
+            });
+        });
+
+        var myMs = $('#mainCountries').magicSuggest({
+            data: tempArray,
+            placeholder: 'Страна поездки',
+            valueField: 'countryName',
+            displayField: 'countryViewName',
+            maxSelection: 10,
+            expandOnFocus: true,
+            hideTrigger: true
+        });
+    });
+
+    // выпадающий список путешественников
+    $('.box-2').click(function () {
+        $(this).next().toggle();
+        $('.human-drop').mouseleave(function () {
+            $(this).hide();
+        });
+    });
+
+    //отзывы
+    $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        navText: ["", ""],
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: false
+            },
+            400: {
+                items: 1,
+                nav: false
+            },
+            600: {
+                items: 1,
+                nav: false
+            },
+            1000: {
+                items: 1,
+                nav: true,
+                loop: true
             }
         }
     });
@@ -107,111 +164,27 @@ $(document).ready(function () {
         radiobuttonEuro.addEventListener("click", make_euro, false);
     }
 
-    /* Модалка */
-    /*var modal = document.getElementById('myModal');
-
-    var lnk = document.getElementById("myLnk");
-
-    var span = document.getElementsByClassName("close")[0];
-
-    lnk.onclick = function () {
-        modal.style.display = "block";
-    };
-
-    span.onclick = function () {
-        modal.style.display = "none";
-    };
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };*/
-    /* Конец - Модалка */
 
 });
 
-$(document).ready(function () {
-
-    //плагин слайдер
-    $('.owl-carousel').owlCarousel({
-        loop: true,
-        margin: 10,
-        navText: ["", ""],
-        responsiveClass: true,
-        responsive: {
-            0: {
-                items: 1,
-                nav: false
-            },
-            400: {
-                items: 1,
-                nav: false
-            },
-            600: {
-                items: 1,
-                nav: false
-            },
-            1000: {
-                items: 1,
-                nav: true,
-                loop: true
-            }
-        }
-    });
-
-
-    // выпадающий список
-    $('.box-2').click(function () {
-        $(this).next().toggle();
-        $('.human-drop').mouseleave(function () {
-            //$(this).hide();
-        });
-    });
-
-});
-
-//обработка массива country.json и внесение результатов в выпадающий список в упрощенной форме для страховки
-function welcomeCountryParse() {
-
-    tempArray = [];
-
-    $.getJSON('/js/json/country.json', function (data) {
-        $.each(data, function(key, val) {
-            tempArray.push({countryName: key,
-                countryViewName: val
-            });
-        });
-
-        var myMs = $('#mainCountries').magicSuggest({
-            data: tempArray,
-            placeholder: 'Страна поездки',
-            valueField: 'countryName',
-            displayField: 'countryViewName',
-            maxSelection: 10,
-            expandOnFocus: true,
-            hideTrigger: true
-        });
-    });
-
-    /*$.getJSON('/js/json/country.json', function (data) {
-        $.each(data, function (key, val) {
-            $('#page-country').append('<option value="' + key + '">' + val + '</option>');
-        })
-    });*/
-
-    var html;
-    for (i = 1; i <= 100; i++) {
-
-        if (i == 30) {
-            html += '<option value="' + i + '" selected>' + i + ' лет </option>';
-        } else {
-            html += '<option value="' + i + '">' + i + '</option>';
-        }
+// переключение количества путешественников
+function conditions(boxId) {
+    tempObj = $('#tr_check_' + boxId)[0];
+    if (tempObj.checked) {
+        $('#tr' + boxId).show();
+        console.log ('Блок показан');
+    } else {
+        $('#tr' + boxId).hide();
+        console.log ('Блок спрятан');
     }
-    $('.age-human').append(html);
 
-    //console.log('Country parse');
+}
+
+//Оплётка для смены путешественников в калькуляторе
+const travelersChange = (boxId, url, csrf) => {
+    conditions(boxId);
+    setTimeout(2000);
+    chRequest(url, csrf);
 }
 
 //обработка массива country.json и выбор заданных стран
@@ -222,7 +195,7 @@ function countryParseWithSelect(view, defData, csrfToken) {
     $.getJSON('/js/json/country.json', function (data) {
         $.each(data, function(key, val) {
             tempArr.push({countryName: key,
-                    countryViewName: val
+                countryViewName: val
             });
         });
 
@@ -236,19 +209,12 @@ function countryParseWithSelect(view, defData, csrfToken) {
             hideTrigger: true
         });
 
-        /*tempArr = [];
-        for (i = 0; i < defData['countries'].length; i++) {
-            tempArr.push(defData['countries'][i]);
-        }*/
         if ('countries' in defData) {
             tempArr = [];
             //console.log (defData['countries']);
             for (key in defData['countries']) {
                 tempArr.push(defData['countries'][key]['country_name']);
             }
-            /*defData['countries'].foreach (function (country) {
-                tempArr.push(country['country_name']);
-            })*/
             myMs.setValue(tempArr);
         } else {
             console.log ('Страна не выбрана');
@@ -466,7 +432,7 @@ const setCalcDefaultData = (defaultData, csrf) => {
 
     for (i = 0; i < 5; i++) {
         tempObj = $('#tr' + i);
-        if (defaultData['travelers'][i].hasOwnProperty('accept') && defaultData['travelers'][i]['accept']) {
+        if (defaultData['travelers'][i].hasOwnProperty('accept') && defaultData['travelers'][i]['accept'] == 'true') {
             document.querySelector('#tr_check_' + i).checked = true;
             tempObj.show();
             tempObj[0].value = defaultData['travelers'][i]['age'];
@@ -530,85 +496,6 @@ const sendCalc = (cardId) => {
     tempForm.submit();
 };
 
-// Отображаем блок с деталями купленного полиса полиса (ссылка на готовый полис в pdf)
-const viewDone = response => {
-    response = JSON.parse(response);
-
-    var companyId = document.querySelector('#companyId').value;
-    if (response.hasOwnProperty(companyId) && response[companyId].hasOwnProperty('policyLink')) {
-        document.querySelector('#succesfull').style.display = 'block';
-        document.querySelector('#wrong').style.display = 'none';
-        //document.querySelector('.police_link a').innerHTML = response[companyId]['policyLink'];
-        document.querySelector('.police_link a').innerHTML = 'Полис.pdf';
-        document.querySelector('.police_link a').href = response[companyId]['policyLink'];
-    } else {
-        document.querySelector('#succesfull').style.display = 'none';
-        document.querySelector('#wrong').style.display = 'block';
-    }
-
-    console.log ('Done Parse');
-    //console.log(response);
-
-};
-
-//переключатель "годовой полис"
-function chYearPolice() {
-    if (document.querySelector('#policy_for_year').checked) {
-        console.log ('On');
-        if (document.querySelector('#dateFrom').value != '') {
-            tempDate = new Date(document.querySelector('#dateFrom').value);
-        } else {
-            tempDate = new Date();
-            $('#dateFrom').datepicker().data('datepicker').selectDate(new Date());
-        }
-        tempDate.setFullYear(tempDate.getFullYear() + 1);
-        tempDate.setDate(tempDate.getDate() - 1);
-        $('#dateTill').datepicker().data('datepicker').clear();
-        $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
-        //$('#dateTill').datepicker().data('datepicker').update(['value', tempDate]);
-    } else {
-        console.log ('Off');
-        if (document.querySelector('#dateFrom').value != '') {
-            tempDate = new Date(document.querySelector('#dateFrom').value);
-        } else {
-            tempDate = new Date();
-
-        }
-        tempDate.setMonth(tempDate.getMonth() + 1);
-        $('#dateTill').datepicker().data('datepicker').clear();
-        //$('#dateTill').datepicker().data('datepicker').update(['value', tempDate]);
-        $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
-
-    }
-}
-
-//Оплётка для смены путешественников в калькуляторе
-const travelersChange = (boxId, url, csrf) => {
-    conditions(boxId);
-    setTimeout(2000);
-    chRequest(url, csrf);
-}
-
-//Оплётка для смены путешественников в деталях полиса
-const travelersDetailsChange = (boxId, url, csrf) => {
-    conditions(boxId);
-    setTimeout(2000);
-    chDetails(url, csrf);
-}
-
-// переключение количества путешественников
-function conditions(boxId) {
-    tempObj = $('#tr_check_' + boxId)[0];
-    if (tempObj.checked) {
-        $('#tr' + boxId).show();
-        console.log ('Блок показан');
-    } else {
-        $('#tr' + boxId).hide();
-        console.log ('Блок спрятан');
-    }
-
-}
-
 //Аджакс запрос
 const ajaxRequest = (url, csrf, args, func, method) => {
     let Request = new XMLHttpRequest();
@@ -628,7 +515,7 @@ const ajaxRequest = (url, csrf, args, func, method) => {
 
     tempArray = args.split('&');
     console.log(tempArray);
-    
+
     Request.send(args);
 };
 
@@ -719,7 +606,7 @@ function collectData () {
     document.querySelector('#additionalConditions2').value = document.querySelector('#additionalConditions2').checked;
 
     let args = 'countries[0][country_name]=';
-    
+
     //собираем массив стран путешествия
     let items = $('#msCountries').magicSuggest().getSelection();
     if (items.length > 0) {
@@ -741,31 +628,31 @@ function collectData () {
     tempVar = document.querySelectorAll('.checkbox-one');
     //данные о застрахованных
     args += '&travelers[0][accept]=' + document.querySelectorAll('.checkbox-one')[0].checked +
-            '&travelers[0][age]=' + document.querySelectorAll('.age-human')[0].value +
-            '&travelers[1][accept]=' + document.querySelectorAll('.checkbox-one')[1].checked +
-            '&travelers[1][age]=' + document.querySelectorAll('.age-human')[1].value +
-            '&travelers[2][accept]=' + document.querySelectorAll('.checkbox-one')[2].checked +
-            '&travelers[2][age]=' + document.querySelectorAll('.age-human')[2].value +
-            '&travelers[3][accept]=' + document.querySelectorAll('.checkbox-one')[3].checked +
-            '&travelers[3][age]=' + document.querySelectorAll('.age-human')[3].value +
-            '&travelers[4][accept]=' + document.querySelectorAll('.checkbox-one')[4].checked +
-            '&travelers[4][age]=' + document.querySelectorAll('.age-human')[4].value;
+        '&travelers[0][age]=' + document.querySelectorAll('.age-human')[0].value +
+        '&travelers[1][accept]=' + document.querySelectorAll('.checkbox-one')[1].checked +
+        '&travelers[1][age]=' + document.querySelectorAll('.age-human')[1].value +
+        '&travelers[2][accept]=' + document.querySelectorAll('.checkbox-one')[2].checked +
+        '&travelers[2][age]=' + document.querySelectorAll('.age-human')[2].value +
+        '&travelers[3][accept]=' + document.querySelectorAll('.checkbox-one')[3].checked +
+        '&travelers[3][age]=' + document.querySelectorAll('.age-human')[3].value +
+        '&travelers[4][accept]=' + document.querySelectorAll('.checkbox-one')[4].checked +
+        '&travelers[4][age]=' + document.querySelectorAll('.age-human')[4].value;
 
     //данные о рисках
     args += '&risks[0][name]=medical&risks[0][amountCurrency]=' + currency +
-            '&risks[0][accept]=true&risks[0][amountAtRisk]=' + medical_amount +
-            '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
-            '&risks[1][accept]=' + document.querySelector('#additional_public').value + '&risks[1][amountAtRisk]=' + public_amount +
-            '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
-            '&risks[2][accept]=' + document.querySelector('#additional_cancel').value + '&risks[2][amountAtRisk]=' + cancel_amount +
-            '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
-            '&risks[3][accept]=' + document.querySelector('#additional_accident').value + '&risks[3][amountAtRisk]=' + accident_amount +
-            '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
-            '&risks[4][accept]=' + document.querySelector('#additional_laggage').value + '&risks[4][amountAtRisk]=' + laggage_amount;
+        '&risks[0][accept]=true&risks[0][amountAtRisk]=' + medical_amount +
+        '&risks[1][name]=public&risks[1][amountCurrency]=' + currency +
+        '&risks[1][accept]=' + document.querySelector('#additional_public').value + '&risks[1][amountAtRisk]=' + public_amount +
+        '&risks[2][name]=cancel&risks[2][amountCurrency]=' + currency +
+        '&risks[2][accept]=' + document.querySelector('#additional_cancel').value + '&risks[2][amountAtRisk]=' + cancel_amount +
+        '&risks[3][name]=accident&risks[3][amountCurrency]=' + currency +
+        '&risks[3][accept]=' + document.querySelector('#additional_accident').value + '&risks[3][amountAtRisk]=' + accident_amount +
+        '&risks[4][name]=laggage&risks[4][amountCurrency]=' + currency +
+        '&risks[4][accept]=' + document.querySelector('#additional_laggage').value + '&risks[4][amountAtRisk]=' + laggage_amount;
     //дополнительные условия страхования
     args += '&additionalConditions[0][name]=leisure&additionalConditions[0][accept]=' + document.querySelector('#additionalConditions0').value +
-            '&additionalConditions[1][name]=competition&additionalConditions[1][accept]=' + document.querySelector('#additionalConditions1').value +
-            '&additionalConditions[2][name]=extreme&additionalConditions[2][accept]=' + document.querySelector('#additionalConditions2').value;
+        '&additionalConditions[1][name]=competition&additionalConditions[1][accept]=' + document.querySelector('#additionalConditions1').value +
+        '&additionalConditions[2][name]=extreme&additionalConditions[2][accept]=' + document.querySelector('#additionalConditions2').value;
 
     //данные о видах спорта
     items = $('#msActiveMain').magicSuggest().getSelection();
@@ -796,24 +683,3 @@ function collectData () {
 
     return args;
 }
-
-//Получить список различных данных
-function getInsurData(url, csrf) {
-    console.log ('Get Insur Data');
-
-    args = '';
-
-    var func = viewData;
-
-    ajaxRequest(url, csrf, args, func, 'post');
-}
-
-function viewData(response) {
-
-    //response = JSON.parse(response);
-
-
-
-    console.log ('Answer Data' + response);
-}
-

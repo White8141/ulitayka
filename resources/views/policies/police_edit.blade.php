@@ -23,12 +23,13 @@
 
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
                     <input name="policeId" id="policeId" value="0" type="hidden" />
+                    <input name="policeAmount" id="policeAmount" type="hidden" />
 
                     <img src="{{ url ('assets/img/logo-'.$companyId.'.png') }}" alt="" class="center-block">
 
                     <div>
                         <label>Страны</label>
-                        <input id="msCountries" class="form-control" name="countries[]"/>
+                        <input id="msCountries" class="form-control" name="countries[][country_name]"/>
                     </div>
 
                     <input type="checkbox" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="i_am_travelling" id="i_am_travelling"
@@ -39,25 +40,14 @@
                     <br>
                     <div class="row policy_row">
                         <label for="dateFrom">c</label>
-                        <input name="dateFrom" id="dateFrom" onblur="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
+                        <input name="dateFrom" id="dateFrom" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                             type="text" placeholder="Туда" class="datepicker-here  sel-text"
-                            data-multiple-dates="1" data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
+                            style="cursor: pointer" readonly/>
                         <label for="dateTill">по</label>
-                        <input name="dateTill" id="dateTill" onblur="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
+                        <input name="dateTill" id="dateTill" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                             type="text" placeholder="Обратно" class="datepicker-here sel-text"
-                            data-multiple-dates="1" data-date-format="yyyy-mm-dd" style="cursor: pointer"/>
+                            style="cursor: pointer" readonly/>
                     </div>
-
-                    <!--input name="dateFrom" onblur="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" id="dateFrom" type="text" placeholder="Туда"
-                               class="datepicker-here calendar blue_input_text textbox_49_percent auto-correct"
-                               data-multiple-dates="1" data-date-format="yyyy-mm-dd" data-multiple-dates-separator=", "
-                               style="cursor: pointer" readonly/-->
-                    <!--input name="dateTill" onblur="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" id="dateTill" type="text" placeholder="Обратно"
-                               class="datepicker-here calendar blue_input_text textbox_49_percent auto-correct"
-                               data-multiple-dates="1" data-date-format="yyyy-mm-dd" data-multiple-dates-separator=", "
-                               style="cursor: pointer" readonly/-->
-
-                    <!--span class="fa fa-calendar"></span-->
 
                     <input type="checkbox" onchange="chYearPolice('{{route('calcajax')}}', '{{csrf_token()}}')" name="policy_for_year" id="policy_for_year"
                            class="check_and_radio"><label for="policy_for_year" class="filter_checkbox">Годовой полис</label>
@@ -184,10 +174,12 @@
 
                     <div class="details-form footer">
                         
-                    <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>
+                        <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>
 
-                    <button id="submitBtn" class="btn btn-danger" type="submit">Сохранить</button>
-                    <!--a id="submitBtn" class="btn btn-danger" onclick="showDone()">Купить</a-->
+                        <!--button id="submitBtn" class="btn btn-danger" type="submit">Сохранить</button-->
+                        <a class="btn btn-danger" onclick=sendDetails('{{ $companyId }}')>
+                            <p>Оформить</p>
+                        </a>
 
                     </div>
 
@@ -203,6 +195,7 @@
                     <div class="medical_amount">
                         <input name="risks[0][accept]" value="true"   hidden/>
                         <input name="risks[0][name]"  value="medical" hidden/>
+                        <input name="risks[0][id]" value="0" type="hidden"/>
                         <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][risk_amount]" value="30000" id="radio_medical_amount_30000" class="check_and_radio" ><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                         <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][risk_amount]" value="35000" id="radio_medical_amount_35000" class="check_and_radio" ><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
                         <input type="radio" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')" name="risks[0][risk_amount]" value="40000" id="radio_medical_amount_40000" class="check_and_radio" ><label for="radio_medical_amount_40000" style="margin-right: 20px;">40&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
@@ -330,6 +323,7 @@
                         <br>
                         <div class="margined">
                             <input name="risks[3][name]"  value="accident" hidden/>
+                            <input name="risks[3][id]" value="0" type="hidden"/>
                             <p class="margin_bottom5">На все время путешествия</p>
                             <input type="radio" checked value="1000" name="risks[3][risk_amount]" id="radio_accident_1000" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                    class="check_and_radio" disabled><label for="radio_accident_1000" class="margined_text"
@@ -353,6 +347,7 @@
                         <div class="margined">
                             <p class="margin_bottom5">На время перелета</p>
                             <input name="risks[4][name]"  value="laggage" hidden/>
+                            <input name="risks[4][id]" value="0" type="hidden"/>
                             <input type="radio" value ="500" checked name="risks[4][risk_amount]" id="radio_laggage_500" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                    class="check_and_radio" disabled><label for="radio_laggage_500" class="margined_text"
                                                                            style="margin-right: 20px;">500<p class="currency_symbol">€</p></label>
@@ -396,6 +391,7 @@
                         <div class="margined">
                             <p class="margin_bottom5">На время перелета</p>
                             <input name="risks[2][name]"  value="cancel" hidden/>
+                            <input name="risks[2][id]" value="0" type="hidden"/>
                             <input type="radio" checked value="500" name="risks[2][risk_amount]" id="radio_cancel_500" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                    class="check_and_radio" disabled><label for="radio_cancel_500" class="margined_text"
                                                                            style="margin-right: 10px;">&nbsp;&nbsp;&nbsp;500<p class="currency_symbol">€</p></label>
@@ -439,6 +435,7 @@
                         <br>
                         <div class="margined">
                             <input name="risks[1][name]"  value="public" hidden/>
+                            <input name="risks[1][id]" value="0" type="hidden"/>
                             <input type="radio" name="risks[1][risk_amount]" value="10000" id="radio_civil_responsibility_10000" onclick="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                                    class="check_and_radio" disabled><label for="radio_civil_responsibility_10000"
                                                                            class="margined_text" style="margin-right: 20px;">10&nbsp;000<p class="currency_symbol">€</p></label>
@@ -502,8 +499,9 @@
 
 @section('script')
 
-<script>
-    setDetailsDefaultData ('{!! $defaultData !!}', '{{ csrf_token() }}');
-</script>
+    <script src="{{ asset('js/edit.js') }}"></script>
+    <script>
+        setDetailsDefaultData ('{!! $defaultData !!}', '{{ csrf_token() }}');
+    </script>
 
 @stop
