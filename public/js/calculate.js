@@ -164,6 +164,123 @@ $(document).ready(function () {
         radiobuttonEuro.addEventListener("click", make_euro, false);
     }
 
+    $('#form_calc').keydown(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            tempVar = event.target.value;
+            tempArray = [];
+            for (i = 0; i < tempVar.length; i ++) {
+                console.log ();
+                if (!isNaN(tempVar.charAt(i)) && i < tempVar.length - 1) {
+                    if (!isNaN(tempVar.charAt(i+1))) {
+                        if (tempArray.length == 2 && !isNaN(tempVar.charAt(i+2)) && !isNaN(tempVar.charAt(i+3))) {
+                            tempArray.push(tempVar.substr(i, 4));
+                        } else {
+                            tempArray.push(tempVar.substr(i, 2));
+                        }
+                        i ++;
+                    } else {
+                        tempArray.push(tempVar.substr(i, 1));
+                    }
+                } else {
+                    if (!isNaN(tempVar.charAt(i))) {
+                        tempArray.push(tempVar.substr(i, 1));
+                    }
+                }
+            }
+
+            currDate = new Date();
+
+            if (tempArray.length == 0) {
+                tempArray[0] = String(currDate.getDay());
+                tempArray[1] = String(currDate.getMonth() + 1);
+                tempArray[2] = String(currDate.getFullYear());
+            }
+
+            if (tempArray.length == 1) {
+                tempArray[1] = String(currDate.getMonth() + 1);
+                tempArray[2] = String(currDate.getFullYear());
+            }
+
+            if (tempArray.length == 2) {
+                tempArray[2] = String(currDate.getFullYear());
+            }
+
+            if (tempArray[2].length < 4) {
+                tempArray[2] = '20' + tempArray[2].slice(-2);
+            } else {
+                tempArray[2] = tempArray[2].substr(0, 4);
+            }
+
+            tempDate = new Date (tempArray[2], tempArray[1]- 1, tempArray[0]);
+
+            if (tempDate != 'Invalid Date') {
+                console.log ('Дата создана');
+                if (event.target.id == 'dateFrom') {
+                    if ((currDate - tempDate) > 0 ) {
+                        console.log ('Нужно менять на текущую');
+                        tempDate.setDate(currDate.getDate() + 1);
+                    } else {
+                        console.log ('Нормальная дата');
+                    }
+                    myDatepicker = $('#dateFrom').datepicker().data('datepicker');
+                    myDatepicker.selectDate(tempDate);
+                }
+                if (event.target.id == 'dateTill') {
+                    if (document.querySelector('#dateFrom').value && document.querySelector('#dateFrom').value != '') {
+                        tempObj = document.querySelector('#dateFrom').value.split('.');
+                        tempFrom = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
+                        if (tempFrom - tempDate > 0) {
+                            console.log ('Нужно менять на день вперед от начальной');
+                            tempDate.setDate(tempFrom.getDate() + 1);
+                        } else {
+                            console.log ('Нормальная дата');
+                        }
+                    } else {
+                        if ((currDate - tempDate) > 0 ) {
+                            console.log ('Нужно менять на день вперед от сегодня');
+                            tempDate.setDate(currDate.getDate() + 1);
+                        } else {
+                            console.log ('Нормальная дата');
+                        }
+                    }
+                    myDatepicker = $('#dateTill').datepicker().data('datepicker');
+                    myDatepicker.selectDate(tempDate);
+                }
+            } else {
+                console.log ('Дата неправильная');
+                tempDate = new Date();
+                if (event.target.id == 'dateFrom') {
+                    tempDate.setDate(currDate.getDate() + 1);
+                    myDatepicker = $('#dateFrom').datepicker().data('datepicker');
+                    myDatepicker.selectDate(tempDate);
+                }
+                if (event.target.id == 'dateTill') {
+                    if (document.querySelector('#dateFrom').value && document.querySelector('#dateFrom').value != '') {
+                        tempObj = document.querySelector('#dateFrom').value.split('.');
+                        tempFrom = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
+                        if (tempFrom - tempDate > 0) {
+                            console.log ('Нужно менять на неделю вперед от начальной');
+                            tempDate.setDate(tempFrom.getDate() + 1);
+                        } else {
+                            console.log ('Нормальная дата');
+                        }
+                    } else {
+                        if ((currDate - tempDate) > 0 ) {
+                            console.log ('Нужно менять на неделю вперед от текущей');
+                            tempDate.setDate(currDate.getDate() + 1);
+                        } else {
+                            console.log ('Нормальная дата');
+                        }
+                    }
+                    myDatepicker = $('#dateTill').datepicker().data('datepicker');
+                    myDatepicker.selectDate(new Date());
+                }
+            }
+
+            //return false;
+        }
+    });
 
 });
 
@@ -446,11 +563,128 @@ const setCalcDefaultData = (defaultData, csrf) => {
     if ('prem' in defaultData) document.querySelector('#prem b').innerHTML = defaultData['prem'];
 }
 
+function prepareDate(formId, url, csrf) {
+
+    tempVar =  document.querySelector('#' + formId).value;
+    tempArray = [];
+    for (i = 0; i < tempVar.length; i ++) {
+        console.log ();
+        if (!isNaN(tempVar.charAt(i)) && i < tempVar.length - 1) {
+            if (!isNaN(tempVar.charAt(i+1))) {
+                if (tempArray.length == 2 && !isNaN(tempVar.charAt(i+2)) && !isNaN(tempVar.charAt(i+3))) {
+                    tempArray.push(tempVar.substr(i, 4));
+                } else {
+                    tempArray.push(tempVar.substr(i, 2));
+                }
+                i ++;
+            } else {
+                tempArray.push(tempVar.substr(i, 1));
+            }
+        } else {
+            if (!isNaN(tempVar.charAt(i))) {
+                tempArray.push(tempVar.substr(i, 1));
+            }
+        }
+    }
+
+    currDate = new Date();
+
+    if (tempArray.length == 0) {
+        tempArray[0] = String(currDate.getDay());
+        tempArray[1] = String(currDate.getMonth() + 1);
+        tempArray[2] = String(currDate.getFullYear());
+    }
+
+    if (tempArray.length == 1) {
+        tempArray[1] = String(currDate.getMonth() + 1);
+        tempArray[2] = String(currDate.getFullYear());
+    }
+
+    if (tempArray.length == 2) {
+        tempArray[2] = String(currDate.getFullYear());
+    }
+
+    if (tempArray[2].length < 4) {
+        tempArray[2] = '20' + tempArray[2].slice(-2);
+    } else {
+        tempArray[2] = tempArray[2].substr(0, 4);
+    }
+
+    tempDate = new Date (tempArray[2], tempArray[1]- 1, tempArray[0]);
+
+    if (tempDate != 'Invalid Date') {
+        console.log ('Дата создана');
+        if (formId == 'dateFrom') {
+            if ((currDate - tempDate) > 0 ) {
+                console.log ('Нужно менять на текущую');
+                tempDate.setDate(currDate.getDate() + 1);
+            } else {
+                console.log ('Нормальная дата');
+            }
+            myDatepicker = $('#dateFrom').datepicker().data('datepicker');
+            myDatepicker.selectDate(tempDate);
+        }
+        if (formId == 'dateTill') {
+            if (document.querySelector('#dateFrom').value && document.querySelector('#dateFrom').value != '') {
+                tempObj = document.querySelector('#dateFrom').value.split('.');
+                tempFrom = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
+                if (tempFrom - tempDate > 0) {
+                    console.log ('Нужно менять на день вперед от начальной');
+                    tempDate.setDate(tempFrom.getDate() + 1);
+                } else {
+                    console.log ('Нормальная дата');
+                }
+            } else {
+                if ((currDate - tempDate) > 0 ) {
+                    console.log ('Нужно менять на день вперед от сегодня');
+                    tempDate.setDate(currDate.getDate() + 1);
+                } else {
+                    console.log ('Нормальная дата');
+                }
+            }
+            myDatepicker = $('#dateTill').datepicker().data('datepicker');
+            myDatepicker.selectDate(tempDate);
+        }
+    } else {
+        console.log ('Дата неправильная');
+        tempDate = new Date();
+        if (formId == 'dateFrom') {
+            tempDate.setDate(currDate.getDate() + 1);
+            myDatepicker = $('#dateFrom').datepicker().data('datepicker');
+            myDatepicker.selectDate(tempDate);
+        }
+        if (formId == 'dateTill') {
+            if (document.querySelector('#dateFrom').value && document.querySelector('#dateFrom').value != '') {
+                tempObj = document.querySelector('#dateFrom').value.split('.');
+                tempFrom = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
+                if (tempFrom - tempDate > 0) {
+                    console.log ('Нужно менять на неделю вперед от начальной');
+                    tempDate.setDate(tempFrom.getDate() + 1);
+                } else {
+                    console.log ('Нормальная дата');
+                }
+            } else {
+                if ((currDate - tempDate) > 0 ) {
+                    console.log ('Нужно менять на неделю вперед от текущей');
+                    tempDate.setDate(currDate.getDate() + 1);
+                } else {
+                    console.log ('Нормальная дата');
+                }
+            }
+            myDatepicker = $('#dateTill').datepicker().data('datepicker');
+            myDatepicker.selectDate(new Date());
+        }
+    }
+
+    //ajaxRequest(url, csrf, collectData(), updCalc, 'post');
+}
+
 //Отправка запроса на расчёт полиса
 const chRequest = (url, csrf) => {
     //даты начала и конца страхования
     var tempDate1 =  document.querySelector('#dateFrom').value;
     var tempDate2 =  document.querySelector('#dateTill').value;
+
     if (tempDate1 && tempDate2) ajaxRequest(url, csrf, collectData(), updCalc, 'post');
 };
 
@@ -489,7 +723,6 @@ const updCalc = response => {
  * Послать форму что бы получить блок с деталями полиса
  */
 const sendCalc = (cardId) => {
-
     var tempForm = document.forms.form_calc;
     tempForm.companyId.value = cardId;
     tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;

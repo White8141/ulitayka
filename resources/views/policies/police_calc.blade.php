@@ -264,7 +264,7 @@
                     <div class="card card_right">
                         <div class="container_filters">
 
-                            <form action="{{ route('policy_create') }}" method="post" class="jClever" name="form_calc">
+                            <form action="{{ route('policy_create') }}" method="post" class="jClever" id="form_calc" name="form_calc">
                                 {{ csrf_field() }}
 
                                 <input name="companyId" id="companyId" type="hidden" />
@@ -283,13 +283,13 @@
 
                                 <br>
 
-                                <input name="dateFrom" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" id="dateFrom" type="text" placeholder="Туда"
+                                <input name="dateFrom" id="dateFrom" type="text" placeholder="Туда"
                                        class="datepicker-here calendar blue_input_text textbox_49_percent auto-correct"
-                                       style="cursor: pointer" readonly/>
+                                       pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
 
-                                <input name="dateTill" onchange="chRequest('{{route('calcajax')}}', '{{csrf_token()}}')" id="dateTill" type="text" placeholder="Обратно"
+                                <input name="dateTill" id="dateTill" type="text" placeholder="Обратно"
                                        class="datepicker-here calendar blue_input_text textbox_49_percent auto-correct"
-                                       style="cursor: pointer" readonly/>
+                                       pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
                                 <!--span class="fa fa-calendar"></span-->
 
                                 <input type="checkbox" onchange="chYearPolice('{{route('calcajax')}}', '{{csrf_token()}}')" name="policy_for_year" id="policy_for_year"

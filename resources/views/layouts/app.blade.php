@@ -30,6 +30,13 @@
 <body>
     <div id="app">
 
+        <div class="toast-container">
+            <div id="toastMessage" class="toast-message">
+                <p>Данные сохранены</p>
+            </div>
+
+        </div>
+
         @include('layouts/header')
 
         <div class="content-container">

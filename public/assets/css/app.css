@@ -452,16 +452,47 @@ a:visited {
   cursor: pointer !important;
 }
 
+a.policies-button {
+  margin-left: 15px;
+  position: relative;
+  top: -58px;
+}
+
+.toast-container {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+  text-align: -webkit-center;
+}
+
+.toast-container .toast-message {
+  background-color: #333333;
+  width: 180px;
+  display: none;
+}
+
+.toast-container .toast-message p {
+  color: #fff;
+  padding: 10px;
+}
+
 .form-container {
   display: block;
+  width: 80%;
+  margin: 0px auto;
 }
 
-.form-container button {
+.form-container .user-data-contaner {
+  position: relative;
+}
+
+.form-container .user-data-contaner .user-data-fill, .form-container .user-data-contaner .user-data-empty {
+  display: none;
+}
+
+.form-container .user-data-contaner button {
   float: right;
-}
-
-a.policies-button {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .mo_margin_row {
@@ -731,6 +762,10 @@ table.policy_table th, table.policy_table td {
   margin-right: auto;
   width: 85%;
   background-color: #fff;
+}
+
+.police_details .details-form.footer {
+  padding-right: 15px;
 }
 
 .police_details .details-form.footer button {

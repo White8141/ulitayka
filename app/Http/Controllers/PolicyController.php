@@ -123,7 +123,8 @@ class PolicyController extends Controller
         //dd($policy);
 
         return view('policies/police_edit')->with([ 'defaultData' => json_encode($policy),
-                                                    'companyId' => strval($policy->company_id)
+                                                    'companyId' => strval($policy->company_id),
+                                                    'user' => $this->request->user()
         ]);
     }
 
@@ -151,12 +152,20 @@ class PolicyController extends Controller
         $policy->additional_condition_1 = $this->request->has('additionalConditions.1.accept') ? true : false;
         $policy->additional_condition_2 = $this->request->has('additionalConditions.2.accept') ? true : false;
 
-        $policy->client_first_name = $this->request['insureder']['firstName'];
+        /*$policy->client_first_name = $this->request['insureder']['firstName'];
         $policy->client_last_name = $this->request['insureder']['lastName'];
-        $policy->client_birthdate = $this->request['insureder']['birthDate'];
+        $policy->client_birthdate = $this->request['insureder']['birthDate'];*/
         $policy->status = 1;
 
         $policy->save();
+
+        $user = $this->request->user();
+        if (!$user->user_profile_filled) {
+            $user->user_first_name_en = $this->request->input('insureder.firstName');
+            $user->user_last_name_en = $this->request->input('insureder.lastName');
+            if ($this->request->input('insureder.birthDate') != null) $user->user_birthdate = $this->request->input('insureder.birthDate');
+            $user->save();
+        }
 
         foreach ($this->request['travelers'] as $traveler) {
             if ($traveler['id'] != 0) {

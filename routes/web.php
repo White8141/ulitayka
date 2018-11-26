@@ -14,7 +14,7 @@ Route::post('/getData', 'CalcController@getData')->name('getData');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/policies', 'HomeController@policies_list')->name('policies_list');
-Route::post('/home/user', 'HomeController@user_save')->name('user_save');
+Route::post('/home', 'HomeController@user_save')->name('user_save');
 
 // Статические страницы
 Route::get('/', 'PagesController@index')->name('main_page');

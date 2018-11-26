@@ -42,11 +42,11 @@
                         <label for="dateFrom">c</label>
                         <input name="dateFrom" id="dateFrom" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                             type="text" placeholder="Туда" class="datepicker-here  sel-text"
-                            style="cursor: pointer" readonly/>
+                            style="cursor: pointer" pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
                         <label for="dateTill">по</label>
                         <input name="dateTill" id="dateTill" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
                             type="text" placeholder="Обратно" class="datepicker-here sel-text"
-                            style="cursor: pointer" readonly/>
+                            style="cursor: pointer" pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
                     </div>
 
                     <input type="checkbox" onchange="chYearPolice('{{route('calcajax')}}', '{{csrf_token()}}')" name="policy_for_year" id="policy_for_year"
@@ -57,15 +57,29 @@
                     <div id="insureder">
                         <div>Страхователь</div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" id="insurederFirstName" name="insureder[firstName]" required/>
+                            <input class="form-control" id="insurederFirstName" name="insureder[firstName]" required
+                                @if($user->user_first_name_en != null)
+                                    value="{{$user->user_first_name_en}}" readonly  style="cursor: default"
+                                @endif
+                            />
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" id="insurederLastName" name="insureder[lastName]" required/>
+                            <input class="form-control" id="insurederLastName" name="insureder[lastName]" required
+                                @if($user->user_last_name_en != null)
+                                    value="{{$user->user_last_name_en}}" readonly  style="cursor: default"
+                                @endif
+                            />
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" id="insurederBirthDate" name="insureder[birthDate]" type="text" style="cursor: pointer"/>
+                            <input class="form-control" id="insurederBirthDate" name="insureder[birthDate]" type="text" required
+                                @if($user->user_birthdate != null)
+                                   value="{{$user->user_birthdate}}" readonly disabled style="cursor: default"
+                                @else
+                                   style="cursor: pointer"
+                                @endif
+                            />
                             <label>Дата рождения</label>
                         </div>
                         <hr>
@@ -176,10 +190,10 @@
                         
                         <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>
 
-                        <!--button id="submitBtn" class="btn btn-danger" type="submit">Сохранить</button-->
-                        <a class="btn btn-danger" onclick=sendDetails('{{ $companyId }}')>
+                        <button id="submitBtn" class="btn btn-danger" type="submit">Сохранить</button>
+                        <!--a class="btn btn-danger" onclick=sendDetails('{{ $companyId }}')>
                             <p>Оформить</p>
-                        </a>
+                        </a-->
 
                     </div>
 

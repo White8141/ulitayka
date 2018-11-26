@@ -33,7 +33,8 @@ class HomeController extends Controller
         //$policies = $this->policies->forUser($request->user());
         
         return view ('sections/home/index', [
-            'user' => $request->user()
+            'user' => $request->user(),
+            'toolbar' => ''
         ]);
     }
 
@@ -61,14 +62,18 @@ class HomeController extends Controller
         $user->user_first_name_ru = $request->input('userFirstNameRu');
         $user->user_last_name_ru = $request->input('userLastNameRu');
         $user->user_birthdate = $request->input('userBirthdate');
-        if ($request->input('userPass') != null) $user->user_passport = $request->input('userPass');
+        if ($request->input('userPassport') != null) $user->user_passport = $request->input('userPassport');
         $user->user_phone = $request->input('userPhone');
+        $user->user_profile_filled = true;
+
+        //dd($user);
         $user->save();
 
         //dump($user);
 
-        return redirect ('sections/home/index', [
-            'user' => $user
+        return view ('sections/home/index', [
+            'user' => $user,
+            'toolbar' => 'Данные сохранены'
         ]);
     }
 }
