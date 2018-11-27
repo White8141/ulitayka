@@ -44,7 +44,7 @@ class InsuranceCalc
             ];
         }
 
-        /*$advant = $this->getAdvantCalc($request);
+        $advant = $this->getAdvantCalc($request);
         //dd($advant);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result['advant'] = [
@@ -56,7 +56,7 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }*/
+        }
 
         return $isJson ? json_encode($result) : $result;
     }

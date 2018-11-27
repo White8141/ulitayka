@@ -37,6 +37,9 @@
                     <li>
                         <a href="tel:79659833534">+7 (965) 983-35-34</a>
                     </li>
+                    <li>
+                        <p>Email: info@ulitayka.ru</p>
+                    </li>
                     <br>
                     <li>
                         <p>Санкт-Петербург</p>

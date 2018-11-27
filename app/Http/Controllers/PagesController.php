@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -10,6 +11,47 @@ class PagesController extends Controller
     public function index()
     {
         return view('sections/index');
+    }
+
+    //раздел Контакты
+    public function contacts()
+    {
+        return view('sections/contacts/contacts', [
+            'tooltip' => ''
+        ]);
+    }
+    //раздел Контакты
+    public function order(Request $request)
+    {
+        //dd($request->all());
+
+        $order = new Order;
+        $order->name = $request->input('main_name');
+        $order->phone = $request->input('main_tel');
+        $order->email = $request->input('main_email');
+        $order->comments = $request->input('main_comment');
+        $order->save();
+
+        //dd($order);
+        $subject = "Новый заказ";
+        $msg = "Заказан звонок от абонента ".$order->name.", номер телефона: ".$order->phone.", email: ".$order->email;
+        if ($order->comments != '') $msg = $msg.", комментарии к заказу: ".$order->comments;
+        mail ("white8141@yandex.ru", $subject, $msg, "From: http://ulitayka.ru/");
+
+        $token = "678737128:AAEmiTcbR310HV4Pep12vohXQh3uWO41tSA";
+        $chatid = "178916089";
+        $mess = 'Пользователь '.$order->name.' заказал звонок на номер '.$order->phone;
+        if ($order->comments != '') $mess = $mess.", комментарии к заказу: ".$order->comments;
+        $tbot = file_get_contents("https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$chatid."&text=".$mess);
+        //dd($tbot);
+
+        return view('sections/contacts/contacts', [
+            'tooltip' => 'Заказ принят'
+        ]);
+    }
+    public function legend()
+    {
+        return view('sections/legend');
     }
 
     //разлел Электронный полис
@@ -103,16 +145,6 @@ class PagesController extends Controller
         return view('sections/travel/type/fransh_ins');
     }
 
-    //раздел Контакты
-    public function contacts()
-    {
-        return view('sections/contacts/contacts');
-    }
-    public function legend()
-    {
-        return view('sections/legend');
-    }
-    
     //страны
     public function finland()
     {

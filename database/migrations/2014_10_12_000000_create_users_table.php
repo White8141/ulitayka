@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('user_adress')->nullable();
             $table->string('user_phone')->nullable();
             $table->string('user_passport')->nullable();
-            $table->string('user_birthdate')->nullable();
+            $table->char('user_birthdate', 10)->nullable();
             $table->boolean('user_profile_filled')->default(false);
 
             $table->string('email')->nullable();

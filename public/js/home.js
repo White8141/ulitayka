@@ -46,7 +46,8 @@ function preparePage (isProfileFilled, birthdate) {
 // переключение количества путешественников
 function printToolbar(message) {
     if (message != "") {
-        console.log ('Пришло сообщение ' + message);
+        //console.log ('Пришло сообщение ' + message);
+        document.querySelector('#toastMessage p').innerHTML = message;
         $('#toastMessage').css('display', 'block');
         setTimeout(function () {
             $('#toastMessage').slideUp(500);

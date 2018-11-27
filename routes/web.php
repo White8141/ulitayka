@@ -13,11 +13,16 @@ Route::post('/calcajax', 'CalcController@ajax')->name('calcajax');
 Route::post('/getData', 'CalcController@getData')->name('getData');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/policies', 'HomeController@policies_list')->name('policies_list');
 Route::post('/home', 'HomeController@user_save')->name('user_save');
+Route::get('/home/policies', 'HomeController@policies_list')->name('policies_list');
 
 // Статические страницы
 Route::get('/', 'PagesController@index')->name('main_page');
+
+//Контакты
+Route::get('/kontakti', 'PagesController@contacts')->name('contacts');
+Route::post('/kontakti', 'PagesController@order')->name('order_create');
+Route::get('/legenda', 'PagesController@legend')->name('legend');
 
 //Раздел Электронный полис
 Route::get('/kak_eto_rabotaet', 'PagesController@how_it_works')->name('how_it_works');
@@ -46,10 +51,6 @@ Route::get('/medicinskaya_strahovka', 'PagesController@med_ins')->name('med_ins'
 Route::get('/compinsacionnaya_strahovka', 'PagesController@comp_ins')->name('comp_ins');
 Route::get('/strahovka_ot_neviezda', 'PagesController@abort')->name('abort');
 Route::get('/strahovka_s_franshizoy', 'PagesController@fransh_ins')->name('fransh_ins');
-
-//Контакты
-Route::get('/kontakti', 'PagesController@contacts')->name('contacts');
-Route::get('/legenda', 'PagesController@legend')->name('legend');
 
 //Страны
 Route::get('/finlyandia', 'PagesController@finland')->name('finland');

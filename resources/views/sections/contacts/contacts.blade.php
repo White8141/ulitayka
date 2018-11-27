@@ -16,20 +16,22 @@
             </section>
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                    <form id="form_validation out">
+                    <form action="{{ route('order_create') }}" id="form_validation out" method="post">
+                        {{ csrf_field() }}
+
                         <p class="contact_us">Свяжитесь с нами</p>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-box-elem">
-                                <input type="text" name="main_name" id="main_name" class="field-long" placeholder="Имя" pattern="[a-zA-Z0-9]+" />
+                                <input type="text" name="main_name" id="main_name" class="field-long" placeholder="Имя" pattern="[a-zA-Zа-яА-ЯёЁ\s0-9-]{1,20}" title="Любые буквы, цифры, тире. До 20 знаков" required/>
                             </div>
 
                             <div class="form-box-elem">
-                                <input type="text" name="main_tel" id="main_tel" class="field-long" placeholder="Телефон" />
+                                <input type="text" name="main_tel" id="main_tel" class="field-long" placeholder="Телефон" pattern="[0-9]{5,15}" title="Только цифры, до 15 знаков" required/>
                             </div>
 
                             <div class="form-box-elem">
-                                <input type="text" name="main_email" id="main_email" class="field-long" placeholder="Почта" />
+                                <input type="email" name="main_email" id="main_email" class="field-long" placeholder="Почта" required/>
                             </div>
 
                             <div class="form-box-elem">
@@ -53,4 +55,15 @@
         </div>
     </div>
    
+@stop
+
+@section('script')
+
+    <script src="{{ asset('js/contacts.js') }}"></script>
+    <script>
+
+        printToolbar ('{!! $tooltip !!}');
+
+    </script>
+
 @stop
