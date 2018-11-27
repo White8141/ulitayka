@@ -29,11 +29,11 @@
                         </div>
                         <div class="box-1">
                             <input name="dateFrom" type="text" placeholder="Туда" id="dateFrom"
-                                   class="datepicker-here calendar sel-text" style="cursor: pointer" pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
+                                   class="datepicker-here calendar sel-text" pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
                         </div>
                         <div class="box-1">
                             <input name="dateTill" type="text" placeholder="Обратно" id="dateTill"
-                                   class="datepicker-here calendar sel-text" style="cursor: pointer"  pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
+                                   class="datepicker-here calendar sel-text" pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
                         </div>
                         <div class="box-3">
                             <div class="box-2" placeholder="Сколько человек, возраст" style="cursor: pointer"></div>

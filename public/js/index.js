@@ -6,6 +6,7 @@ $(document).ready(function () {
     $('#dateFrom').datepicker({
         minDate: new Date(),
         dateFormat: 'dd.mm.yyyy',
+        keyboardNav: 'false',
         //autoClose: 'true',
         onSelect: function (fd, date, inst) {
 
@@ -41,6 +42,7 @@ $(document).ready(function () {
     $('#dateTill').datepicker({
         minDate: new Date(),
         dateFormat: 'dd.mm.yyyy',
+        keyboardNav: 'false',
         //autoClose: true,
         onSelect: function (fd, date, inst) {
             if (document.querySelector('#dateTill').value != '') {
@@ -191,7 +193,8 @@ $(document).ready(function () {
                 if (event.target.id == 'dateFrom') {
                     if ((currDate - tempDate) > 0 ) {
                         console.log ('Нужно менять на текущую');
-                        tempDate.setDate(currDate.getDate() + 1);
+                        tempDate = currDate;
+                        tempDate.setDate(tempDate.getDate() + 1);
                     } else {
                         console.log ('Нормальная дата');
                     }
@@ -204,14 +207,17 @@ $(document).ready(function () {
                         tempFrom = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
                         if (tempFrom - tempDate > 0) {
                             console.log ('Нужно менять на день вперед от начальной');
-                            tempDate.setDate(tempFrom.getDate() + 1);
+                            //tempDate.setDate(tempFrom.getDate() + 1);
+                            tempDate = tempFrom;
+                            tempDate.setDate(tempDate.getDate() + 1);
                         } else {
                             console.log ('Нормальная дата');
                         }
                     } else {
                         if ((currDate - tempDate) > 0 ) {
                             console.log ('Нужно менять на день вперед от сегодня');
-                            tempDate.setDate(currDate.getDate() + 1);
+                            //tempDate.setDate(currDate.getDate() + 1);
+                            tempDate = currDate.setDate(currDate.getDate() + 1);
                         } else {
                             console.log ('Нормальная дата');
                         }

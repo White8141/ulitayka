@@ -1,7 +1,9 @@
-var i, tempArray, tempObj, tempDate;
+var i, tempArray, tempObj, dateFrom, tempDate, tempForm;
 
 $(document).ready(function () {
     console.log ('Edit JS Start');
+
+    tempForm = document.forms.form_details;
 
     // календарь  min Date
     $('#dateFrom').datepicker({
@@ -25,7 +27,10 @@ $(document).ready(function () {
                 }
                 $('#dateTill').datepicker().data('datepicker').update('minDate', tempFrom);
                 $('#dateTill').datepicker().data('datepicker').show();
-                $('#dateFrom').trigger('change');
+                //$('#dateFrom').trigger('change');
+                if (tempFrom - tempTill < 0) {
+                    ajaxRequest(tempForm.calcUrl.value, tempForm.calcToken.value, collectData(), updDetails, 'post');
+                }
             }
         },
         onShow: function () {
@@ -46,8 +51,10 @@ $(document).ready(function () {
         onSelect: function (fd, date, inst) {
             if (document.querySelector('#dateTill').value != '') {
                 $('#dateTill').datepicker().data('datepicker').hide();
+                ajaxRequest(tempForm.calcUrl.value, tempForm.calcToken.value, collectData(), updDetails, 'post');
             }
-            $('#dateTill').trigger('change');
+            //$('#dateTill').trigger('change');
+
             //console.log ('Date from selected');
         },
         onHide: function (fd, date, inst) {
@@ -231,14 +238,18 @@ $(document).ready(function () {
                         tempObj = document.querySelector('#dateFrom').value.split('.');
                         tempFrom = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
                         if (tempFrom - tempDate > 0) {
+                            //tempDate = new Date(tempFrom.getFullYear(), tempFrom.getMonth(), tempForm.getDate() + 1);
+                            tempDate = tempFrom;
+                            tempDate.setDate(tempDate.getDate() + 1);
                             console.log ('Нужно менять на день вперед от начальной');
-                            tempDate.setDate(tempFrom.getDate() + 1);
                         } else {
                             console.log ('Нормальная дата');
                         }
                     } else {
                         if ((currDate - tempDate) > 0 ) {
                             console.log ('Нужно менять на день вперед от сегодня');
+                            //tempDate = new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() + 1);
+                            tempDate = currDate;
                             tempDate.setDate(currDate.getDate() + 1);
                         } else {
                             console.log ('Нормальная дата');
@@ -278,7 +289,33 @@ $(document).ready(function () {
                 }
             }
 
-            return false;
+            tempVar = event.target.classList;
+            if (tempVar[1] == 'travelersBirthDate') {
+                console.log ('Поменяли ДР застрахованного ' + event.target.id.charAt(11) + ', можно обновить возраст');
+                tempVar = new Date();
+                tempArray = event.target.value.split('.');
+                tempBirhDate = new Date(tempArray[2], tempArray[1]-1, tempArray[0]);
+
+                if ((currDate - tempBirhDate) < 0 ) {
+                    console.log ('ДР в будущем');
+                    tempBirhDate = currDate;
+                    tempBirhDate.setFullYear(tempBirhDate.getFullYear() - 1);
+                } else {
+                    console.log ('Нормальный ДР');
+                }
+
+                document.querySelector('#trAge' + event.target.id.charAt(11)).value = tempVar.getFullYear() - tempBirhDate.getFullYear();
+
+                myDatepicker = $('#trBirthDate' + event.target.id.charAt(11)).datepicker().data('datepicker');
+                myDatepicker.selectDate(tempBirhDate);
+            }
+
+            if (document.querySelector('#dateFrom').value != '' && document.querySelector('#dateTill').value != '') {
+                ajaxRequest(tempForm.calcUrl.value, tempForm.calcToken.value, collectData(), updDetails, 'post');
+            }
+            //console.log ('URL: ' + tempForm.calcUrl.value + ', token: ' + tempForm.calcToken.value);
+
+            //return false;
         }
     });
 });
@@ -851,7 +888,7 @@ function collectData () {
     //даты начала и конца страхования
     args += '&dateFrom=' + document.querySelector('#dateFrom').value + '&dateTill=' + document.querySelector('#dateTill').value;
 
-    tempVar = document.querySelectorAll('.checkbox-one');
+    tempVar = document.querySelectorAll('.age-human');
     //данные о застрахованных
     args += '&travelers[0][accept]=' + document.querySelectorAll('.checkbox-one')[0].checked +
         '&travelers[0][age]=' + document.querySelectorAll('.age-human')[0].value +

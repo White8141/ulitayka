@@ -270,6 +270,8 @@
                                 <input name="companyId" id="companyId" type="hidden" />
                                 <input name="policeAmount" id="policeAmount" type="hidden" />
                                 <input name="policeId" id="policeId" value="0" type="hidden" />
+                                <input name="calcUrl" value="{{route('calcajax')}}" type="hidden" />
+                                <input name="calcToken" value="{{csrf_token()}}" type="hidden" />
 
                                 <p class="filter_h3">Страны</p>
                                 <div>

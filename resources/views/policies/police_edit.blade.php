@@ -24,6 +24,8 @@
                     <input name="companyId"  id="companyId"  type="hidden" value="{{ $companyId }}"/>
                     <input name="policeId" id="policeId" value="0" type="hidden" />
                     <input name="policeAmount" id="policeAmount" type="hidden" />
+                    <input name="calcUrl" value="{{route('calcajax')}}" type="hidden" />
+                    <input name="calcToken" value="{{csrf_token()}}" type="hidden" />
 
                     <img src="{{ url ('assets/img/logo-'.$companyId.'.png') }}" alt="" class="center-block">
 
@@ -40,13 +42,13 @@
                     <br>
                     <div class="row policy_row">
                         <label for="dateFrom">c</label>
-                        <input name="dateFrom" id="dateFrom" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
-                            type="text" placeholder="Туда" class="datepicker-here  sel-text"
-                            style="cursor: pointer" pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
+                        <input name="dateFrom" id="dateFrom" type="text" placeholder="Туда"
+                            class="datepicker-here  sel-text"
+                            pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ" required/>
                         <label for="dateTill">по</label>
-                        <input name="dateTill" id="dateTill" onchange="chDetails('{{route('calcajax')}}', '{{csrf_token()}}')"
-                            type="text" placeholder="Обратно" class="datepicker-here sel-text"
-                            style="cursor: pointer" pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ"/>
+                        <input name="dateTill" id="dateTill" type="text" placeholder="Обратно"
+                            class="datepicker-here sel-text"
+                            pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ" required/>
                     </div>
 
                     <input type="checkbox" onchange="chYearPolice('{{route('calcajax')}}', '{{csrf_token()}}')" name="policy_for_year" id="policy_for_year"
@@ -57,7 +59,8 @@
                     <div id="insureder">
                         <div>Страхователь</div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" id="insurederFirstName" name="insureder[firstName]" required
+                            <input class="form-control" id="insurederFirstName" name="insureder[firstName]"
+                                pattern="[a-zA-Z\s-]{3,40}" title="Только буквы латинского алфавита, пробел и - (до 40 символов)" required
                                 @if($user->user_first_name_en != null)
                                     value="{{$user->user_first_name_en}}" readonly  style="cursor: default"
                                 @endif
@@ -65,7 +68,8 @@
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" id="insurederLastName" name="insureder[lastName]" required
+                            <input class="form-control" id="insurederLastName" name="insureder[lastName]"
+                                pattern="[a-zA-Z\s-]{3,40}" title="Только буквы латинского алфавита, пробел и - (до 40 символов)" required
                                 @if($user->user_last_name_en != null)
                                     value="{{$user->user_last_name_en}}" readonly  style="cursor: default"
                                 @endif
@@ -73,7 +77,8 @@
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" id="insurederBirthDate" name="insureder[birthDate]" type="text" required
+                            <input class="form-control" id="insurederBirthDate" name="insureder[birthDate]" type="text"
+                                pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ" required
                                 @if($user->user_birthdate != null)
                                    value="{{$user->user_birthdate}}" readonly disabled style="cursor: default"
                                 @else
@@ -91,15 +96,18 @@
                         <input id="trId0" name="travelers[0][id]" value="0" type="hidden"/>
                         <input class="checkbox-one" id="trAccept0" name="travelers[0][accept]" value="false" type="hidden"/>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" id="trFirstName0" name="travelers[0][firstName]" required disabled/>
+                            <input class="form-control" id="trFirstName0" name="travelers[0][firstName]"
+                                pattern="[a-zA-Z\s-]{3,40}" title="Только буквы латинского алфавита, пробел и - (до 40 символов)" required disabled/>
                             <label>Имя (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <input class="form-control" id="trLastName0" name="travelers[0][lastName]" required disabled/>
+                            <input class="form-control" id="trLastName0" name="travelers[0][lastName]"
+                                   pattern="[a-zA-Z\s-]{3,40}" title="Только буквы латинского алфавита, пробел и - (до 40 символов)" required disabled/>
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" id="trBirthDate0" name="travelers[0][birthDate]" style="cursor: pointer"/>
+                            <input class="form-control travelersBirthDate" id="trBirthDate0" name="travelers[0][birthDate]" style="cursor: pointer"
+                                   pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="ДД.ММ.ГГГГ" required/>
                             <label>Дата рождения</label>
                         </div>
                         <input class="age-human" name="travelers[0][age]" id="trAge0" type="hidden"/>
@@ -119,7 +127,7 @@
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" id="trBirthDate1" name="travelers[1][birthDate]" style="cursor: pointer"/>
+                            <input class="form-control travelersBirthDate" id="trBirthDate1" name="travelers[1][birthDate]" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
                         <input class="age-human" name="travelers[1][age]" id="trAge1" type="hidden"/>
@@ -139,7 +147,7 @@
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" id="trBirthDate2" name="travelers[2][birthDate]" style="cursor: pointer"/>
+                            <input class="form-control travelersBirthDate" id="trBirthDate2" name="travelers[2][birthDate]" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
                         <input class="age-human" name="travelers[2][age]" id="trAge2" type="hidden"/>
@@ -159,7 +167,7 @@
                             <label>Фамилия (латинскими)</label>
                         </div>
                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input class="form-control" id="trBirthDate3" name="travelers[3][birthDate]" style="cursor: pointer"/>
+                            <input class="form-control travelersBirthDate" id="trBirthDate3" name="travelers[3][birthDate]" style="cursor: pointer"/>
                             <label>Дата рождения</label>
                         </div>
                         <input class="age-human" name="travelers[3][age]" id="trAge3" type="hidden"/>
@@ -179,7 +187,7 @@
                                 <label>Фамилия (латинскими)</label>
                             </div>
                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <input class="form-control" id="trBirthDate4" name="travelers[4][birthDate]" style="cursor: pointer"/>
+                                <input class="form-control travelersBirthDate" id="trBirthDate4" name="travelers[4][birthDate]" style="cursor: pointer"/>
                                 <label>Дата рождения</label>
                             </div>
                             <input class="age-human" name="travelers[4][age]" id="trAge4" type="hidden"/>
@@ -191,9 +199,6 @@
                         <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>
 
                         <button id="submitBtn" class="btn btn-danger" type="submit">Сохранить</button>
-                        <!--a class="btn btn-danger" onclick=sendDetails('{{ $companyId }}')>
-                            <p>Оформить</p>
-                        </a-->
 
                     </div>
 

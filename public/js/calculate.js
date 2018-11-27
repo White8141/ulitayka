@@ -1,7 +1,8 @@
-var i, tempArray, tempObj, tempDate;
+var i, tempArray, tempObj, dateFrom, tempDate, tempForm;
 
 $(document).ready(function () {
-    console.log ('Calc JS Start');
+    //console.log ('Calc JS Start');
+    tempForm = document.forms.form_calc;
 
     // календарь  min Date
     $('#dateFrom').datepicker({
@@ -25,7 +26,8 @@ $(document).ready(function () {
                 }
                 $('#dateTill').datepicker().data('datepicker').update('minDate', tempFrom);
                 $('#dateTill').datepicker().data('datepicker').show();
-                $('#dateFrom').trigger('change');
+                //$('#dateFrom').trigger('change');
+                ajaxRequest(tempForm.calcUrl.value, tempForm.calcToken.value, collectData(), updCalc, 'post');
             }
         },
         onShow: function () {
@@ -42,22 +44,24 @@ $(document).ready(function () {
     $('#dateTill').datepicker({
         minDate: new Date(),
         dateFormat: 'dd.mm.yyyy',
+        keyboardNav: 'false',
         //autoClose: true,
         onSelect: function (fd, date, inst) {
             if (document.querySelector('#dateTill').value != '') {
                 $('#dateTill').datepicker().data('datepicker').hide();
             }
-            $('#dateTill').trigger('change');
-            //console.log ('Date from selected');
+            //$('#dateTill').trigger('change');
+            ajaxRequest(tempForm.calcUrl.value, tempForm.calcToken.value, collectData(), updCalc, 'post');
         },
         onHide: function (fd, date, inst) {
-            //если пользователь не выбрал дату окончания, берется на месяц вперед
+            //если пользователь не выбрал дату окончания, берется на неделю вперед
             if (document.querySelector('#dateTill').value == '' && document.querySelectorAll('#dateTill.auto-correct').length > 0) {
                 if (document.querySelector('#dateFrom').value != '') {
-                    tempDate = new Date(document.querySelector('#dateFrom').value);
+                    tempObj = document.querySelector('#dateFrom').value.split('.');
+                    tempDate = new Date(tempObj[2], tempObj[1] - 1, tempObj[0] + 7);
                 } else {
                     tempDate = new Date();
-                    tempDate.setMonth(tempDate.getMonth() + 1);
+                    tempDate.setDate(tempDate.getDate() + 7);
                 }
 
                 $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
@@ -231,14 +235,18 @@ $(document).ready(function () {
                         tempObj = document.querySelector('#dateFrom').value.split('.');
                         tempFrom = new Date(tempObj[2], tempObj[1] - 1, tempObj[0]);
                         if (tempFrom - tempDate > 0) {
+                            //tempDate = new Date(tempFrom.getFullYear(), tempFrom.getMonth(), tempForm.getDate() + 1);
+                            tempDate = tempFrom;
+                            tempDate.setDate(tempDate.getDate() + 1);
                             console.log ('Нужно менять на день вперед от начальной');
-                            tempDate.setDate(tempFrom.getDate() + 1);
                         } else {
                             console.log ('Нормальная дата');
                         }
                     } else {
                         if ((currDate - tempDate) > 0 ) {
                             console.log ('Нужно менять на день вперед от сегодня');
+                            //tempDate = new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() + 1);
+                            tempDate = currDate;
                             tempDate.setDate(currDate.getDate() + 1);
                         } else {
                             console.log ('Нормальная дата');
@@ -278,6 +286,8 @@ $(document).ready(function () {
                 }
             }
 
+            //console.log ('URL: ' + tempForm.calcUrl.value + ', token: ' + tempForm.calcToken.value);
+            ajaxRequest(tempForm.calcUrl.value, tempForm.calcToken.value, collectData(), updCalc, 'post');
             //return false;
         }
     });
@@ -302,6 +312,37 @@ const travelersChange = (boxId, url, csrf) => {
     conditions(boxId);
     setTimeout(2000);
     chRequest(url, csrf);
+}
+
+//переключатель "годовой полис"
+function chYearPolice() {
+    /*if (document.querySelector('#policy_for_year').checked) {
+        console.log ('On');
+        if (document.querySelector('#dateFrom').value != '') {
+            tempDate = new Date(document.querySelector('#dateFrom').value);
+        } else {
+            tempDate = new Date();
+            $('#dateFrom').datepicker().data('datepicker').selectDate(new Date());
+        }
+        tempDate.setFullYear(tempDate.getFullYear() + 1);
+        tempDate.setDate(tempDate.getDate() - 1);
+        $('#dateTill').datepicker().data('datepicker').clear();
+        $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
+        //$('#dateTill').datepicker().data('datepicker').update(['value', tempDate]);
+    } else {
+        console.log ('Off');
+        if (document.querySelector('#dateFrom').value != '') {
+            tempDate = new Date(document.querySelector('#dateFrom').value);
+        } else {
+            tempDate = new Date();
+
+        }
+        tempDate.setMonth(tempDate.getMonth() + 1);
+        $('#dateTill').datepicker().data('datepicker').clear();
+        //$('#dateTill').datepicker().data('datepicker').update(['value', tempDate]);
+        $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
+
+    }*/
 }
 
 //обработка массива country.json и выбор заданных стран
@@ -563,7 +604,7 @@ const setCalcDefaultData = (defaultData, csrf) => {
     if ('prem' in defaultData) document.querySelector('#prem b').innerHTML = defaultData['prem'];
 }
 
-function prepareDate(formId, url, csrf) {
+/*function prepareDate(formId, url, csrf) {
 
     tempVar =  document.querySelector('#' + formId).value;
     tempArray = [];
@@ -677,7 +718,7 @@ function prepareDate(formId, url, csrf) {
     }
 
     //ajaxRequest(url, csrf, collectData(), updCalc, 'post');
-}
+}*/
 
 //Отправка запроса на расчёт полиса
 const chRequest = (url, csrf) => {
@@ -723,7 +764,7 @@ const updCalc = response => {
  * Послать форму что бы получить блок с деталями полиса
  */
 const sendCalc = (cardId) => {
-    var tempForm = document.forms.form_calc;
+    tempForm = document.forms.form_calc;
     tempForm.companyId.value = cardId;
     tempForm.policeAmount.value = document.querySelector('#' + cardId + ' p.amount.prem').innerText;
     tempForm.submit();
