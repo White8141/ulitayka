@@ -8,259 +8,344 @@
 
     <div class="container">
         <div class="row">
-                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="cards">
+            <div class="card-column" id="cards">
 
-                    <div class="card insCard" id="alpha">
-                        <img src="{{ asset('assets/img/logo-alpha.png') }}" alt="" class="img_logo">
-                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
-                        <a><img src="{{ asset('assets/img/button_blue.png') }}" alt="" class="blue_button"></a>
-                        <a onclick=sendCalc('alpha')>
-                            <p class="blue_button_text">Оформить</p>
-                        </a>
-                        <div class="call_style">
-                            <a class="callback_us">
-                                <span class="polis_example">Образец полиса</span>
-                            </a>
-                        </div>
-
-                        <div class="container_new">
-                            <div class="tabs">
-                                <input id="tab1" type="radio" name="tabs">
-                                <label for="tab1" title="Ассистанс">Ассистанс</label>
-
-                                <input id="tab2" type="radio" name="tabs">
-                                <label for="tab2" title="Франшиза">Франшиза</label>
-
-                                <input id="tab3" type="radio" name="tabs">
-                                <label for="tab3" title="Правила страхования">Правила страхования</label>
-
-                                <section id="content-tab1" class="assistance">
-                                    <p style="text-align: justify;" >
-
-                                    </p>
-                                </section>
-                                <section id="content-tab2">
-                                    <p style="text-align: justify;">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia
-                                        deserunt mollit anim id est laborum.
-                                    </p>
-                                </section>
-                                <section id="content-tab3">
-                                    <p style="text-align: justify;">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia
-                                        deserunt mollit anim id est laborum.
-                                    </p>
-                                </section>
+                <div class="card insCard" id="alpha">
+                    <div class="controls-panel">
+                        <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?>" alt="Alpha-Logo" class="img_logo">
+                        <p class="amount prem">
+                            <b></b>
+                            <span class="fa fa-rub"></span>
+                        </p>
+                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
+                        <label for="card_checkbox1"></label>
+                        <div class="buttons-wrap">
+                            <div href="#" class="blue_button">
+                            <!-- <img src="<?//php echo e(asset('assets/img/button_blue.png')); ?>" alt="тест" class="blue_button"> -->
+                                <a onclick=sendCalc('alpha')>
+                                    <p class="blue_button_text">Купить</p>
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card insCard" id="vsk">
-                        <img src="{{ asset('assets/img/logo-vsk.png') }}" alt="" class="img_logo">
-                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
-                        <a href="#"><img src="{{ asset('assets/img/button_blue.png') }}" alt="" class="blue_button"></a>
-                        <a onclick=sendCalc('vsk')>
-                            <p class="blue_button_text">Оформить</p>
-                        </a>
-                        <div class="call_style">
-                            <a class="callback_us">
-                                <span class="polis_example">Образец полиса</span>
-                            </a>
-                        </div>
 
-                        <div class="container_new">
-                            <div class="tabs">
-                                <input id="tab4" type="radio" name="tabs">
-                                <label for="tab4" title="Ассистанс">Ассистанс</label>
+                            <!-- Я не знаю зачем в созданном ранее шаблоне на каждой карточке есть место под эту кнопку.
+                            В рабочем сайте она есть лишь на специальной выделенной карточке "сравнить", которая не работает все равно.
+                            Я её убрал, поставив вместо нее кнопку "Образей полиса", которая, к слову тоже не работает -->
 
-                                <input id="tab5" type="radio" name="tabs">
-                                <label for="tab5" title="Франшиза">Франшиза</label>
+                        <!-- <div href="#" class="orange_button">
+                                      <img src="<?php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
+                                     <a href="#">
+                                         <p class="orange_button_text">Сравнить</p>
+                                     </a>
+                                </div> -->
 
-                                <input id="tab6" type="radio" name="tabs">
-                                <label for="tab6" title="Правила страхования">Правила страхования</label>
+                            <!-- Коммент выше -  рыжая кнопка -->
 
-                                <section id="content-tab4" class="assistance">
-                                    <p style="text-align: justify;" >
-
-                                    </p>
-                                </section>
-                                <section id="content-tab5">
-                                    <p style="text-align: justify;">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia
-                                        deserunt mollit anim id est laborum.
-                                    </p>
-                                </section>
-                                <section id="content-tab6">
-                                    <p style="text-align: justify;">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia
-                                        deserunt mollit anim id est laborum.
-                                    </p>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card insCard" id="advant">
-                        <img src="{{ asset('assets/img/logo-advant.png') }}" alt="" class="img_logo">
-                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
-                        <a href="#"><img src="{{ asset('assets/img/button_blue.png') }}" alt="" class="blue_button"></a>
-                        <a onclick=sendCalc('advant')>
-                            <p class="blue_button_text">Оформить</p>
-                        </a>
-                        <div class="call_style">
-                            <a class="callback_us">
-                                <span class="polis_example">Образец полиса</span>
-                            </a>
-                        </div>
-
-                        <div class="container_new">
-                            <div class="tabs">
-                                <input id="tab7" type="radio" name="tabs">
-                                <label for="tab7" title="Ассистанс">Ассистанс</label>
-
-                                <input id="tab8" type="radio" name="tabs">
-                                <label for="tab8" title="Франшиза">Франшиза</label>
-
-                                <input id="tab9" type="radio" name="tabs">
-                                <label for="tab9" title="Правила страхования">Правила страхования</label>
-                                {{--<hr class="orange2">--}}
-                                <section id="content-tab7" class="assistance">
-                                    <p style="text-align: justify;" >
-
-                                    </p>
-                                </section>
-                                <section id="content-tab8">
-                                    <p style="text-align: justify;">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia
-                                        deserunt mollit anim id est laborum.
-                                    </p>
-                                </section>
-                                <section id="content-tab9">
-                                    <p style="text-align: justify;">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                        nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia
-                                        deserunt mollit anim id est laborum.
-                                    </p>
-                                </section>
+                            <div class="call_style">
+                                <a class="callback_us">
+                                    <span class="polis_example">Образец полиса</span>
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <p id="disparity_orange_text">Не соответствует Вашему запросу</p>
+                    <div class="container_new">
+                        <div class="tabs">
+                            <!-- <div class="tabs-wrapper"> -->
+                            <input id="tab1" type="radio" name="tabs">
+                            <label for="tab1" title="Ассистанс">Ассистанс</label>
 
-                    <div class="disparity_grey" id="dis_alpha">
-                        <div class="card disparity_card">
-                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                            <img src="{{ asset('assets/img/logo-alpha.png') }} " alt="Альфа страхование"
-                                 class="img_logo img_logo_disparity">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="disparity_grey" id="dis_vsk">
-                        <div class="card disparity_card">
-                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                            <img src="{{ asset('assets/img/logo-vsk.png') }} " alt="ВСК страхование"
-                                 class="img_logo img_logo_disparity">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="disparity_grey" id="dis_advant">
-                        <div class="card disparity_card">
-                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                            <img src="{{ asset('assets/img/logo-advant.png') }} " alt="ВСК страхование"
-                                 class="img_logo img_logo_disparity">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="disparity_grey" id="dis_ing">
-                        <div class="card disparity_card">
-                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                            <img src="{{ asset('assets/img/logo-ingosstrah.png') }} " alt="Ингосстрах жизнь"
-                                 class="img_logo img_logo_disparity">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="disparity_grey" id="dis_vtb">
-                        <div class="card disparity_card">
-                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                            <img src="{{ asset('assets/img/logo-vtb.png') }} " alt="ВТБ страхование"
-                                 class="img_logo img_logo_disparity">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="disparity_grey" id="dis_reso">
-                        <div class="card disparity_card">
-                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                            <img src="{{ asset('assets/img/logo-reso.png') }} " alt="Ресо гарантия"
-                                 class="img_logo img_logo_disparity">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="disparity_grey" id="dis_ren">
-                        <div class="card disparity_card">
-                            <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                            <img src="{{ asset('assets/img/logo-renessans.png') }} " alt="Ренессанс страхование"
-                                 class="img_logo img_logo_disparity">
-                        </div>
-                    </div>
-                    <br>
+                            <input id="tab2" type="radio" name="tabs">
+                            <label for="tab2" title="Франшиза">Франшиза</label>
 
-                    <div class="card">
-                        <img src="{{ asset('assets/img/logo-alpha.png') }} " alt="Альфа страхование" class="img_logo_compare">
-                        <img src="{{ asset('assets/img/logo-ergo.png') }} " alt="Ergo" class="img_logo_compare">
-                        <img src="{{ asset('assets/img/logo-advant.png') }} " alt="Адвант страхование" class="img_logo_compare">
-                        <img src="{{ asset('assets/img/logo-renessans.png') }} " alt="Ренессанс страхование"
-                             class="img_logo_compare">
-                        <a href="#"><img src="{{ asset('assets/img/button_orange.png') }} " alt="" class="orange_button2">
-                        </a>
-                        <a href="#">
-                            <p class="orange_button_text2">Сравнить</p>
-                        </a>
-                        {{--<hr class="orange3">--}}
+                            <input id="tab3" type="radio" name="tabs">
+                            <label for="tab3" title="Правила страхования">Правила страхования</label>
+                            <!-- </div> -->
+
+                            <!-- <div class="section-wrapper"> -->
+                            <section id="content-tab1" class="assistance">
+                                <p style="text-align: justify;" >
+                                    Тестовая запись
+
+                                </p>
+                            </section>
+                            <section id="content-tab2">
+                                <p style="text-align: justify;">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                    nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                    officia
+                                    deserunt mollit anim id est laborum.
+                                </p>
+                            </section>
+                            <section id="content-tab3">
+                                <p style="text-align: justify;">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                    nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                    officia
+                                    deserunt mollit anim id est laborum.
+                                </p>
+                            </section>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card insCard" id="vsk">
+                    <div class="controls-panel">
+                        <img src="<?php echo e(asset('assets/img/logo-vsk.png')); ?>" alt="тест" class="img_logo">
+                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
+                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
+                        <label for="card_checkbox1"></label>
+                        <div class="buttons-wrap">
+                            <div href="#" class="blue_button">
+                            <!-- <img src="<?//php echo e(asset('assets/img/button_blue.png')); ?>" alt="тест" class="blue_button"> -->
+                                <a onclick=sendCalc('alpha')>
+                                    <p class="blue_button_text">Купить</p>
+                                </a>
+                            </div>
+
+                            <!-- Я не знаю зачем в созданном ранее шаблоне на каждой карточке есть место под эту кнопку.
+                            В рабочем сайте она есть лишь на специальной выделенной карточке "сравнить", которая не работает все равно.
+                            Я её убрал, поставив вместо нее кнопку "Образей полиса", которая, к слову тоже не работает -->
+
+                        <!-- <div href="#" class="orange_button">
+                                      <img src="<?php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
+                                     <a href="#">
+                                         <p class="orange_button_text">Сравнить</p>
+                                     </a>
+                                </div> -->
+
+                            <!-- Коммент выше -  рыжая кнопка -->
+
+                            <div class="call_style">
+                                <a class="callback_us">
+                                    <span class="polis_example">Образец полиса</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
+                    <div class="container_new">
+                        <div class="tabs">
+                            <input id="tab4" type="radio" name="tabs">
+                            <label for="tab4" title="Ассистанс">Ассистанс</label>
+
+                            <input id="tab5" type="radio" name="tabs">
+                            <label for="tab5" title="Франшиза">Франшиза</label>
+
+                            <input id="tab6" type="radio" name="tabs">
+                            <label for="tab6" title="Правила страхования">Правила страхования</label>
+
+                            <section id="content-tab4" class="assistance">
+                                <p style="text-align: justify;" >
+
+                                </p>
+                            </section>
+                            <section id="content-tab5">
+                                <p style="text-align: justify;">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                    nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                    officia
+                                    deserunt mollit anim id est laborum.
+                                </p>
+                            </section>
+                            <section id="content-tab6">
+                                <p style="text-align: justify;">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                    nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                    officia
+                                    deserunt mollit anim id est laborum.
+                                </p>
+                            </section>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="filter_wimdow col-lg-5 col-md-5 col-sm-12 col-xs-12" id="filters">
+                <div class="card insCard" id="advant">
+                    <div class="controls-panel">
+                        <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?>" alt="тест" class="img_logo">
+                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
+                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
+                        <label for="card_checkbox1"></label>
+                        <div class="buttons-wrap">
+                            <div href="#" class="blue_button">
+                            <!-- <img src="<?//php echo e(asset('assets/img/button_blue.png')); ?>" alt="тест" class="blue_button"> -->
+                                <a onclick=sendCalc('alpha')>
+                                    <p class="blue_button_text">Купить</p>
+                                </a>
+                            </div>
+
+                            <!-- Я не знаю зачем в созданном ранее шаблоне на каждой карточке есть место под эту кнопку.
+                            В рабочем сайте она есть лишь на специальной выделенной карточке "сравнить", которая не работает все равно.
+                            Я её убрал, поставив вместо нее кнопку "Образей полиса", которая, к слову тоже не работает -->
+
+                        <!-- <div href="#" class="orange_button">
+                                      <img src="<?php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
+                                     <a href="#">
+                                         <p class="orange_button_text">Сравнить</p>
+                                     </a>
+                                </div> -->
+
+                            <!-- Коммент выше -  рыжая кнопка -->
+
+                            <div class="call_style">
+                                <a class="callback_us">
+                                    <span class="polis_example">Образец полиса</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container_new">
+                        <div class="tabs">
+                            <input id="tab7" type="radio" name="tabs">
+                            <label for="tab7" title="Ассистанс">Ассистанс</label>
+
+                            <input id="tab8" type="radio" name="tabs">
+                            <label for="tab8" title="Франшиза">Франшиза</label>
+
+                            <input id="tab9" type="radio" name="tabs">
+                            <label for="tab9" title="Правила страхования">Правила страхования</label>
+
+                            <section id="content-tab7" class="assistance">
+                                <p style="text-align: justify;" >
+
+                                </p>
+                            </section>
+                            <section id="content-tab8">
+                                <p style="text-align: justify;">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                    nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                    officia
+                                    deserunt mollit anim id est laborum.
+                                </p>
+                            </section>
+                            <section id="content-tab9">
+                                <p style="text-align: justify;">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    nostrud
+
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                    nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                    officia
+                                    deserunt mollit anim id est laborum.
+                                </p>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="disparity_orange_text">Не соответствует Вашему запросу</p>
+
+                <div class="disparity_grey" id="dis_alpha">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?> " alt="Альфа страхование"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+
+                <div class="disparity_grey" id="dis_vsk">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-vsk.png')); ?> " alt="ВСК страхование"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+
+                <div class="disparity_grey" id="dis_advant">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?> " alt="ВСК страхование"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+
+                <div class="disparity_grey" id="dis_ing">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-ingosstrah.png')); ?> " alt="Ингосстрах жизнь"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+
+                <div class="disparity_grey" id="dis_vtb">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-vtb.png')); ?> " alt="ВТБ страхование"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+
+                <div class="disparity_grey" id="dis_reso">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-reso.png')); ?> " alt="Ресо гарантия"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+
+                <div class="disparity_grey" id="dis_ren">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-renessans.png')); ?> " alt="Ренессанс страхование"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+                <br>
+
+                <div class="card">
+                    <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?> " alt="Альфа страхование" class="img_logo_compare">
+                    <img src="<?php echo e(asset('assets/img/logo-ergo.png')); ?> " alt="Ergo" class="img_logo_compare">
+                    <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?> " alt="Адвант страхование" class="img_logo_compare">
+                    <img src="<?php echo e(asset('assets/img/logo-renessans.png')); ?> " alt="Ренессанс страхование"
+                         class="img_logo_compare">
+                    <div href="#" class="orange_button">
+                    <!-- <img src="<?//php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button"> -->
+                        <a href="#">
+                            <p class="orange_button_text">Сравнить</p>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="filter_wimdow card-column" id="filters">
                     <div class="card card_right">
                         <div class="container_filters">
 

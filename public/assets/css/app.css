@@ -239,11 +239,7 @@ hr.orange_dashed1 {
 footer {
   margin-top: 20px;
   background-color: #333333;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+ }
 
 .footer-form {
   padding: 0 !important;
@@ -424,13 +420,13 @@ body #app {
 }
 
 body #app .content-container {
-  padding-bottom: 220px;
+
 }
 
-.filter_wimdow {
+/* .filter_wimdow {
   height: 100vh;
   overflow-y: scroll;
-}
+} */
 
 a {
   text-decoration: none !important;
@@ -830,11 +826,11 @@ table.policy_table th, table.policy_table td {
   display: inline-block;
 }
 
-@media screen and (max-width: 1199px) {
+/* @media screen and (max-width: 1199px) {
   .card_right {
     width: 427px !important;
   }
-}
+} */
 
 .card:hover {
   box-shadow: 0 8px 16px 0 #ff6508;
@@ -1129,9 +1125,9 @@ hr.orange_dashed2 {
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
-
+/*
 @media screen and (max-width: 1199px) {
-  /* ДО 700px */
+
   #cards {
     margin: auto;
     display: -webkit-box;
@@ -1158,7 +1154,7 @@ hr.orange_dashed2 {
   .polis_example {
     left: calc(40% - 7px);
   }
-}
+} */
 
 /* Табы */
 /* Базовый контейнер табов */
@@ -1260,6 +1256,10 @@ hr.orange_dashed2 {
     margin: 0;
     font-size: 18px;
   }
+
+
+
+
 }
 
 /* Изменяем внутренние отступы
@@ -1269,6 +1269,8 @@ hr.orange_dashed2 {
   .tabs > label {
     padding: 15px;
   }
+
+
 }
 
 /* Конец - filters.php */
@@ -3103,19 +3105,23 @@ h1 {
 }
 
 @media screen and (min-width: 992px) and (max-width: 1199px) {
+
   .topmenu > li:last-child {
     background-color: #ff6508;
     width: 100%;
   }
+
   .topmenu {
     display: -webkit-box;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
+
   .formForAirplane {
     width: 100%;
     margin-left: 0;
   }
+
   #page-country {
     width: 180px;
   }
@@ -4233,6 +4239,7 @@ input[type=checkbox], input[type=radio] {
   padding-left: 70%;
 }
 
+
 /*-----------check style---------------*/
 .label_check-radio {
   cursor: pointer;
@@ -4273,3 +4280,520 @@ input[type=checkbox]:checked + .label_check-radio:after {
 /*-----------end check style---------------*/
 
 /*# sourceMappingURL=app.css.map */
+
+/* media queries */
+
+@media screen and (max-width: 450px) {
+
+    /*slogan styles for jumbothore */
+
+    .slogan {
+        font-size: 1.7em!important;
+    }
+}
+
+
+@media screen and (max-width: 756px) {
+
+    /*slogan styles for jumbothore */
+
+    .slogan-marginMin {
+        padding-left: 0!important;
+        text-align: left;
+        }
+
+    .slogan-marginMax {
+        padding-left: 0!important;
+    }
+}
+
+
+@media screen and (max-width: 991px) {
+    /* footer styles */
+
+
+    .footer-flex {
+        text-align: center;
+    }
+
+    .footer-flex ul {
+        padding: 0;
+    }
+
+    .footer-flex .footer-block4 {
+        padding: 0;
+    }
+
+    .footer-flex .footer-link ul li a:hover {
+        text-decoration: underline!important;
+        color: #ff6508
+    }
+
+    /*menu and submenu styles */
+
+    .submenu {
+        position: relative!important;
+        display: none;
+        visibility: visible;
+    }
+
+    li:hover .submenu {
+        display: block;
+    }
+
+    .header nav ul.topmenu li.last-block {
+        width: 100%;
+        text-align: center;
+    }
+
+
+/*form on main screen */
+
+    .formForAirplane form .form-box {
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .formForAirplane form .form-box div {
+        width: 100%;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .ms-sel-item {
+        max-width: 100px;
+    }
+
+    .box-1 {
+        width: 48%!important;
+    }
+
+    .box-1:before {
+        left: 75%;
+    }
+
+    .box-1:after {
+        width:100%;
+        left: 50%;
+    }
+
+    .formForAirplane form .form-box .box-4yo {
+        width: 100%!important;
+        box-sizing: border-box;
+    }
+
+    .box-4yo:after {
+        width: 98.5%;
+    }
+
+    .formForAirplane form .form-box .box-4yo:before {
+        left: 87%;
+    }
+
+    .form-box div .ms-no-trigger {
+        padding: 5px 6px;
+        margin-left: 0!important;
+        margin-right: 0!important;
+    }
+
+    .form-box div .ms-no-trigger input {
+        width: 100%;
+    }
+
+    .formForAirplane .aircraftBox {
+        width: 100%;
+        border-radius: 0;
+
+    }
+
+    .formForAirplane form .magicZoomYo {
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
+/*end of form styels for that screen resolution */
+
+@media screen and (max-width: 569px) {
+
+    /*also main form styles */
+    .box-1 {
+        width: 100%!important;
+        margin-left: 5px!important;
+        margin-right: 5px!important;
+        }
+
+    .box-1:before {
+        left: 87%;
+    }
+
+    .box-1:after {
+        width:97.8%;
+        left: 50%;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    .top_info  {
+        margin-bottom: 20px;
+        align-items: center;
+    }
+}
+
+
+.row {
+    display: flex;
+    justify-content: center;
+    flex-direction: row!important;
+    flex-wrap: wrap;
+}
+
+.card-column {
+    max-width: 48%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.card {
+    display: flex;
+    width: 100%;
+    color: #333;
+    flex-wrap: wrap;
+}
+/* switch to "d-none" of after all job done */
+#alpha {
+    display: flex;
+}
+
+.insCard {
+    min-height: 210px;
+    /* max-height: 450px; */
+}
+
+
+.controls-panel {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-height: 80px;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+
+.img_logo {
+    max-width: 30%;
+    min-height: 35px;
+    max-height: 100%;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.amount {
+    width: 30%;
+    text-align: right;
+    position: static;
+    top: 0;
+    left: 0;
+}
+
+.buttons-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    text-align: right;
+}
+
+.buttons-wrap div {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 1%;
+}
+
+.buttons-wrap div a {
+    position: static;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.buttons-wrap a p {
+    width: 100%;
+    position: static;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.blue_button, .orange_button, .call_style, .callback_us, .polis_example {
+    position: static!important;
+    margin: 0!important;
+    padding: 0!important;
+    top: 0!important;
+    left: 0!important;
+    right: 0!important;
+    bottom: 0!important;
+}
+
+.blue_button {
+    background-color: #4daeda;
+    margin-top: 30px!important;
+    margin-bottom: 20px!important;
+    min-height: 40px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border-bottom: 3px solid #196A8E;
+}
+
+.blue_button:hover {
+    border-bottom: none;
+}
+
+.orange_button {
+    background-color: #ff6508!important;
+    margin-top: 25px!important;
+    margin-bottom: 20px!important;
+    min-height: 40px;
+    max-height: 40px;
+    min-width: 100px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border-bottom: 3px solid #A63F03;
+    box-sizing: border-box;
+}
+
+.orange_button_text {
+    position: static;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 14px;
+    color:#fff;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.container_new {
+        display: flex;
+        align-items: flex-start;
+        max-width: 98%!important;
+        margin-top: 25px!important;
+        min-height: 100px!important;
+        margin-right: auto;
+        margin-left: 10px!important;
+}
+
+.tabs {
+    position: static!important;
+    margin: 0!important;
+    padding: 0!important;
+    top: 0!important;
+    left: 0!important;
+    right: 0!important;
+    bottom: 0!important;
+    width: 100%!important;
+    height: 100%!important;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border: none;
+    margin-bottom: 20px;
+}
+.tabs-wrapper {
+    border-bottom: 3px solid #ff6502;
+}
+
+/* .tabs-wrapper input[type = radio] */
+
+.tabs input[type = radio] {
+    display: none!important;
+    opacity: 0!important;
+    cursor: pointer;
+    height: 0!important;
+    width: 0!important;
+}
+
+/* .tabs-wrapper label */
+.tabs label {
+    min-height: 20px;
+    max-height: 50px!important;
+    min-width: 20%!important;
+    padding: 15px 25px;
+    margin-bottom: 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    color: #333;
+}
+
+/* .tabs-wrapper label:last-child */
+.tabs label:last-child {
+    min-width: 40%!important;
+}
+
+/* .tabs-wrapper input[type="radio"]:checked+label */
+.tabs input[type="radio"]:checked+label {
+    background-color: #4daeda;
+}
+
+/* .tabs-wrapper input[type="radio"]:checked:hover+label */
+.tabs input[type="radio"]:checked:hover+label {
+    background-color: #4daeda;
+}
+
+/* .tabs-wrapper input[type="radio"]:hover+label  */
+.tabs input[type="radio"]:hover+label{
+    background-color: #ff6508;
+}
+
+.tabs section {
+    width: 100%!important;
+}
+
+
+
+.checkbox_form {
+    display: none!important;
+    opacity: 0!important;
+    cursor: pointer;
+    height: 0!important;
+    width: 0!important;
+}
+
+#disparity_orange_text {
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.card .img_logo_compare {
+    margin-top: 20px;
+    max-height: 40px;
+    padding: 0!important;
+    padding-left: 5px!important;
+}
+
+.disparity_card {
+    align-items: center;
+    flex-flow: row-reverse;
+    justify-content: flex-end!important;
+}
+
+.img_logo_disparity {
+    /* top: -30px !important; */
+    margin: 0!important;
+    padding: 0!;
+    padding: 5px 15px;
+    top: 0!important;
+    bottom: 0!important;
+    right: 0!important;
+    left: 0!important;
+}
+
+.disparity_text {
+    position: static!important;
+}
+
+/*calc special media */
+@media screen and (max-width: 1199px) {
+
+    .card-column {
+        max-width: 80%!important;
+    }
+}
+
+@media screen and (max-width: 680px) {
+    .tabs label {
+        min-height: 50px;
+        max-height: 80px!important;
+        min-width: 80%!important;
+        padding: 15px 25px;
+        margin-bottom: 0;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        color: #333;
+        font-size: 14px;
+        border-bottom: 2px solid #ff6508;
+        margin-top: 10px;
+    }
+
+    .container_new {
+        margin-bottom: 40px;
+    }
+
+    .tabs {
+        min-width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    section {
+        max-width: 100%;
+        padding: 0!important;
+        margin: 10px 10px;
+    }
+}
+
+@media screen and (max-width: 624px) {
+
+    .orange_button {
+        width: 80%;
+        margin-left: auto!important;
+        margin-right: auto!important;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    .controls-panel {
+        flex-wrap: wrap;
+        max-height: 150px
+    }
+
+    .controls-panel img {
+        width: 100%!important;
+    }
+
+    .controls-panel .amount {
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    .controls-panel .buttons-wrap {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 80%!important;
+    }
+
+    .controls-panel .buttons-wrap .blue_button {
+        margin-top: 20px!important;
+        margin-bottom: 20px!important;
+        height: 40%;
+    }
+
+    .call_style {
+        margin: 0;
+        height: 40%;
+    }
+
+    .card img {
+        margin-left: 20px;
+        display: block;
+        width: 90%;
+        height: auto;
+        flex
+    }
+
+    .card .img_logo_compare {
+        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;       
+    }
+}

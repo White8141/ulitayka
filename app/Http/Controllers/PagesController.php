@@ -20,7 +20,6 @@ class PagesController extends Controller
             'tooltip' => ''
         ]);
     }
-    //раздел Контакты
     public function order(Request $request)
     {
         //dd($request->all());
@@ -31,19 +30,6 @@ class PagesController extends Controller
         $order->email = $request->input('main_email');
         $order->comments = $request->input('main_comment');
         $order->save();
-
-        //dd($order);
-        $subject = "Новый заказ";
-        $msg = "Заказан звонок от абонента ".$order->name.", номер телефона: ".$order->phone.", email: ".$order->email;
-        if ($order->comments != '') $msg = $msg.", комментарии к заказу: ".$order->comments;
-        mail ("white8141@yandex.ru", $subject, $msg, "From: http://ulitayka.ru/");
-
-        $token = "678737128:AAEmiTcbR310HV4Pep12vohXQh3uWO41tSA";
-        $chatid = "178916089";
-        $mess = 'Пользователь '.$order->name.' заказал звонок на номер '.$order->phone;
-        if ($order->comments != '') $mess = $mess.", комментарии к заказу: ".$order->comments;
-        $tbot = file_get_contents("https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$chatid."&text=".$mess);
-        //dd($tbot);
 
         return view('sections/contacts/contacts', [
             'tooltip' => 'Заказ принят'
