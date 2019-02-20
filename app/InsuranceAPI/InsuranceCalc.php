@@ -8,16 +8,17 @@ use App\InsuranceAPI\Vsk\VskAPI;
 use App\InsuranceAPI\Vsk\VskCalcParams;
 use App\InsuranceAPI\Advant\AdvantAPI;
 use App\InsuranceAPI\Advant\AdvantCalcParams;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class InsuranceCalc
 {
-    public function __construct()
-    {
-    }
+    protected $insuranceRequest;
+    
+    public function __construct() {}
 
-    public function getInsuranceCalc($request, $isJson = false)
-    {
+    public function getInsuranceCalc(Request $request, $isJson = false) {
+
         $result = [];
         $alpha = $this->getAlphaCalc($request) ?? null;
         //dd($alpha);
@@ -44,7 +45,7 @@ class InsuranceCalc
             ];
         }
 
-        $advant = $this->getAdvantCalc($request);
+        /*$advant = $this->getAdvantCalc($request);
         //dd($advant);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result['advant'] = [
@@ -56,7 +57,7 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }
+        }*/
 
         return $isJson ? json_encode($result) : $result;
     }
@@ -69,7 +70,6 @@ class InsuranceCalc
         
         return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
 
-        //return $request->all();
         //return $calcParams->getCalcParams('calculate');
     }
 
@@ -172,9 +172,26 @@ class InsuranceCalc
     
     public function getInsuranseData($request)
     {
-        $calcParams = new VskCalcParams($request->all());
-        return $calcParams->getCalcParams('Calc2');
-        //return 'getInsData';
+        return AlphaAPI::getAdditionalConditions();
+
     }
 
+    public function prepareRequest (Request $request) {
+
+        if (!$request->has('countries') || $request->input('countries') == null)  {
+            $request->merge(['countries' => [['countryName' => 'SCHENGEN']]]);
+        }
+
+        if (!$request->has('dateFrom') || $request->input('dateFrom') == null)  {
+            $request->merge(['dateFrom' => Carbon::now()->addDay()->format('d.m.Y')]);
+        }
+
+        if (!$request->has('dateTill') || $request->input('dateTill') == null)  {
+            $request->merge(['dateTill' => Carbon::createFromFormat('d.m.Y', $request->input('dateFrom'))->addDays(7)->format('d.m.Y')]);
+        }
+
+        if (!$request->has('travelers') || $request->input('travelers') == null) {
+            $request->merge(['travelers' => [['accept' => 'true', 'age' => '30']]]);
+        }
+    }
 }

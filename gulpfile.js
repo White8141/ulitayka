@@ -4,8 +4,7 @@ require('laravel-elixir-webpack-official');
 require('laravel-elixir-vue-2');
 
 elixir(mix => {
-    mix.sass(['app.scss'],'public/assets/css/app.css')
+    mix.sass('app.scss','public/assets/css/app.css')
     //.webpack('app.js','public/assets/js/app.js')
-    //.webpack('typed.js','public/assets/js/typed.js')
     //.version(['assets/css/style.css', 'assets/js/app.js'])
 });

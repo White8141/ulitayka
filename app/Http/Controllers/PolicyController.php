@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Risk;
-use App\Traveler;
-use Illuminate\Http\Request;
 use App\InsuranceAPI\InsuranceCalc;
 use App\Policy;
 use App\Repositories\PolicyRepository;
-use Illuminate\Support\Carbon;
+use App\Traveler;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PolicyController extends Controller
 {
@@ -21,8 +20,7 @@ class PolicyController extends Controller
      *
      * @return void
      */
-    public function __construct(PolicyRepository $policies, InsuranceCalc $insuranceCalc, Request $request)
-    {
+    public function __construct(PolicyRepository $policies, InsuranceCalc $insuranceCalc, Request $request) {
         $this->middleware('auth');
 
         $this->request = $request;
@@ -31,49 +29,41 @@ class PolicyController extends Controller
 
     }
     
-    /*public function select (Request $request) {
-        
-        //dd($this->request->all());
-        return view('policies/police_calc')->with([ 'defaultData' => json_encode($this->request->only('dateFrom', 'dateTill', 'countries', 'travelers')),
-                                                    'calculation' =>             $this->insuranceCalc->getInsuranceCalc($this->request, true)
-        ]);
-    }*/
-
     /**
      * Создание нового полиса
      *
-     * @param  Request  $request
      * @return Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $this->validate($request, [
+        //dd($this->insuranceCalc->getInsuranseData($this->request, true));
+        //dd($this->request->all());
+
+        $this->validate($this->request, [
             'companyId' => 'required|max:255',
         ]);
 
-        //dd($request->all());
-
-        $policy = $request->user()->policies()->create([
-            'policy_name' => $request->name,
-            'company_id' => $request->companyId,
-            'policy_period_from' => $request->dateFrom,
-            'policy_period_till' => $request->dateTill,
-            'policy_cost' => $request->policeAmount,
-            'policy_currency' => $request->policy_currency,
-            'additional_condition_0' => $request->has('additionalConditions.0.accept') ? true : false,
-            'additional_condition_1' => $request->has('additionalConditions.1.accept') ? true : false,
-            'additional_condition_2' => $request->has('additionalConditions.2.accept') ? true : false,
+        $policy = $this->request->user()->policies()->create([
+            'policy_name' => $this->request->name,
+            'company_id' => $this->request->companyId,
+            'policy_period_from' => $this->request->dateFrom,
+            'policy_period_till' => $this->request->dateTill,
+            'policy_cost' => $this->request->policeAmount,
+            'policy_currency' => $this->request->policy_currency,
+            'additional_condition_0' => $this->request->has('additionalConditions.0.accept') ? true : false,
+            'additional_condition_1' => $this->request->has('additionalConditions.1.accept') ? true : false,
+            'additional_condition_2' => $this->request->has('additionalConditions.2.accept') ? true : false,
             'link' => '/'
         ]);
 
-        foreach ($request->countries as $country) {
+        foreach ($this->request->countries as $country) {
             $policy->countries()->create([
-                'country_name' => $country['country_name']
+                'country_name' => $country['countryName']
             ]);
         }
         $policy->countries;
 
-        foreach ($request->travelers as $traveler) {
+        foreach ($this->request->travelers as $traveler) {
             if (array_get($traveler, 'accept')) {
                 $birhDate = new Carbon('-'.array_get($traveler, 'age').' years');
                 $policy->travelers()->create([
@@ -83,7 +73,7 @@ class PolicyController extends Controller
         }
         $policy->travelers;
 
-        foreach ($request->risks as $risk) {
+        foreach ($this->request->risks as $risk) {
             if (array_get($risk, 'accept')) {
                 $policy->risks()->create([
                     'risk_name' => array_get($risk, 'name'),
@@ -93,12 +83,11 @@ class PolicyController extends Controller
         }
         $policy->risks;
 
+        return redirect()->route('policy_edit', [$policy]);
         //dd($policy);
         /*return view('policies/police_edit')->with([ 'defaultData' => json_encode($policy),
                                                     'companyId' => strval($policy->company_id)
                                                 ]);*/
-        return redirect()->route('policy_edit', [$policy]);
-
     }
 
     /*public function open (Policy $policy) {
@@ -114,6 +103,7 @@ class PolicyController extends Controller
     }*/
 
     public function edit (Policy $policy) {
+
         $this->authorize('edit', $policy);
 
         $policy->risks;
@@ -124,7 +114,8 @@ class PolicyController extends Controller
 
         return view('policies/police_edit')->with([ 'defaultData' => json_encode($policy),
                                                     'companyId' => strval($policy->company_id),
-                                                    'user' => $this->request->user()
+                                                    'user' => $this->request->user(),
+                                                    'status' => $policy->status
         ]);
     }
 
@@ -152,9 +143,6 @@ class PolicyController extends Controller
         $policy->additional_condition_1 = $this->request->has('additionalConditions.1.accept') ? true : false;
         $policy->additional_condition_2 = $this->request->has('additionalConditions.2.accept') ? true : false;
 
-        /*$policy->client_first_name = $this->request['insureder']['firstName'];
-        $policy->client_last_name = $this->request['insureder']['lastName'];
-        $policy->client_birthdate = $this->request['insureder']['birthDate'];*/
         $policy->status = 1;
 
         $policy->save();
@@ -189,10 +177,72 @@ class PolicyController extends Controller
         }
 
         //dd($policy);
-        //dd($this->request['travelers']);
+        //dd($this->request->all());
         //dd($policy->travelers()->get());
+        if ($this->request->input('needBuy') && $this->request->input('needBuy') == 'true') {
+            return redirect()->route('policy_buy', [$policy]);
+        } else {
+            return redirect('/home/policies');
+            //return redirect('policies/police_buy')->with(['policy' => $policy]);
+        }
+    }
 
-        return redirect('/home/policies');
+    public function buy (Policy $policy) {
+        $this->authorize('buy', $policy);
+
+        //dd($policy);
+
+        return view('policies/police_buy')->with(['policy' => $policy]);
+    }
+
+    /**
+     * создает чек с ключом, передает этот ключ в сессию и перенаправляет запрос на API Яндекс.Деньги
+     * @param Policy $policy
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function trans (Policy $policy) {
+        //dd($policy);
+
+        $temp = str_random(20);
+
+        $policy->checks()->create([
+            'check_cost' => $policy->policy_cost,
+            'check_key' => $temp
+        ]);
+
+        //return redirect()->away('/policy/done/'.$policy->id, 307)->with(['paymentKey' => $temp]);
+        return redirect()->away('https://money.yandex.ru/quickpay/confirm.xml', 307)->with(['paymentKey' => $temp]);
+    }
+
+    public function done (Policy $policy) {
+
+        //dd($this->request);
+
+        if ($this->request->session()->has('paymentKey')) {
+
+            $checks = $policy->checks()->get()->filter(function ($item) {
+                return $item->check_key == $this->request->session()->get('paymentKey');
+            });
+
+            if (!$checks->isEmpty()) {
+                    //echo ('Есть одни чек '.$this->request->session()->get('paymentKey'));
+                    $check = $checks->first();
+                    $check->check_status = 1;
+                    $check->save();
+
+                    $policy->status = "2";
+                    $policy->save();
+
+                    return redirect()->route('policy_edit', ['policy' => $policy]);
+            } else {
+                return redirect('/');
+                //echo ('Нет таких чеков '.$this->request->session()->get('paymentKey'));
+            }
+
+        } else {
+            return redirect('/');
+            //echo ('Доступ запрещен');
+        }
     }
 
     public function delete (Policy $policy) {

@@ -66,10 +66,6 @@ $(document).ready(function () {
         }
     });
 
-    /*$(function () {
-        $('#datePickerFrom').datetimepicker();
-    });*/
-
     //console.log ('Now ' + moment().format('DD.MM.YYYY'));
 
     tempArray = [];

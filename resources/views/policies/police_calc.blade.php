@@ -8,173 +8,106 @@
 
     <div class="container">
         <div class="row">
-            <div class="card-column" id="cards">
+            <div class="col-12 col-md-6" id="cards">
 
                 <div class="card insCard" id="alpha">
-                    <div class="controls-panel">
-                        <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?>" alt="Alpha-Logo" class="img_logo">
-                        <p class="amount prem">
+                    <div class="row no-margin-row controls-panel">
+                        <div class="col-6">
+                            <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?>" alt="Alpha-Logo" class="img_logo">
+                        </div>
+                        <p class="col-3 prem">
                             <b></b>
                             <span class="fa fa-rub"></span>
                         </p>
-                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
-                        <label for="card_checkbox1"></label>
-                        <div class="buttons-wrap">
-                            <div href="#" class="blue_button">
-                            <!-- <img src="<?//php echo e(asset('assets/img/button_blue.png')); ?>" alt="тест" class="blue_button"> -->
-                                <a onclick=sendCalc('alpha')>
-                                    <p class="blue_button_text">Купить</p>
-                                </a>
-                            </div>
-
-                            <!-- Я не знаю зачем в созданном ранее шаблоне на каждой карточке есть место под эту кнопку.
-                            В рабочем сайте она есть лишь на специальной выделенной карточке "сравнить", которая не работает все равно.
-                            Я её убрал, поставив вместо нее кнопку "Образей полиса", которая, к слову тоже не работает -->
-
-                        <!-- <div href="#" class="orange_button">
-                                      <img src="<?php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
-                                     <a href="#">
-                                         <p class="orange_button_text">Сравнить</p>
-                                     </a>
-                                </div> -->
-
-                            <!-- Коммент выше -  рыжая кнопка -->
-
-                            <div class="call_style">
-                                <a class="callback_us">
-                                    <span class="polis_example">Образец полиса</span>
-                                </a>
-                            </div>
+                        <div class="col-3">
+                            <a class="btn" onclick=sendCalc('alpha')>Купить</a>
                         </div>
                     </div>
 
                     <div class="container_new">
                         <div class="tabs">
-                            <!-- <div class="tabs-wrapper"> -->
-                            <input id="tab1" type="radio" name="tabs">
-                            <label for="tab1" title="Ассистанс">Ассистанс</label>
+                            <div class="row no-margin-row">
+                                <div class="col-4">
+                                    <input id="tab1" type="radio" name="tabs" checked>
+                                    <label style="top: 21px" for="tab1" title="Ассистанс">Ассистанс</label>
+                                </div>
+                                <div class="col-4">
+                                    <input id="tab2" type="radio" name="tabs">
+                                    <label style="top: 21px" for="tab2" title="Франшиза">Франшиза</label>
+                                </div>
+                                <div class="col-4">
+                                    <input id="tab3" type="radio" name="tabs">
+                                    <label for="tab3" title="Правила страхования">Правила страхования</label>
+                                </div>
+                            </div>
 
-                            <input id="tab2" type="radio" name="tabs">
-                            <label for="tab2" title="Франшиза">Франшиза</label>
-
-                            <input id="tab3" type="radio" name="tabs">
-                            <label for="tab3" title="Правила страхования">Правила страхования</label>
-                            <!-- </div> -->
-
-                            <!-- <div class="section-wrapper"> -->
                             <section id="content-tab1" class="assistance">
                                 <p style="text-align: justify;" >
-                                    Тестовая запись
 
                                 </p>
                             </section>
                             <section id="content-tab2">
                                 <p style="text-align: justify;">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                    nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                    officia
-                                    deserunt mollit anim id est laborum.
+
                                 </p>
                             </section>
                             <section id="content-tab3">
                                 <p style="text-align: justify;">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                    nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                    officia
-                                    deserunt mollit anim id est laborum.
+
                                 </p>
                             </section>
-                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
+
                 <div class="card insCard" id="vsk">
-                    <div class="controls-panel">
-                        <img src="<?php echo e(asset('assets/img/logo-vsk.png')); ?>" alt="тест" class="img_logo">
-                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
-                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
-                        <label for="card_checkbox1"></label>
-                        <div class="buttons-wrap">
-                            <div href="#" class="blue_button">
-                            <!-- <img src="<?//php echo e(asset('assets/img/button_blue.png')); ?>" alt="тест" class="blue_button"> -->
-                                <a onclick=sendCalc('alpha')>
-                                    <p class="blue_button_text">Купить</p>
-                                </a>
-                            </div>
-
-                            <!-- Я не знаю зачем в созданном ранее шаблоне на каждой карточке есть место под эту кнопку.
-                            В рабочем сайте она есть лишь на специальной выделенной карточке "сравнить", которая не работает все равно.
-                            Я её убрал, поставив вместо нее кнопку "Образей полиса", которая, к слову тоже не работает -->
-
-                        <!-- <div href="#" class="orange_button">
-                                      <img src="<?php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
-                                     <a href="#">
-                                         <p class="orange_button_text">Сравнить</p>
-                                     </a>
-                                </div> -->
-
-                            <!-- Коммент выше -  рыжая кнопка -->
-
-                            <div class="call_style">
-                                <a class="callback_us">
-                                    <span class="polis_example">Образец полиса</span>
-                                </a>
-                            </div>
+                    <div class="row no-margin-row controls-panel">
+                        <div class="col-6">
+                            <img src="<?php echo e(asset('assets/img/logo-vsk.png')); ?>" alt="Vsk-Logo" class="img_logo">
+                        </div>
+                        <p class="col-3 prem">
+                            <b></b>
+                            <span class="fa fa-rub"></span>
+                        </p>
+                        <div class="col-3">
+                            <a class="btn" onclick=sendCalc('vsk')>Купить</a>
                         </div>
                     </div>
 
                     <div class="container_new">
                         <div class="tabs">
-                            <input id="tab4" type="radio" name="tabs">
-                            <label for="tab4" title="Ассистанс">Ассистанс</label>
+                            <div class="row no-margin-row">
+                                <div class="col-4">
+                                    <input id="tab4" type="radio" name="tabs">
+                                    <label style="top: 21px" for="tab4" title="Ассистанс">Ассистанс</label>
+                                </div>
+                                <div class="col-4">
+                                    <input id="tab5" type="radio" name="tabs">
+                                    <label style="top: 21px" for="tab5" title="Франшиза">Франшиза</label>
+                                </div>
+                                <div class="col-4">
+                                    <input id="tab6" type="radio" name="tabs">
+                                    <label for="tab6" title="Правила страхования">Правила страхования</label>
+                                </div>
+                            </div>
 
-                            <input id="tab5" type="radio" name="tabs">
-                            <label for="tab5" title="Франшиза">Франшиза</label>
-
-                            <input id="tab6" type="radio" name="tabs">
-                            <label for="tab6" title="Правила страхования">Правила страхования</label>
-
-                            <section id="content-tab4" class="assistance">
+                            <!-- <div class="section-wrapper"> -->
+                            <section id="content-tab1" class="assistance">
                                 <p style="text-align: justify;" >
 
                                 </p>
                             </section>
-                            <section id="content-tab5">
+                            <section id="content-tab2">
                                 <p style="text-align: justify;">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                    nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                    officia
-                                    deserunt mollit anim id est laborum.
+
                                 </p>
                             </section>
-                            <section id="content-tab6">
+                            <section id="content-tab3">
                                 <p style="text-align: justify;">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                    nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                    officia
-                                    deserunt mollit anim id est laborum.
+
                                 </p>
                             </section>
+                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -188,7 +121,7 @@
                         <div class="buttons-wrap">
                             <div href="#" class="blue_button">
                             <!-- <img src="<?//php echo e(asset('assets/img/button_blue.png')); ?>" alt="тест" class="blue_button"> -->
-                                <a onclick=sendCalc('alpha')>
+                                <a onclick=sendCalc('advant')>
                                     <p class="blue_button_text">Купить</p>
                                 </a>
                             </div>
@@ -232,38 +165,12 @@
                             </section>
                             <section id="content-tab8">
                                 <p style="text-align: justify;">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                    nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                    officia
-                                    deserunt mollit anim id est laborum.
+
                                 </p>
                             </section>
                             <section id="content-tab9">
                                 <p style="text-align: justify;">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                    nostrud
 
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                    nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                    officia
-                                    deserunt mollit anim id est laborum.
                                 </p>
                             </section>
                         </div>
@@ -329,23 +236,22 @@
                 </div>
                 <br>
 
-                <div class="card">
+                <div class="card row">
                     <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?> " alt="Альфа страхование" class="img_logo_compare">
                     <img src="<?php echo e(asset('assets/img/logo-ergo.png')); ?> " alt="Ergo" class="img_logo_compare">
                     <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?> " alt="Адвант страхование" class="img_logo_compare">
-                    <img src="<?php echo e(asset('assets/img/logo-renessans.png')); ?> " alt="Ренессанс страхование"
-                         class="img_logo_compare">
-                    <div href="#" class="orange_button">
-                    <!-- <img src="<?//php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button"> -->
+                    <img src="<?php echo e(asset('assets/img/logo-renessans.png')); ?> " alt="Ренессанс страхование" class="img_logo_compare">
+                    <!--div href="#" class="orange_button">
+                        <img src="<?//php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
                         <a href="#">
                             <p class="orange_button_text">Сравнить</p>
                         </a>
-                    </div>
+                    </div-->
                 </div>
 
             </div>
 
-            <div class="filter_wimdow card-column" id="filters">
+            <div class="filter_wimdow col-12 col-md-6" id="filters">
                     <div class="card card_right">
                         <div class="container_filters">
 
@@ -360,7 +266,7 @@
 
                                 <p class="filter_h3">Страны</p>
                                 <div>
-                                    <input id="msCountries" class="form-control" name="countries[][country_name]"/>
+                                    <input id="msCountries" class="form-control" name="countries[][countryName]"/>
                                     <label></label>
                                 </div>
 
@@ -732,7 +638,7 @@
     </div>
 
     <style type="text/css">#hellopreloader>p{display:none;}#hellopreloader_preload{display: block;position: fixed;z-index: 99999;top: 0;left: 0;width: 100%;height: 100%;min-width: 1000px;background: #6BB9F0 url(http://hello-site.ru//main/images/preloads/oval.svg) center center no-repeat;background-size:165px;}</style>
-    <div id="hellopreloader"><div id="hellopreloader_preload"></div><p><a href="http://hello-site.ru">Hello-Site.ru. Бесплатный конструктор сайтов.</a></p></div>
+    <div id="hellopreloader"><div id="hellopreloader_preload"></div><p></p></div>
     <script type="text/javascript">var hellopreloader = document.getElementById("hellopreloader_preload");function fadeOutnojquery(el){el.style.opacity = 1;var interhellopreloader = setInterval(function(){el.style.opacity = el.style.opacity - 0.05;if (el.style.opacity <=0.05){ clearInterval(interhellopreloader);hellopreloader.style.display = "none";}},16);}window.onload = function(){setTimeout(function(){fadeOutnojquery(hellopreloader);},1000);};</script>
 
 @stop

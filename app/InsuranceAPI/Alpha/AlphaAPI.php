@@ -16,7 +16,6 @@ class AlphaAPI
     /**
      * Метод отправки soap-запрса принимает метод и параметры, возвращает массив с ответом
      */
-
     private static function soapRequest($method, $params)
     {
         //dd($params);
@@ -58,7 +57,6 @@ class AlphaAPI
     /**
      * Метод получения доступных агенту программ страхования
      */
-
     public static function getInsuranceProgramms()
     {
         $method = 'GetInsuranceProgramms';
@@ -76,10 +74,7 @@ class AlphaAPI
     /**
      * Запрос списков рисков доступных к страхованию в выбранной программе
      */
-
-    public static function getRisks (
-        $programUid = null
-    )
+    public static function getRisks ($programUid = null)
     {
         $method = 'GetRisks';
         $params = [
@@ -97,11 +92,7 @@ class AlphaAPI
     /**
      * Запрос стран
      */
-
-    public static function getCountries(
-        $programUid = null,
-        $countryUid = null
-    )
+    public static function getCountries($programUid = null, $countryUid = null)
     {
         $method = 'GetCountries';
         $params = [
@@ -120,7 +111,6 @@ class AlphaAPI
     /**
      * Запрос справочника дополнительных условий спорт/работа
      */
-
     public static function getAdditionalConditions()
     {
         $method = 'GetAdditionalConditions';

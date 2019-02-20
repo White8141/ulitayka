@@ -43,7 +43,7 @@ class AdvantCalcParams
         $this->countries = [];
         //dd($request['countries']);
         foreach ($request['countries'] ?? ['SCHENGEN'] as $country) {
-            $this->countries[] = AdvantDirect::getCountryUID((string)$country['country_name']);
+            $this->countries[] = AdvantDirect::getCountryUID((string)$country['countryName']);
         }
         //$this->countries = $request['countries'];
 

@@ -39,6 +39,18 @@ class PolicyPolicy
      * @param  Policy  $policy
      * @return bool
      */
+    public function buy(User $user, Policy $policy)
+    {
+        return $user->id === $policy->user_id;
+    }
+
+    /**
+     * Определяем, может ли данный пользователь редактировать данный полис
+     *
+     * @param  User  $user
+     * @param  Policy  $policy
+     * @return bool
+     */
     public function edit(User $user, Policy $policy)
     {
         return $user->id === $policy->user_id;

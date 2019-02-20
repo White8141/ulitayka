@@ -35,7 +35,7 @@ body {
     min-height: 100vh;
 
     .content-container {
-      padding-bottom: 220px;
+      padding-bottom: 292px;
     }
   }
 }
@@ -71,6 +71,23 @@ a.policies-button {
   top: -58px;
 }
 
+form {
+
+  .btn-blue {
+    background-color: #4daeda;
+    color: #fff;
+  }
+
+  .btn-blue:hover {
+    color: #000;
+  }
+}
+
+.no-margin-row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
 .toast-container {
   position: absolute;
   width: 100%;
@@ -103,17 +120,263 @@ a.policies-button {
       display: none;
     }
 
-    button {
+    #insureder {
+      .form-group {
+        display: inline-block;
+      }
+    }
+
+    /*button {
       float: right;
       margin-bottom: 24px;
-    }
+    }*/
   }
 
 }
 
-.mo_margin_row {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+.policies-container {
+  width: 90%;
+  margin: 0px auto;
+
+  form {
+    text-align: end;
+  }
+}
+
+.police_details {
+  border-bottom: 3px solid #fb673f;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
+  background-color: #fff;
+
+  .details-form {
+    .img-logo {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    &.footer {
+      position: relative;
+      //padding-right: 15px;
+      height: 64px;
+
+      img {
+        position: relative;
+        top: -54px;
+      }
+
+      a {
+
+        p {
+          margin-bottom: 0px;
+        }
+      }
+
+      .btn {
+        margin-bottom: 0px;
+        margin-left: 16px;
+      }
+    }
+  }
+
+  .buy-form {
+
+    label {
+      width: 100%;
+      height: 160px;
+
+      input {
+        display: none;
+      }
+
+      img {
+        width: 100%;
+        border-radius: 8px;
+        opacity: .5;
+        box-shadow: 0px 2px 8px;
+        cursor: pointer;
+        transition: opacity .35s;
+      }
+
+      input:checked + img {
+        opacity: 1;
+      }
+    }
+
+    .row-footer {
+      width: 100%;
+      text-align: end;
+      margin-top: 14px;
+    }
+  }
+}
+
+.card {
+  border-bottom: 3px solid #fb673f;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin: 16px 0px;
+  width: 100%;
+  background-color: #fff;
+
+  &.row {
+    display: inline-block;
+  }
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 #ff6508;
+  }
+
+  img {
+    border-radius: 5px 5px 0 0;
+  }
+
+  .prem {
+    color: #000;
+    font-size: 20px;
+  }
+
+  .prem span {
+    position: relative;
+    top: 1px;
+  }
+}
+
+.card.disparity_card {
+  height: 100px !important;
+
+  img.img_logo {
+    width: 40%;
+    top: 20px !important;
+    left: 16px !important;
+  }
+
+  /*.img_logo_disparity {
+
+  }*/
+
+
+
+  .disparity_grey {
+    background: rgba(111, 111, 111, 0.5);
+    opacity: 0.5;
+    border-radius: 5px;
+  }
+
+  .disparity_text {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 50%;
+    padding-right: 16px;
+  }
+}
+
+.controls-panel {
+  margin-top: 16px;
+  height: 50px;
+
+  p.prem {
+    margin-bottom: 0px;
+    padding-top: 6px;
+  }
+
+  a.btn {
+    color: #fff;
+    background-color: #4daeda;
+    position: relative;
+    top: 6px;
+    float: right;
+  }
+}
+
+.img_logo {
+  width: 90%;
+  max-height: 50px;
+  padding: 0px;
+  //padding: 10px 0 0 10px;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.img_logo_compare {
+  width: 24%;
+  padding: 10px 5px;
+  position: relative;
+  top: 12px;
+  left: 0;
+}
+
+/* Табы */
+/* Базовый контейнер табов */
+.tabs {
+  width: 97.5%;
+  min-height: 210px;
+
+  /* Прячем чекбоксы */
+  input {
+    display: none;
+    position: absolute;
+  }
+
+  /* Стили для активной вкладки */
+  input:checked + label {
+    color: #fff;
+    background-color: #4daeda;
+  }
+
+  /* Стили переключателей вкладок (табов) */
+  label {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color: #000;
+    background-color: #fff;
+    border-radius: 5px 5px 0 0;
+  }
+
+  /* Изменения стиля переключателей вкладок при наведении */
+  label:hover {
+    color: #fff;
+    cursor: pointer;
+    background-color: #ff6508;
+  }
+
+  section {
+    display: none;
+    padding: 15px;
+    background: #fff;
+    width: 100%;
+    margin-bottom: 15px;
+
+    p {
+      margin: 0 0 5px;
+      line-height: 1.5;
+      color: #383838;
+      /* прикрутим анимацию */
+      -webkit-animation-duration: 1s;
+      animation-duration: 1s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      -webkit-animation-name: fadeIn;
+      animation-name: fadeIn;
+    }
+
+  }
 }
 
 /* Модалка */
@@ -362,44 +625,11 @@ table.policy_table {
 
 /* filters.php */
 
-.card {
-  border-bottom: 3px solid #fb673f;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 5px;
-  float: left;
-  margin: 10px 0 10px 0;
-  width: 615px;
-  background-color: #fff;
-}
-
-.police_details {
-  border-bottom: 3px solid #fb673f;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 85%;
-  background-color: #fff;
-}
-.police_details .details-form.footer {
-  padding-right: 15px;
-
-  button {
-    float: right;
-  }
-
-  a {
-    float: right;
-
-    p {
-      margin-bottom: 0px;
-    }
-  }
-}
+/*.card-column {
+  max-width: 46%;
+  margin-left: 1%;
+  margin-right: 1%;
+}*/
 
 .card_right {
   width: 100%;
@@ -456,10 +686,6 @@ table.policy_table {
     width: 427px !important;
   }
 }
-.card:hover {
-  box-shadow: 0 8px 16px 0 #ff6508;
-}
-
 .container_new {
   padding: 2px 16px;
   margin-top: 40px;
@@ -473,32 +699,7 @@ table.policy_table {
   margin-top: 10px;
   max-width: 600px !important;
 }
-
-.card img {
-  border-radius: 5px 5px 0 0;
-}
-
-.img_logo {
-  width: 30%;
-  padding: 10px 0 0 10px;
-  position: relative;
-  top: 0;
-  left: 0;
-}
-
-.img_logo_compare {
-  width: 20%;
-  padding: 10px 0 0 10px;
-  position: relative;
-  top: 0;
-  left: 0;
-}
-
-.img_logo_disparity {
-  top: -30px !important;
-}
-
-.amount {
+/*.amount {
   position: relative;
   top: -20px;
   left: 63%;
@@ -509,7 +710,7 @@ table.policy_table {
 .amount span {
   position: relative;
   top: 1px;
-}
+}*/
 
 
 .blue_button {
@@ -574,23 +775,6 @@ table.policy_table {
   font-weight: 700;
   margin-left: 5px;
   width: 450px;
-}
-
-.disparity_grey {
-  background: rgba(111, 111, 111, 0.5);
-  opacity: 0.5;
-  border-radius: 5px;
-}
-
-.disparity_text {
-  position: relative;
-  top: 40px;
-  left: 45%;
-  width: 310px;
-}
-
-.disparity_card {
-  height: 100px !important;
 }
 
 [type="checkbox"] {
@@ -774,37 +958,7 @@ hr.orange_dashed2 {
     left: calc(40% - 7px);
   }
 }
-/* Табы */
-/* Базовый контейнер табов */
-.tabs {
-  width: 77.5%;
-  position: relative;
-  margin-top: -130px;
-  color: #fff;
-  border-bottom: 3px solid #ff6502;
-}
 
-/* Стили секций с содержанием */
-.tabs > section {
-  display: none;
-  padding: 15px;
-  background: #fff;
-  width: 580px !important;
-  margin-bottom: 15px;
-}
-
-.tabs > section > p {
-  margin: 0 0 5px;
-  line-height: 1.5;
-  color: #383838;
-  /* прикрутим анимацию */
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
-}
 
 /* Описываем анимацию свойства opacity */
 @-webkit-keyframes fadeIn {
@@ -822,38 +976,6 @@ hr.orange_dashed2 {
   to {
     opacity: 1;
   }
-}
-/* Прячем чекбоксы */
-.tabs > input {
-  display: none;
-  position: absolute;
-}
-
-/* Стили переключателей вкладок (табов) */
-.tabs > label {
-  display: inline-block;
-  margin: 0 0 -1px;
-  padding: 15px 25px;
-  font-weight: 600;
-  text-align: center;
-  font-family: Roboto, sans-serif;
-  font-size: 14px;
-  color: #000;
-  background-color: #fff;
-  border-radius: 5px 5px 0 0;
-}
-
-/* Изменения стиля переключателей вкладок при наведении */
-.tabs > label:hover {
-  color: #fff;
-  cursor: pointer;
-  background-color: #ff6508;
-}
-
-/* Стили для активной вкладки */
-.tabs > input:checked + label {
-  color: #fff;
-  background-color: #4daeda;
 }
 
 /* Активация секций с помощью псевдокласса :checked */
@@ -3314,6 +3436,10 @@ h1 {
   font-weight: 400;
   line-height: 20px;
   min-height: calc(55vh );
+}
+
+.block-flex-hh {
+  margin-bottom: 24px;
 }
 
 .block-flex-1 {

@@ -19,19 +19,7 @@ class CalcController extends Controller
 
     public function calculate()
     {
-        //dd($this->request->all());
-        if (!$this->request->has('countries'))  $this->request->merge(['countries' => [['country_name' => 'SCHENGEN']]]);
-        if (!$this->request->has('dateFrom') || $this->request->input('dateFrom') == null) {
-            $this->request->merge(['dateFrom' => Carbon::now()->addDays(1)->toDateString()]);
-        } else {
-            $this->request->merge(['dateFrom' => Carbon::createFromFormat('d.m.Y', $this->request->input('dateFrom'))->toDateString()]);
-        }
-        if (!$this->request->has('dateTill') || $this->request->input('dateTill') == null) {
-            $this->request->merge(['dateTill' => Carbon::now()->addDays(8)->toDateString()]);
-        } else {
-            $this->request->merge(['dateTill' => Carbon::createFromFormat('d.m.Y', $this->request->input('dateTill'))->toDateString()]);
-        }
-        //dd($this->request->all());
+        $this->insuranceCalc->prepareRequest($this->request);
 
         return view('policies/police_calc')->with([ 'defaultData' => json_encode($this->request->all()),
                                                     'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
@@ -40,20 +28,10 @@ class CalcController extends Controller
     
     public function ajax()
     {
-        if (!$this->request->has('countries'))  $this->request->merge(['countries' => [['country_name' => 'SCHENGEN']]]);
-        if (!$this->request->has('dateFrom') || $this->request->input('dateFrom') == null) {
-            $this->request->merge(['dateFrom' => Carbon::now()->addDays(1)->toDateString()]);
-        } else {
-            $this->request->merge(['dateFrom' => Carbon::createFromFormat('d.m.Y', $this->request->input('dateFrom'))->toDateString()]);
-        }
-        if (!$this->request->has('dateTill') || $this->request->input('dateTill') == null) {
-            $this->request->merge(['dateTill' => Carbon::now()->addDays(8)->toDateString()]);
-        } else {
-            $this->request->merge(['dateTill' => Carbon::createFromFormat('d.m.Y', $this->request->input('dateTill'))->toDateString()]);
-        }
-
-        echo $this->insuranceCalc->getInsuranceCalc($this->request, true);
+        $this->insuranceCalc->prepareRequest($this->request);
         //print_r($this->request->all());
+        
+        echo $this->insuranceCalc->getInsuranceCalc($this->request, true);
     }
 
     

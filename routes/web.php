@@ -1,11 +1,13 @@
 <?php
 Auth::routes();
 
-//Route::post('/policies', 'PolicyController@select')->name('policy_select');   policies_list
-Route::match(['get', 'post'], '/policy', 'PolicyController@create')->name('policy_create');
+Route::post('/policy', 'PolicyController@create')->name('policy_create');
 Route::match(['get', 'post'], '/policy/{policy}', 'PolicyController@edit')->name('policy_edit');
 Route::post('/policy/calc', 'PolicyController@calc')->name('policy_calc');
 Route::put('/policy', 'PolicyController@save')->name('policy_save');
+Route::get('/policy/buy/{policy}', 'PolicyController@buy')->name('policy_buy');
+Route::post('/policy/transaction/{policy}', 'PolicyController@trans')->name('policy_trans');
+Route::get('/policy/done/{policy}', 'PolicyController@done')->name('policy_done');
 Route::delete('/policy/{policy}', 'PolicyController@delete')->name('policy_delete');
 
 Route::post('/calculator', 'CalcController@calculate')->name('calculate');

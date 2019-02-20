@@ -743,8 +743,22 @@ const updDetails = (defaultData, company) => {
 
 };
 
+/**
+* Послать форму что бы получить блок с деталями полиса
+*/
+const sendBuy = () => {
+    tempForm = document.forms.form_details;
+
+    if (tempForm.checkValidity()) {
+        tempForm.needBuy.value = true;
+        tempForm.submit();
+    } else {
+        console.log('Не все данные заполнены');
+    }
+};
+
 //Послать форму что бы получить блок результатом покупки
-const sendDetails = (cardId) => {
+/*const sendDetails = (cardId) => {
 
     var tempForm = document.forms.form_details;
     var checked = false;
@@ -757,7 +771,7 @@ const sendDetails = (cardId) => {
         console.log ('Form error');
     }
 
-};
+};*/
 
 //Аджакс запрос
 const ajaxRequest = (url, csrf, args, func, method) => {
@@ -868,7 +882,7 @@ function collectData () {
     document.querySelector('#additionalConditions1').value = document.querySelector('#additionalConditions1').checked;
     document.querySelector('#additionalConditions2').value = document.querySelector('#additionalConditions2').checked;
 
-    let args = 'countries[0][country_name]=';
+    let args = 'countries[0][countryName]=';
 
     //собираем массив стран путешествия
     let items = $('#msCountries').magicSuggest().getSelection();
@@ -881,7 +895,7 @@ function collectData () {
     }
     if (items.length > 1) {
         for (i = 1; i < items.length; i++) {
-            args += '&countries[' + i + '][country_name]=' + items[i].countryName;
+            args += '&countries[' + i + '][countryName]=' + items[i].countryName;
         }
     }
 

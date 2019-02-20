@@ -21,10 +21,10 @@ class CreatePolicysTable extends Migration
             $table->integer('status')->unsigned()->default(0);
 
             $table->string('policy_number')->nullable();
-            $table->string('policy_currency', 3)->nullable();
+            $table->string('policy_currency', 3);
             $table->string('insurance_programm_uid')->nullable();
-            $table->char('policy_period_from', 10)->nullable();
-            $table->char('policy_period_till', 10)->nullable();
+            $table->char('policy_period_from', 10);
+            $table->char('policy_period_till', 10);
             $table->decimal('policy_cost')->nullable();
 
             $table->boolean('additional_condition_0')->default(false);

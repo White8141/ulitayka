@@ -29,4 +29,8 @@ class Policy extends Model
     public function countries () {
         return $this->hasMany(Country::class);
     }
+    
+    public function checks () {
+        return $this->hasMany(Check::class);
+    }
 }

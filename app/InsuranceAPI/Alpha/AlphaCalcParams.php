@@ -2,6 +2,7 @@
 
 namespace App\InsuranceAPI\Alpha;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\InsuranceAPI\Alpha\AlphaDirect;
 
@@ -18,13 +19,12 @@ class AlphaCalcParams
     public $insureds;
     public $additionalConditions;
 
-    function __construct($request)
-    {
+    function __construct($request) {
         $this->request = $request;
 
         //$this->countries = $request['countries'];
-        $this->policyPeriodFrom = $request['dateFrom'] ?? date('Y-m-d') . 'T00:00:00';
-        $this->policyPeriodTill = $request['dateTill'] ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
+        $this->policyPeriodFrom = Carbon::createFromFormat('d.m.Y', $request['dateFrom'])->format('Y-m-d') ?? date('Y-m-d') . 'T00:00:00';
+        $this->policyPeriodTill = Carbon::createFromFormat('d.m.Y', $request['dateTill'])->format('Y-m-d') ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
         $this->client = [
             'name' => 'Testov Petr'
         ];
@@ -41,9 +41,10 @@ class AlphaCalcParams
         }
 
         $this->countries = [];
-        foreach ($request['countries'] ?? [['country_name' => 'SCHENGEN']] as $country) {
-            //dd($country);
-            $this->countries[] = AlphaDirect::getCountryUID($country['country_name']);
+        //print_r($request['countries']);
+        foreach ($request['countries'] ?? [['countryName' => 'SCHENGEN']] as $country) {
+
+            $this->countries[] = AlphaDirect::getCountryUID($country['countryName']);
         }
 
         $this->additionalConditions = [];
@@ -74,6 +75,7 @@ class AlphaCalcParams
                         'userId' => '9B724100-83B5-4EA0-9F55-452C07D131AE',
                         'userLogin' => 'AS_test',
                         'userPSW' => '8Pq7YS3V',
+                        //'insuranceProgrammUID' => 'bae89816-a75b-4d82-8741-409f42de0876',
                         'insuranceProgrammUID' => 'bae89816-a75b-4d82-8741-409f42de0876',
                         'operation' => $operation,
                         'policyPeriodFrom' => $this->policyPeriodFrom,

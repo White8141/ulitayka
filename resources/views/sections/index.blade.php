@@ -24,7 +24,7 @@
                     <div class="form-box">
 
                         <div class="box-4yo">
-                            <input id="mainCountries" class="form-control" name="countries[][country_name]"/>
+                            <input id="mainCountries" class="form-control" name="countries[][countryName]"/>
                             <label></label>
                         </div>
                         <div class="box-1">

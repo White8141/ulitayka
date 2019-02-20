@@ -31,6 +31,20 @@ class PagesController extends Controller
         $order->comments = $request->input('main_comment');
         $order->save();
 
+        //dd($order);
+        $subject = "Новый заказ";
+        $msg = "Заказан звонок от абонента ".$order->name.", номер телефона: ".$order->phone.", e-mail: ".$order->email;
+        if ($order->comments != '') $msg = $msg.", комментарии к заказу: ".$order->comments;
+        mail ("info@ulitayka.ru", $subject, $msg, "From: http://ulitayka.ru/");
+        mail ("white8141@yandex.ru", $subject, $msg, "From: http://ulitayka.ru/");
+
+        $token = "756757850:AAEGwoviOOtb66Yt0t_1RLKwvj-c8tnSSvg";
+        $chatid = "178916089";
+        $mess = 'Пользователь '.$order->name.' заказал звонок на номер '.$order->phone;
+        if ($order->comments != '') $mess = $mess.", комментарии к заказу: ".$order->comments;
+        $tbot = file_get_contents("https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$chatid."&text=".$mess);
+        //dd($tbot);
+
         return view('sections/contacts/contacts', [
             'tooltip' => 'Заказ принят'
         ]);

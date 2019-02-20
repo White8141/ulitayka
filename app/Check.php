@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Check extends Model
 {
     protected $fillable = [
-        'country_name'
+        'check_cost', 'check_key', 'check_status'
     ];
 
-    public function policies () {
+    public function policy () {
         return $this->belongsTo(Policy::class);
     }
 }
