@@ -38,8 +38,8 @@ class PagesController extends Controller
         mail ("info@ulitayka.ru", $subject, $msg, "From: http://ulitayka.ru/");
         mail ("white8141@yandex.ru", $subject, $msg, "From: http://ulitayka.ru/");
 
-        $token = "756757850:AAEGwoviOOtb66Yt0t_1RLKwvj-c8tnSSvg";
-        $chatid = "178916089";
+        $token = $_ENV['TELEGRAMM_TOKEN'];
+        $chatid = $_ENV['TELEGRAM_CHAT_ID'];
         $mess = 'Пользователь '.$order->name.' заказал звонок на номер '.$order->phone;
         if ($order->comments != '') $mess = $mess.", комментарии к заказу: ".$order->comments;
         $tbot = file_get_contents("https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$chatid."&text=".$mess);
