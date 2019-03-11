@@ -38,6 +38,15 @@
                                 <textarea name="main_comment" id="main_comment" class="field-long field-textarea" placeholder="Ваш комментарий"></textarea>
                             </div>
 
+                            <!--div class="form-box-elem">
+                                <div class="g-recaptcha" data-sitekey="6Lc_7ZIUAAAAAIYxvLJWNUoj9GaVf4WDYmDOHYYc"></div>
+                            </div-->
+
+                            <div class="form-box-elem main-capcha">
+                                <input id="main_capcha" class="field-long" type="checkbox" required/>
+                                <label class="form-check-label" for="main_capcha">Я не робот</label>
+                            </div>
+
                             <div class="form-box-elem">
                                 <button id="main_button" type="submit" >Заказать звонок</button>
                             </div>
@@ -58,6 +67,7 @@
 
 @section('script')
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="{{ asset('js/contacts.js') }}"></script>
     <script>
 

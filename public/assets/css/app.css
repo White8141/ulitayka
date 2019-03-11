@@ -743,6 +743,10 @@ form .btn-blue:hover {
   animation-name: fadeIn;
 }
 
+.wrap_map {
+  margin-top: 40px;
+}
+
 /* Модалка */
 .modal {
   display: none;
@@ -3265,9 +3269,17 @@ h1 {
 
 .form-box-elem {
   padding-top: 10px;
+  /* Firefox 19+ */
+  /* Firefox 18- */
+  /* Firefox 19+ */
+  /* Firefox 18- */
+  /* Firefox 19+ */
+  /* Firefox 18- */
+  /* Firefox 19+ */
+  /* Firefox 18- */
 }
 
-#main_button {
+.form-box-elem #main_button {
   color: #fff !important;
   background-color: #ff6508;
   border-radius: 4px;
@@ -3282,7 +3294,7 @@ h1 {
   width: 100%;
 }
 
-#main_name {
+.form-box-elem #main_name {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3292,7 +3304,7 @@ h1 {
   background: #ffffff url("../img/manss.png") 99% 50% no-repeat;
 }
 
-#main_name::-webkit-input-placeholder {
+.form-box-elem #main_name::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3303,7 +3315,7 @@ h1 {
   text-align: left;
 }
 
-#main_name::-moz-placeholder {
+.form-box-elem #main_name::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3314,8 +3326,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 19+ */
-#main_name:-moz-placeholder {
+.form-box-elem #main_name:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3326,8 +3337,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 18- */
-#main_name:-ms-input-placeholder {
+.form-box-elem #main_name:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3338,7 +3348,7 @@ h1 {
   text-align: left;
 }
 
-#main_tel {
+.form-box-elem #main_tel {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3348,7 +3358,7 @@ h1 {
   background: #ffffff url("../img/telephone.png") 99% 50% no-repeat;
 }
 
-#main_tel::-webkit-input-placeholder {
+.form-box-elem #main_tel::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3359,7 +3369,7 @@ h1 {
   text-align: left;
 }
 
-#main_tel::-moz-placeholder {
+.form-box-elem #main_tel::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3370,8 +3380,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 19+ */
-#main_tel:-moz-placeholder {
+.form-box-elem #main_tel:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3382,8 +3391,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 18- */
-#main_tel:-ms-input-placeholder {
+.form-box-elem #main_tel:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3394,7 +3402,7 @@ h1 {
   text-align: left;
 }
 
-#main_email {
+.form-box-elem #main_email {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3404,7 +3412,7 @@ h1 {
   background: #ffffff url("../img/email.png") 99% 50% no-repeat;
 }
 
-#main_email::-webkit-input-placeholder {
+.form-box-elem #main_email::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3415,7 +3423,7 @@ h1 {
   text-align: left;
 }
 
-#main_email::-moz-placeholder {
+.form-box-elem #main_email::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3426,8 +3434,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 19+ */
-#main_email:-moz-placeholder {
+.form-box-elem #main_email:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3438,8 +3445,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 18- */
-#main_email:-ms-input-placeholder {
+.form-box-elem #main_email:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3450,7 +3456,7 @@ h1 {
   text-align: left;
 }
 
-#main_comment {
+.form-box-elem #main_comment {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3460,7 +3466,7 @@ h1 {
   background: #ffffff url("../img/pencil.png") 99% 6% no-repeat;
 }
 
-#main_comment::-webkit-input-placeholder {
+.form-box-elem #main_comment::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3471,7 +3477,7 @@ h1 {
   text-align: left;
 }
 
-#main_comment::-moz-placeholder {
+.form-box-elem #main_comment::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3482,8 +3488,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 19+ */
-#main_comment:-moz-placeholder {
+.form-box-elem #main_comment:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3494,8 +3499,7 @@ h1 {
   text-align: left;
 }
 
-/* Firefox 18- */
-#main_comment:-ms-input-placeholder {
+.form-box-elem #main_comment:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3504,6 +3508,29 @@ h1 {
   line-height: 24px;
   /* Приближение из-за подстановки шрифтов */
   text-align: left;
+}
+
+.form-box-elem.main-capcha {
+  width: 100%;
+  height: 64px;
+  text-align: start;
+  padding: 18px 14px;
+  margin-top: 10px;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid #bbbbbb;
+}
+
+.form-box-elem.main-capcha input {
+  width: 27px;
+  height: 27px;
+}
+
+.form-box-elem.main-capcha label {
+  position: relative;
+  top: -5px;
+  margin-left: 10px;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 319px) {
