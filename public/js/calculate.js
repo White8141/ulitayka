@@ -711,6 +711,7 @@ const chRequest = (url, csrf) => {
 
 // Обновляем блок с данными полиса
 const updCalc = response => {
+    console.log ('Page Upadate: ' + response);
     response = JSON.parse(response);
     document.querySelector('#disparity_orange_text').style.display = 'none';
     let cards = document.getElementsByClassName('insCard');
@@ -721,10 +722,20 @@ const updCalc = response => {
             cards[i].style.display = 'block';
             document.querySelector('#dis_' + id).style.display = 'none';
             document.querySelector('#' + id + ' .prem b').innerHTML = response[id]['prem'];
-            if (response[id]['assistance']['name'] != 0) {
-                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>' + response[id]['assistance']['name'] + '</b><br>' + response[id]['assistance']['info'];
+            if (response[id]['assistance']) {
+                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>' + response[id]['assistance'];
             } else {
-                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>Дополнительная информация о страховой компании</b>';
+                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>Дополнительная информация отсутствует</b>';
+            }
+            if (response[id]['franchise']) {
+                document.querySelector('#' + id + ' .franchise p').innerHTML = '<b>' + response[id]['franchise'];
+            } else {
+                document.querySelector('#' + id + ' .franchise p').innerHTML = '<b>Информация о франшизе отсутствует</b>';
+            }
+            if (response[id]['rules']) {
+                document.querySelector('#' + id + ' .rules p').innerHTML = '<b>' + response[id]['rules'];
+            } else {
+                document.querySelector('#' + id + ' .rules p').innerHTML = '<b>Информация о правилах отсутствует</b>';
             }
             //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
             if ('policeId' in response[id]) {

@@ -46,12 +46,12 @@
 
                                 </p>
                             </section>
-                            <section id="content-tab2">
+                            <section id="content-tab2" class="franchise">
                                 <p style="text-align: justify;">
 
                                 </p>
                             </section>
-                            <section id="content-tab3">
+                            <section id="content-tab3" class="rules">
                                 <p style="text-align: justify;">
 
                                 </p>
@@ -97,12 +97,12 @@
 
                                 </p>
                             </section>
-                            <section id="content-tab2">
+                            <section id="content-tab2" class="franchise">
                                 <p style="text-align: justify;">
 
                                 </p>
                             </section>
-                            <section id="content-tab3">
+                            <section id="content-tab3" class="rules">
                                 <p style="text-align: justify;">
 
                                 </p>
@@ -163,12 +163,62 @@
 
                                 </p>
                             </section>
-                            <section id="content-tab8">
+                            <section id="content-tab8" class="franchise">
                                 <p style="text-align: justify;">
 
                                 </p>
                             </section>
-                            <section id="content-tab9">
+                            <section id="content-tab9" class="rules">
+                                <p style="text-align: justify;">
+
+                                </p>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card insCard" id="liberty">
+                    <div class="row no-margin-row controls-panel">
+                        <div class="col-6">
+                            <img src="<?php echo e(asset('assets/img/logo-liberty.jpg')); ?>" alt="Liberty-Logo" class="img_logo">
+                        </div>
+                        <p class="col-3 prem">
+                            <b></b>
+                            <span class="fa fa-rub"></span>
+                        </p>
+                        <div class="col-3">
+                            <a class="btn" onclick=sendCalc('liberty')>Купить</a>
+                        </div>
+                    </div>
+
+                    <div class="container_new">
+                        <div class="tabs">
+                            <div class="row no-margin-row">
+                                <div class="col-4">
+                                    <input id="tab1" type="radio" name="tabs" checked>
+                                    <label style="top: 21px" for="tab1" title="Ассистанс">Ассистанс</label>
+                                </div>
+                                <div class="col-4">
+                                    <input id="tab2" type="radio" name="tabs">
+                                    <label style="top: 21px" for="tab2" title="Франшиза">Франшиза</label>
+                                </div>
+                                <div class="col-4">
+                                    <input id="tab3" type="radio" name="tabs">
+                                    <label for="tab3" title="Правила страхования">Правила страхования</label>
+                                </div>
+                            </div>
+
+                            <section id="content-tab1" class="assistance">
+                                <p style="text-align: justify;" >
+
+                                </p>
+                            </section>
+                            <section id="content-tab2" class="franchise">
+                                <p style="text-align: justify;">
+
+                                </p>
+                            </section>
+                            <section id="content-tab3" class="rules">
                                 <p style="text-align: justify;">
 
                                 </p>
@@ -199,6 +249,14 @@
                     <div class="card disparity_card">
                         <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
                         <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?> " alt="ВСК страхование"
+                             class="img_logo img_logo_disparity">
+                    </div>
+                </div>
+
+                <div class="disparity_grey" id="dis_liberty">
+                    <div class="card disparity_card">
+                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
+                        <img src="<?php echo e(asset('assets/img/logo-liberty.jpg')); ?> " alt="Liberty страхование"
                              class="img_logo img_logo_disparity">
                     </div>
                 </div>

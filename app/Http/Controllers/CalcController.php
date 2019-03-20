@@ -20,7 +20,7 @@ class CalcController extends Controller
     public function calculate()
     {
         $this->insuranceCalc->prepareRequest($this->request);
-
+        
         return view('policies/police_calc')->with([ 'defaultData' => json_encode($this->request->all()),
                                                     'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
         ]);

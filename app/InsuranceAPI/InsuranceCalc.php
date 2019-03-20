@@ -8,6 +8,8 @@ use App\InsuranceAPI\Vsk\VskAPI;
 use App\InsuranceAPI\Vsk\VskCalcParams;
 use App\InsuranceAPI\Advant\AdvantAPI;
 use App\InsuranceAPI\Advant\AdvantCalcParams;
+use App\InsuranceAPI\Liberty\LibertyAPI;
+use App\InsuranceAPI\Liberty\LibertyCalcParams;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -26,14 +28,11 @@ class InsuranceCalc
             $result['alpha'] = [
                 'card' => 'alphaCard',
                 'prem' => $alpha->common->premRUR,
-                'assistance' => [
-                    'name' => $alpha->common->assistanceName,
-                    'info' => $alpha->common->assistancePhones
-                ]
+                'assistance' => $alpha->common->assistancePhones
             ];
         }
 
-        $vsk = $this->getVskCalc($request) ?? null;
+        /*$vsk = $this->getVskCalc($request) ?? null;
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result['vsk'] = [
                 'card' => 'vskCard',
@@ -43,7 +42,7 @@ class InsuranceCalc
                     'info' => 0
                 ]
             ];
-        }
+        }*/
 
         /*$advant = $this->getAdvantCalc($request);
         //dd($advant);
@@ -58,6 +57,13 @@ class InsuranceCalc
                 ]
             ];
         }*/
+
+        $calcParams = new LibertyCalcParams($request);
+        $liberty =  LibertyAPI::calculate($calcParams->getCalcParams());
+        //dd($liberty);
+        if (!is_null($liberty)) {
+            $result['liberty'] = $liberty;
+        }
 
         return $isJson ? json_encode($result) : $result;
     }
@@ -89,6 +95,14 @@ class InsuranceCalc
         return AdvantAPI::calculate($calcParams->getCalcParams($request->all()));
         //dd( $calcParams->getCalcParams($request->all()));
     }
+
+    /*public function getLibertyCalc($request)
+    {
+        $calcParams = new LibertyCalcParams($request);
+        //return $calcParams->getCalcParams();
+        return LibertyAPI::calculate($calcParams->getCalcParams('Calculate'));
+        //return null;
+    }*/
 
     public function getInsuranceBuy($request, $isJson = false)
     {
