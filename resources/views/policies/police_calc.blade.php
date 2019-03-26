@@ -7,13 +7,14 @@
 @section('content')
 
     <div class="container">
-        <div class="row">
+        <div class="row no-margin-row">
             <div class="col-12 col-md-6" id="cards">
 
                 <div class="card insCard" id="alpha">
+
                     <div class="row no-margin-row controls-panel">
                         <div class="col-6">
-                            <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?>" alt="Alpha-Logo" class="img_logo">
+                            <img src="/assets/img/logo-alpha.png" alt="Alpha-Logo" class="img_logo">
                         </div>
                         <p class="col-3 prem">
                             <b></b>
@@ -24,46 +25,37 @@
                         </div>
                     </div>
 
-                    <div class="container_new">
-                        <div class="tabs">
-                            <div class="row no-margin-row">
-                                <div class="col-4">
-                                    <input id="tab1" type="radio" name="tabs" checked>
-                                    <label style="top: 21px" for="tab1" title="Ассистанс">Ассистанс</label>
-                                </div>
-                                <div class="col-4">
-                                    <input id="tab2" type="radio" name="tabs">
-                                    <label style="top: 21px" for="tab2" title="Франшиза">Франшиза</label>
-                                </div>
-                                <div class="col-4">
-                                    <input id="tab3" type="radio" name="tabs">
-                                    <label for="tab3" title="Правила страхования">Правила страхования</label>
-                                </div>
+                    <div class="tabs">
+                        <div class="row no-margin-row button-panel">
+                            <div class="col-4">
+                                <button class="assistance" data-name="assistance">Ассистанс</button>
                             </div>
-
-                            <section id="content-tab1" class="assistance">
-                                <p style="text-align: justify;" >
-
-                                </p>
-                            </section>
-                            <section id="content-tab2" class="franchise">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
-                            <section id="content-tab3" class="rules">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
+                            <div class="col-4">
+                                <button data-name="franchise">Франшиза</button>
+                            </div>
+                            <div class="col-4">
+                                <button data-name="rules">Правила страхования</button>
+                            </div>
                         </div>
+
+                        <section class="assistance">
+                            <p></p>
+                        </section>
+                        <section class="franchise">
+                            <p></p>
+                        </section>
+                        <section class="rules">
+                            <p></p>
+                        </section>
                     </div>
+
                 </div>
 
                 <div class="card insCard" id="vsk">
+
                     <div class="row no-margin-row controls-panel">
                         <div class="col-6">
-                            <img src="<?php echo e(asset('assets/img/logo-vsk.png')); ?>" alt="Vsk-Logo" class="img_logo">
+                            <img src="/assets/img/logo-vsk.png" alt="Alpha-Logo" class="img_logo">
                         </div>
                         <p class="col-3 prem">
                             <b></b>
@@ -74,113 +66,78 @@
                         </div>
                     </div>
 
-                    <div class="container_new">
-                        <div class="tabs">
-                            <div class="row no-margin-row">
-                                <div class="col-4">
-                                    <input id="tab4" type="radio" name="tabs">
-                                    <label style="top: 21px" for="tab4" title="Ассистанс">Ассистанс</label>
-                                </div>
-                                <div class="col-4">
-                                    <input id="tab5" type="radio" name="tabs">
-                                    <label style="top: 21px" for="tab5" title="Франшиза">Франшиза</label>
-                                </div>
-                                <div class="col-4">
-                                    <input id="tab6" type="radio" name="tabs">
-                                    <label for="tab6" title="Правила страхования">Правила страхования</label>
-                                </div>
+                    <div class="tabs">
+                        <div class="row no-margin-row button-panel">
+                            <div class="col-4">
+                                <button class="assistance" data-name="assistance">Ассистанс</button>
                             </div>
-
-                            <!-- <div class="section-wrapper"> -->
-                            <section id="content-tab1" class="assistance">
-                                <p style="text-align: justify;" >
-
-                                </p>
-                            </section>
-                            <section id="content-tab2" class="franchise">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
-                            <section id="content-tab3" class="rules">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
-                            <!-- </div> -->
+                            <div class="col-4">
+                                <button data-name="franchise">Франшиза</button>
+                            </div>
+                            <div class="col-4">
+                                <button data-name="rules">Правила страхования</button>
+                            </div>
                         </div>
+
+                        <section class="assistance">
+                            <p></p>
+                        </section>
+                        <section class="franchise">
+                            <p></p>
+                        </section>
+                        <section class="rules">
+                            <p></p>
+                        </section>
                     </div>
+
                 </div>
 
                 <div class="card insCard" id="advant">
-                    <div class="controls-panel">
-                        <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?>" alt="тест" class="img_logo">
-                        <p class="amount prem"><b></b> <span class="fa fa-rub"></span></p>
-                        <input type="checkbox" name="card_checkbox1" id="card_checkbox1" class="checkbox_form">
-                        <label for="card_checkbox1"></label>
-                        <div class="buttons-wrap">
-                            <div href="#" class="blue_button">
-                            <!-- <img src="<?//php echo e(asset('assets/img/button_blue.png')); ?>" alt="тест" class="blue_button"> -->
-                                <a onclick=sendCalc('advant')>
-                                    <p class="blue_button_text">Купить</p>
-                                </a>
-                            </div>
 
-                            <!-- Я не знаю зачем в созданном ранее шаблоне на каждой карточке есть место под эту кнопку.
-                            В рабочем сайте она есть лишь на специальной выделенной карточке "сравнить", которая не работает все равно.
-                            Я её убрал, поставив вместо нее кнопку "Образей полиса", которая, к слову тоже не работает -->
-
-                        <!-- <div href="#" class="orange_button">
-                                      <img src="<?php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
-                                     <a href="#">
-                                         <p class="orange_button_text">Сравнить</p>
-                                     </a>
-                                </div> -->
-
-                            <!-- Коммент выше -  рыжая кнопка -->
-
-                            <div class="call_style">
-                                <a class="callback_us">
-                                    <span class="polis_example">Образец полиса</span>
-                                </a>
-                            </div>
+                    <div class="row no-margin-row controls-panel">
+                        <div class="col-6">
+                            <img src="/assets/img/logo-advant.png" alt="Advant-Logo" class="img_logo">
+                        </div>
+                        <p class="col-3 prem">
+                            <b></b>
+                            <span class="fa fa-rub"></span>
+                        </p>
+                        <div class="col-3">
+                            <a class="btn" onclick=sendCalc('advant')>Купить</a>
                         </div>
                     </div>
 
-                    <div class="container_new">
-                        <div class="tabs">
-                            <input id="tab7" type="radio" name="tabs">
-                            <label for="tab7" title="Ассистанс">Ассистанс</label>
-
-                            <input id="tab8" type="radio" name="tabs">
-                            <label for="tab8" title="Франшиза">Франшиза</label>
-
-                            <input id="tab9" type="radio" name="tabs">
-                            <label for="tab9" title="Правила страхования">Правила страхования</label>
-
-                            <section id="content-tab7" class="assistance">
-                                <p style="text-align: justify;" >
-
-                                </p>
-                            </section>
-                            <section id="content-tab8" class="franchise">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
-                            <section id="content-tab9" class="rules">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
+                    <div class="tabs">
+                        <div class="row no-margin-row button-panel">
+                            <div class="col-4">
+                                <button class="assistance" data-name="assistance">Ассистанс</button>
+                            </div>
+                            <div class="col-4">
+                                <button data-name="franchise">Франшиза</button>
+                            </div>
+                            <div class="col-4">
+                                <button data-name="rules">Правила страхования</button>
+                            </div>
                         </div>
+
+                        <section class="assistance">
+                            <p></p>
+                        </section>
+                        <section class="franchise">
+                            <p></p>
+                        </section>
+                        <section class="rules">
+                            <p></p>
+                        </section>
                     </div>
+
                 </div>
 
                 <div class="card insCard" id="liberty">
+
                     <div class="row no-margin-row controls-panel">
                         <div class="col-6">
-                            <img src="<?php echo e(asset('assets/img/logo-liberty.jpg')); ?>" alt="Liberty-Logo" class="img_logo">
+                            <img src="/assets/img/logo-liberty.jpg" alt="Liberty-Logo" class="img_logo">
                         </div>
                         <p class="col-3 prem">
                             <b></b>
@@ -191,40 +148,30 @@
                         </div>
                     </div>
 
-                    <div class="container_new">
-                        <div class="tabs">
-                            <div class="row no-margin-row">
-                                <div class="col-4">
-                                    <input id="tab1" type="radio" name="tabs" checked>
-                                    <label style="top: 21px" for="tab1" title="Ассистанс">Ассистанс</label>
-                                </div>
-                                <div class="col-4">
-                                    <input id="tab2" type="radio" name="tabs">
-                                    <label style="top: 21px" for="tab2" title="Франшиза">Франшиза</label>
-                                </div>
-                                <div class="col-4">
-                                    <input id="tab3" type="radio" name="tabs">
-                                    <label for="tab3" title="Правила страхования">Правила страхования</label>
-                                </div>
+                    <div class="tabs">
+                        <div class="row no-margin-row button-panel">
+                            <div class="col-4">
+                                <button class="assistance" data-name="assistance">Ассистанс</button>
                             </div>
-
-                            <section id="content-tab1" class="assistance">
-                                <p style="text-align: justify;" >
-
-                                </p>
-                            </section>
-                            <section id="content-tab2" class="franchise">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
-                            <section id="content-tab3" class="rules">
-                                <p style="text-align: justify;">
-
-                                </p>
-                            </section>
+                            <div class="col-4">
+                                <button data-name="franchise">Франшиза</button>
+                            </div>
+                            <div class="col-4">
+                                <button data-name="rules">Правила страхования</button>
+                            </div>
                         </div>
+
+                        <section class="assistance">
+                            <p></p>
+                        </section>
+                        <section class="franchise">
+                            <p></p>
+                        </section>
+                        <section class="rules">
+                            <p></p>
+                        </section>
                     </div>
+
                 </div>
 
                 <p id="disparity_orange_text">Не соответствует Вашему запросу</p>

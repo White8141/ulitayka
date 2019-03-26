@@ -1,7 +1,7 @@
-var i, tempArray, tempObj, dateFrom, tempDate, tempForm;
+var i, tempVar, tempArray, tempObj, dateFrom, tempDate, tempForm;
 
 $(document).ready(function () {
-    //console.log ('Calc JS Start');
+    console.log ('Calc JS Start');
     tempForm = document.forms.form_calc;
 
     // календарь  min Date
@@ -89,16 +89,31 @@ $(document).ready(function () {
         });
     });
 
-    // дополнительная информация о страъовом полисе
-    $('.tabs label').click(function () {
-        tempObj = this.parentNode.parentNode.parentNode.querySelectorAll('section')//.style.display = "none";
+    // дополнительная информация о страховом полисе (переключение между ассистанс, франшизой и правилами на карточке полиса)
+    $('.tabs button').click(function () {
+        tempObj = this.parentNode.parentNode.querySelectorAll('button')//.style.display = "none";
         for (i = 0; i < tempObj.length; i++) {
-            //console.log ('Obj Parse');
-            tempObj[i].style.display = 'none';
+            tempObj[i].classList.remove('active');
         }
-        tempObj = this.parentNode.parentNode.parentNode.querySelector('#content-' + this.htmlFor).style.display = 'block';
-        console.log ('tabs Click');
+        this.classList.add('active');
+
+        tempObj = this.parentNode.parentNode.parentNode.querySelectorAll('section');
+        for (i = 0; i < tempObj.length; i++) {
+            tempObj[i].style.display = "none";
+        }
+        this.parentNode.parentNode.parentNode.querySelector('section.' + this.getAttribute('data-name')).style.display = "block";
     });
+
+    //включить закладку "ассистанс" на карточке полиса 
+    tempObj = document.querySelectorAll('button.assistance')//.style.display = "none";
+    for (i = 0; i < tempObj.length; i++) {
+        tempObj[i].classList.add('active');
+    }
+    tempObj = document.querySelectorAll('section.assistance')//.style.display = "none";
+    for (i = 0; i < tempObj.length; i++) {
+        tempObj[i].style.display = "block";
+    }
+
 
     //Появляющиеся блоки (входит в страховку, дополнительно, дополнительные опции)
     $('#toggle_insurance').click(function () {
@@ -717,31 +732,21 @@ const updCalc = response => {
     let cards = document.getElementsByClassName('insCard');
     for ( let i = 0; i < cards.length; i++) {
         let id = cards[i].getAttribute('id');
-        if(response[id] && response[id]['prem'] != '0.00') {
+        if(response[id] && +response[id]['prem'] != 0) {
             console.log('API ' + id + ', cost ' + response[id]['prem']);
             cards[i].style.display = 'block';
             document.querySelector('#dis_' + id).style.display = 'none';
             document.querySelector('#' + id + ' .prem b').innerHTML = response[id]['prem'];
-            if (response[id]['assistance']) {
-                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>' + response[id]['assistance'];
-            } else {
-                document.querySelector('#' + id + ' .assistance p').innerHTML = '<b>Дополнительная информация отсутствует</b>';
-            }
-            if (response[id]['franchise']) {
-                document.querySelector('#' + id + ' .franchise p').innerHTML = '<b>' + response[id]['franchise'];
-            } else {
-                document.querySelector('#' + id + ' .franchise p').innerHTML = '<b>Информация о франшизе отсутствует</b>';
-            }
-            if (response[id]['rules']) {
-                document.querySelector('#' + id + ' .rules p').innerHTML = '<b>' + response[id]['rules'];
-            } else {
-                document.querySelector('#' + id + ' .rules p').innerHTML = '<b>Информация о правилах отсутствует</b>';
-            }
+            document.querySelector('#' + id + ' .assistance p').innerHTML = response[id]['assistance'] ? '<b>' + response[id]['assistance'] + '</b>' : '<b>Дополнительная информация отсутствует</b>';
+            document.querySelector('#' + id + ' .franchise p').innerHTML = response[id]['franchise'] ? '<b>' + response[id]['franchise'] + '</b>' : '<b>Информация о франшизе отсутствует</b>';
+            document.querySelector('#' + id + ' .rules p').innerHTML = response[id]['rules'] ? '<b>' + response[id]['rules'] + '</b>' : '<b>Информация о правилах отсутствует</b>';
+
             //сохранить id полиса что бы в дальнейшем не высчитывать его заново, а работать уже с этим полисом
-            if ('policeId' in response[id]) {
+            document.querySelector('#policeId').value = ('policeId' in response[id]) ? response[id]['policeId'] : 0;
+            /*if ('policeId' in response[id]) {
                 //console.log ('У компании ' + id + ' полис номер ' + response[id]['policeId']);
                 document.querySelector('#policeId').value = response[id]['policeId'];
-            }
+            }*/
 
         } else {
             cards[i].style.display = 'none';

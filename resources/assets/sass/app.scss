@@ -316,71 +316,91 @@ form {
   left: 0;
 }
 
-/* Табы */
-/* Базовый контейнер табов */
-.tabs {
-  width: 97.5%;
-  min-height: 210px;
+.insCard {
 
-  /* Прячем чекбоксы */
-  input {
-    display: none;
-    position: absolute;
-  }
+  /* Табы */
+  /* Базовый контейнер табов */
+  .tabs {
+      padding: 0px 24px;
+      margin: 20px auto;
+      max-width: 600px !important;
+      //width: 97.5%;
+      min-height: 210px;
 
-  /* Стили для активной вкладки */
-  input:checked + label {
-    color: #fff;
-    background-color: #4daeda;
-  }
+      .button-panel {
+        position: relative;
+        height: 76px;
 
-  /* Стили переключателей вкладок (табов) */
-  label {
-    position: relative;
-    display: inline-block;
-    margin: 0 0 -1px;
-    padding: 15px 25px;
-    font-weight: 600;
-    text-align: center;
-    font-family: Roboto, sans-serif;
-    font-size: 14px;
-    color: #000;
-    background-color: #fff;
-    border-radius: 5px 5px 0 0;
-  }
+        /* Стили переключателей вкладок (табов) */
+        button {
+          position: absolute;
+          bottom: 0px;
+          display: inline-block;
+          margin: 0 0 -1px;
+          padding: 15px 25px;
+          font-weight: 600;
+          text-align: center;
+          font-family: Roboto, sans-serif;
+          font-size: 14px;
+          color: #000;
+          background-color: #fff;
+          border-radius: 10px 10px 0 0;
+          border: none;
 
-  /* Изменения стиля переключателей вкладок при наведении */
-  label:hover {
-    color: #fff;
-    cursor: pointer;
-    background-color: #ff6508;
-  }
+          &.active {
+            cursor: default;
+            color: #fff;
+            background-color: #4daeda;
+          }
+        }
 
-  section {
-    display: none;
-    padding: 15px;
-    background: #fff;
-    width: 100%;
-    margin-bottom: 15px;
+        /* Изменения стиля переключателей вкладок при наведении */
+        button:hover {
+          color: #fff;
+          cursor: pointer;
+          background-color: #ff6508;
+        }
 
-    p {
-      margin: 0 0 5px;
-      line-height: 1.5;
-      color: #383838;
-      /* прикрутим анимацию */
-      -webkit-animation-duration: 1s;
-      animation-duration: 1s;
-      -webkit-animation-fill-mode: both;
-      animation-fill-mode: both;
-      -webkit-animation-name: fadeIn;
-      animation-name: fadeIn;
+        /* Стили для активной вкладки */
+        button:focus {
+          outline: none;
+        }
+      }
+
+      section {
+        display: none;
+        padding: 15px;
+        background: #fff;
+        width: 100%;
+        margin-bottom: 15px;
+
+        p {
+          text-align: justify;
+          margin: 0 0 5px;
+          line-height: 1.5;
+          color: #383838;
+          /* прикрутим анимацию */
+          -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+          -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+          -webkit-animation-name: fadeIn;
+          animation-name: fadeIn;
+        }
+
+      }
     }
-
-  }
 }
+
 
 .wrap_map {
   margin-top: 40px;
+}
+
+.container_filters {
+  padding: 2px 16px;
+  margin-top: 10px;
+  max-width: 600px !important;
 }
 
 /* Модалка */
@@ -690,32 +710,6 @@ table.policy_table {
     width: 427px !important;
   }
 }
-.container_new {
-  padding: 2px 16px;
-  margin-top: 40px;
-  max-width: 600px !important;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.container_filters {
-  padding: 2px 16px;
-  margin-top: 10px;
-  max-width: 600px !important;
-}
-/*.amount {
-  position: relative;
-  top: -20px;
-  left: 63%;
-  color: #000;
-  font-size: 20px;
-}
-
-.amount span {
-  position: relative;
-  top: 1px;
-}*/
-
 
 .blue_button {
   position: relative;
@@ -2859,223 +2853,205 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.form-box-elem {
-  padding-top: 10px;
+  .form-box-elem {
+    padding-top: 10px;
 
-  #main_button {
-    color: #fff !important;
-    background-color: #ff6508;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -o-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border: 1px solid #ff6508;
-    line-height: 32px;
-    box-shadow: 1px 3px 0px 0px #a04107;
-    cursor: pointer;
-    /* margin-top: 10px; */
-    width: 100%;
-  }
-
-  #main_name {
-    width: 100%;
-    /* height: 27px; */
-    padding: 4px 8px;
-    border-radius: 3px;
-    outline: none;
-    border: 1px solid #bbbbbb;
-    background: #ffffff url('../img/manss.png') 99% 50% no-repeat;
-  }
-  #main_name::-webkit-input-placeholder {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-  #main_name::-moz-placeholder          {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 19+ */
-  #main_name:-moz-placeholder           {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 18- */
-  #main_name:-ms-input-placeholder      {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-
-  #main_tel {
-    width: 100%;
-    /* height: 27px; */
-    padding: 4px 8px;
-    border-radius: 3px;
-    outline: none;
-    border: 1px solid #bbbbbb;
-    background: #ffffff url('../img/telephone.png') 99% 50% no-repeat;
-  }
-
-  #main_tel::-webkit-input-placeholder {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-  #main_tel::-moz-placeholder          {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 19+ */
-  #main_tel:-moz-placeholder           {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 18- */
-  #main_tel:-ms-input-placeholder      {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-
-  #main_email {
-    width: 100%;
-    /* height: 27px; */
-    padding: 4px 8px;
-    border-radius: 3px;
-    outline: none;
-    border: 1px solid #bbbbbb;
-    background: #ffffff url('../img/email.png') 99% 50% no-repeat;
-  }
-
-  #main_email::-webkit-input-placeholder {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-  #main_email::-moz-placeholder          {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 19+ */
-  #main_email:-moz-placeholder           {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 18- */
-  #main_email:-ms-input-placeholder      {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-
-  #main_comment {
-    width: 100%;
-    /* height: 27px; */
-    padding: 4px 8px;
-    border-radius: 3px;
-    outline: none;
-    border: 1px solid #bbbbbb;
-    background: #ffffff url('../img/pencil.png') 99% 6% no-repeat;
-  }
-
-  #main_comment::-webkit-input-placeholder {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-  #main_comment::-moz-placeholder          {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 19+ */
-  #main_comment:-moz-placeholder           {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }/* Firefox 18- */
-  #main_comment:-ms-input-placeholder      {
-    font-family: 'Roboto',sans-serif;
-    color:  #111111;
-    font-size: 16px;/* Приближение из-за подстановки шрифтов */
-    font-weight: 500;
-    line-height: 24px;/* Приближение из-за подстановки шрифтов */
-    text-align: left;
-  }
-
-  &.main-capcha {
-    width: 100%;
-    height: 64px;
-    text-align: start;
-    padding: 18px 14px;
-    margin-top: 10px;
-    border-radius: 3px;
-    outline: none;
-    border: 1px solid #bbbbbb;
-
-    input {
-      width: 27px;
-      height: 27px;
+    #main_button {
+      color: #fff !important;
+      background-color: #ff6508;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -o-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border: 1px solid #ff6508;
+      line-height: 32px;
+      box-shadow: 1px 3px 0px 0px #a04107;
+      cursor: pointer;
+      /* margin-top: 10px; */
+      width: 100%;
     }
 
-    label {
-      position: relative;
-      top: -5px;
-      margin-left: 10px;
-      font-size: 18px;
+    #main_name {
+      width: 100%;
+      /* height: 27px; */
+      padding: 4px 8px;
+      border-radius: 3px;
+      outline: none;
+      border: 1px solid #bbbbbb;
+      background: #ffffff url('../img/manss.png') 99% 50% no-repeat;
+    }
+    #main_name::-webkit-input-placeholder {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+    #main_name::-moz-placeholder          {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 19+ */
+    #main_name:-moz-placeholder           {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 18- */
+    #main_name:-ms-input-placeholder      {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+
+    #main_tel {
+      width: 100%;
+      /* height: 27px; */
+      padding: 4px 8px;
+      border-radius: 3px;
+      outline: none;
+      border: 1px solid #bbbbbb;
+      background: #ffffff url('../img/telephone.png') 99% 50% no-repeat;
+    }
+
+    #main_tel::-webkit-input-placeholder {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+    #main_tel::-moz-placeholder          {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 19+ */
+    #main_tel:-moz-placeholder           {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 18- */
+    #main_tel:-ms-input-placeholder      {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+
+    #main_email {
+      width: 100%;
+      /* height: 27px; */
+      padding: 4px 8px;
+      border-radius: 3px;
+      outline: none;
+      border: 1px solid #bbbbbb;
+      background: #ffffff url('../img/email.png') 99% 50% no-repeat;
+    }
+
+    #main_email::-webkit-input-placeholder {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+    #main_email::-moz-placeholder          {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 19+ */
+    #main_email:-moz-placeholder           {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 18- */
+    #main_email:-ms-input-placeholder      {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+
+    #main_comment {
+      width: 100%;
+      /* height: 27px; */
+      padding: 4px 8px;
+      border-radius: 3px;
+      outline: none;
+      border: 1px solid #bbbbbb;
+      background: #ffffff url('../img/pencil.png') 99% 6% no-repeat;
+    }
+
+    #main_comment::-webkit-input-placeholder {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+    #main_comment::-moz-placeholder          {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 19+ */
+    #main_comment:-moz-placeholder           {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }/* Firefox 18- */
+    #main_comment:-ms-input-placeholder      {
+      font-family: 'Roboto',sans-serif;
+      color:  #111111;
+      font-size: 16px;/* Приближение из-за подстановки шрифтов */
+      font-weight: 500;
+      line-height: 24px;/* Приближение из-за подстановки шрифтов */
+      text-align: left;
+    }
+
+    .help-block {
+      display: none;
+
+      &.with-errors {
+        color: #ff0000;
+      }
     }
   }
-
 }
-
-
 
 @media screen and  (max-width: 319px){
 

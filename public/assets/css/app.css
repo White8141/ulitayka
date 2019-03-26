@@ -681,29 +681,29 @@ form .btn-blue:hover {
   left: 0;
 }
 
-/* Табы */
-/* Базовый контейнер табов */
-.tabs {
-  width: 97.5%;
+.insCard {
+  /* Табы */
+  /* Базовый контейнер табов */
+}
+
+.insCard .tabs {
+  padding: 0px 24px;
+  margin: 20px auto;
+  max-width: 600px !important;
   min-height: 210px;
-  /* Прячем чекбоксы */
-  /* Стили для активной вкладки */
+}
+
+.insCard .tabs .button-panel {
+  position: relative;
+  height: 76px;
   /* Стили переключателей вкладок (табов) */
   /* Изменения стиля переключателей вкладок при наведении */
+  /* Стили для активной вкладки */
 }
 
-.tabs input {
-  display: none;
+.insCard .tabs .button-panel button {
   position: absolute;
-}
-
-.tabs input:checked + label {
-  color: #fff;
-  background-color: #4daeda;
-}
-
-.tabs label {
-  position: relative;
+  bottom: 0px;
   display: inline-block;
   margin: 0 0 -1px;
   padding: 15px 25px;
@@ -713,16 +713,27 @@ form .btn-blue:hover {
   font-size: 14px;
   color: #000;
   background-color: #fff;
-  border-radius: 5px 5px 0 0;
+  border-radius: 10px 10px 0 0;
+  border: none;
 }
 
-.tabs label:hover {
+.insCard .tabs .button-panel button.active {
+  cursor: default;
+  color: #fff;
+  background-color: #4daeda;
+}
+
+.insCard .tabs .button-panel button:hover {
   color: #fff;
   cursor: pointer;
   background-color: #ff6508;
 }
 
-.tabs section {
+.insCard .tabs .button-panel button:focus {
+  outline: none;
+}
+
+.insCard .tabs section {
   display: none;
   padding: 15px;
   background: #fff;
@@ -730,7 +741,8 @@ form .btn-blue:hover {
   margin-bottom: 15px;
 }
 
-.tabs section p {
+.insCard .tabs section p {
+  text-align: justify;
   margin: 0 0 5px;
   line-height: 1.5;
   color: #383838;
@@ -745,6 +757,12 @@ form .btn-blue:hover {
 
 .wrap_map {
   margin-top: 40px;
+}
+
+.container_filters {
+  padding: 2px 16px;
+  margin-top: 10px;
+  max-width: 600px !important;
 }
 
 /* Модалка */
@@ -1048,32 +1066,6 @@ table.policy_table th, table.policy_table td {
   }
 }
 
-.container_new {
-  padding: 2px 16px;
-  margin-top: 40px;
-  max-width: 600px !important;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.container_filters {
-  padding: 2px 16px;
-  margin-top: 10px;
-  max-width: 600px !important;
-}
-
-/*.amount {
-  position: relative;
-  top: -20px;
-  left: 63%;
-  color: #000;
-  font-size: 20px;
-}
-
-.amount span {
-  position: relative;
-  top: 1px;
-}*/
 .blue_button {
   position: relative;
   top: -58px;
@@ -3267,7 +3259,7 @@ h1 {
   align-items: center;
 }
 
-.form-box-elem {
+#form_validation .form-box-elem {
   padding-top: 10px;
   /* Firefox 19+ */
   /* Firefox 18- */
@@ -3279,7 +3271,7 @@ h1 {
   /* Firefox 18- */
 }
 
-.form-box-elem #main_button {
+#form_validation .form-box-elem #main_button {
   color: #fff !important;
   background-color: #ff6508;
   border-radius: 4px;
@@ -3294,7 +3286,7 @@ h1 {
   width: 100%;
 }
 
-.form-box-elem #main_name {
+#form_validation .form-box-elem #main_name {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3304,7 +3296,7 @@ h1 {
   background: #ffffff url("../img/manss.png") 99% 50% no-repeat;
 }
 
-.form-box-elem #main_name::-webkit-input-placeholder {
+#form_validation .form-box-elem #main_name::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3315,7 +3307,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_name::-moz-placeholder {
+#form_validation .form-box-elem #main_name::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3326,7 +3318,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_name:-moz-placeholder {
+#form_validation .form-box-elem #main_name:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3337,7 +3329,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_name:-ms-input-placeholder {
+#form_validation .form-box-elem #main_name:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3348,7 +3340,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_tel {
+#form_validation .form-box-elem #main_tel {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3358,7 +3350,7 @@ h1 {
   background: #ffffff url("../img/telephone.png") 99% 50% no-repeat;
 }
 
-.form-box-elem #main_tel::-webkit-input-placeholder {
+#form_validation .form-box-elem #main_tel::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3369,7 +3361,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_tel::-moz-placeholder {
+#form_validation .form-box-elem #main_tel::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3380,7 +3372,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_tel:-moz-placeholder {
+#form_validation .form-box-elem #main_tel:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3391,7 +3383,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_tel:-ms-input-placeholder {
+#form_validation .form-box-elem #main_tel:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3402,7 +3394,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_email {
+#form_validation .form-box-elem #main_email {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3412,7 +3404,7 @@ h1 {
   background: #ffffff url("../img/email.png") 99% 50% no-repeat;
 }
 
-.form-box-elem #main_email::-webkit-input-placeholder {
+#form_validation .form-box-elem #main_email::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3423,7 +3415,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_email::-moz-placeholder {
+#form_validation .form-box-elem #main_email::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3434,7 +3426,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_email:-moz-placeholder {
+#form_validation .form-box-elem #main_email:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3445,7 +3437,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_email:-ms-input-placeholder {
+#form_validation .form-box-elem #main_email:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3456,7 +3448,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_comment {
+#form_validation .form-box-elem #main_comment {
   width: 100%;
   /* height: 27px; */
   padding: 4px 8px;
@@ -3466,7 +3458,7 @@ h1 {
   background: #ffffff url("../img/pencil.png") 99% 6% no-repeat;
 }
 
-.form-box-elem #main_comment::-webkit-input-placeholder {
+#form_validation .form-box-elem #main_comment::-webkit-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3477,7 +3469,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_comment::-moz-placeholder {
+#form_validation .form-box-elem #main_comment::-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3488,7 +3480,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_comment:-moz-placeholder {
+#form_validation .form-box-elem #main_comment:-moz-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3499,7 +3491,7 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem #main_comment:-ms-input-placeholder {
+#form_validation .form-box-elem #main_comment:-ms-input-placeholder {
   font-family: 'Roboto',sans-serif;
   color: #111111;
   font-size: 16px;
@@ -3510,27 +3502,12 @@ h1 {
   text-align: left;
 }
 
-.form-box-elem.main-capcha {
-  width: 100%;
-  height: 64px;
-  text-align: start;
-  padding: 18px 14px;
-  margin-top: 10px;
-  border-radius: 3px;
-  outline: none;
-  border: 1px solid #bbbbbb;
+#form_validation .form-box-elem .help-block {
+  display: none;
 }
 
-.form-box-elem.main-capcha input {
-  width: 27px;
-  height: 27px;
-}
-
-.form-box-elem.main-capcha label {
-  position: relative;
-  top: -5px;
-  margin-left: 10px;
-  font-size: 18px;
+#form_validation .form-box-elem .help-block.with-errors {
+  color: #ff0000;
 }
 
 @media screen and (max-width: 319px) {

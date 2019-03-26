@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use Illuminate\Http\Request;
+use ReCaptcha\ReCaptcha;
+use ReCaptcha\RequestMethod\CurlPost;
 
 class PagesController extends Controller
 {
@@ -24,30 +26,46 @@ class PagesController extends Controller
     {
         //dd($request->all());
 
-        $order = new Order;
-        $order->name = $request->input('main_name');
-        $order->phone = $request->input('main_tel');
-        $order->email = $request->input('main_email');
-        $order->comments = $request->input('main_comment');
-        $order->save();
+        if ($request->has('g-recaptcha-response') && $request->input('g-recaptcha-response') != null) {
+            //echo("Ok");
 
-        //dd($order);
-        $subject = "Новый заказ";
-        $msg = "Заказан звонок от абонента ".$order->name.", номер телефона: ".$order->phone.", e-mail: ".$order->email;
-        if ($order->comments != '') $msg = $msg.", комментарии к заказу: ".$order->comments;
-        mail ("info@ulitayka.ru", $subject, $msg, "From: http://ulitayka.ru/");
-        mail ("white8141@yandex.ru", $subject, $msg, "From: http://ulitayka.ru/");
+            $recaptcha = new ReCaptcha($_ENV['RECAPTCHA_SECRET'], new CurlPost());
+            $response = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+            //dd($response);
 
-        $token = $_ENV['TELEGRAMM_TOKEN'];
-        $chatid = $_ENV['TELEGRAM_CHAT_ID'];
-        $mess = 'Пользователь '.$order->name.' заказал звонок на номер '.$order->phone;
-        if ($order->comments != '') $mess = $mess.", комментарии к заказу: ".$order->comments;
-        $tbot = file_get_contents("https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$chatid."&text=".$mess);
-        //dd($tbot);
+            if ($response->isSuccess()) {
+                $order = new Order;
+                $order->name = $request->input('main_name');
+                $order->phone = $request->input('main_tel');
+                $order->email = $request->input('main_email');
+                $order->comments = $request->input('main_comment');
+                $order->save();
 
-        return view('sections/contacts/contacts', [
-            'tooltip' => 'Заказ принят'
-        ]);
+                //dd($order);
+                $subject = "Новый заказ";
+                $msg = "Заказан звонок от абонента ".$order->name.", номер телефона: ".$order->phone.", e-mail: ".$order->email;
+                if ($order->comments != '') $msg = $msg.", комментарии к заказу: ".$order->comments;
+                //mail ("info@ulitayka.ru", $subject, $msg, "From: http://ulitayka.ru/");
+                mail ("white8141@yandex.ru", $subject, $msg, "From: http://ulitayka.ru/");
+
+                $token = $_ENV['TELEGRAMM_TOKEN'];
+                $chatid = $_ENV['TELEGRAM_CHAT_ID'];
+                $mess = 'Пользователь '.$order->name.' заказал звонок на номер '.$order->phone;
+                if ($order->comments != '') $mess = $mess.", комментарии к заказу: ".$order->comments;
+                $tbot = file_get_contents("https://api.telegram.org/bot".$token."/sendMessage?chat_id=".$chatid."&text=".$mess);
+                //dd($tbot);
+
+                return view('sections/contacts/contacts', [
+                    'tooltip' => 'Заказ принят'
+                ]);
+            } else {
+                die(403);
+            }
+        } else {
+            die(403);
+        }
+
+
     }
     public function legend()
     {

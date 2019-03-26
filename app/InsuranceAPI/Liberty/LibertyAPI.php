@@ -66,7 +66,7 @@ class LibertyAPI {
             $result['prem'] = $resp->Vz_CalcRS->insured_premium->summ;
             $result['franchise'] = $resp->Vz_CalcRS->Franchise_message;
         } elseif (gettype($resp) == 'string'){
-            $result['error'] = $resp;
+            $result['error'] =  (stripos($resp, 'response:') > 1) ? substr($resp, 0, stripos($resp, 'response:')) : $resp;
         } else {
             $result['error'] = 'Unknown Error';
         }

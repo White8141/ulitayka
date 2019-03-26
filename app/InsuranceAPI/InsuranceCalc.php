@@ -22,6 +22,7 @@ class InsuranceCalc
     public function getInsuranceCalc(Request $request, $isJson = false) {
 
         $result = [];
+        
         $alpha = $this->getAlphaCalc($request) ?? null;
         //dd($alpha);
         if (!is_null($alpha)) {
@@ -32,31 +33,24 @@ class InsuranceCalc
             ];
         }
 
-        /*$vsk = $this->getVskCalc($request) ?? null;
+        $vsk = $this->getVskCalc($request) ?? null;
+        //dd($vsk);
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result['vsk'] = [
                 'card' => 'vskCard',
-                'prem' => $vsk['1. Премия RUR'],
-                'assistance' => [
-                    'name' => 0,
-                    'info' => 0
-                ]
+                'prem' => $vsk['1. Премия RUR']
             ];
-        }*/
+        }
 
-        /*$advant = $this->getAdvantCalc($request);
+        $advant = $this->getAdvantCalc($request);
         //dd($advant);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result['advant'] = [
                 'logo' => 'advantCard',
                 'prem' => $advant[0]->variables->S,
-                'policeId' => $advant[0]->id,
-                'assistance' => [
-                    'name' => 0,
-                    'info' => 0
-                ]
+                'policeId' => $advant[0]->id
             ];
-        }*/
+        }
 
         $calcParams = new LibertyCalcParams($request);
         $liberty =  LibertyAPI::calculate($calcParams->getCalcParams());
@@ -95,14 +89,6 @@ class InsuranceCalc
         return AdvantAPI::calculate($calcParams->getCalcParams($request->all()));
         //dd( $calcParams->getCalcParams($request->all()));
     }
-
-    /*public function getLibertyCalc($request)
-    {
-        $calcParams = new LibertyCalcParams($request);
-        //return $calcParams->getCalcParams();
-        return LibertyAPI::calculate($calcParams->getCalcParams('Calculate'));
-        //return null;
-    }*/
 
     public function getInsuranceBuy($request, $isJson = false)
     {
