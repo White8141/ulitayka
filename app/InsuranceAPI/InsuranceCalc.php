@@ -23,7 +23,7 @@ class InsuranceCalc
 
         $result = [];
         
-        $alpha = $this->getAlphaCalc($request) ?? null;
+        /*$alpha = $this->getAlphaCalc($request) ?? null;
         //dd($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = [
@@ -40,9 +40,9 @@ class InsuranceCalc
                 'card' => 'vskCard',
                 'prem' => $vsk['1. Премия RUR']
             ];
-        }
+        }*/
 
-        $advant = $this->getAdvantCalc($request);
+        /*$advant = $this->getAdvantCalc($request);
         //dd($advant);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result['advant'] = [
@@ -50,9 +50,10 @@ class InsuranceCalc
                 'prem' => $advant[0]->variables->S,
                 'policeId' => $advant[0]->id
             ];
-        }
+        }*/
 
         $calcParams = new LibertyCalcParams($request);
+        //return json_encode($calcParams->getCalcParams());
         $liberty =  LibertyAPI::calculate($calcParams->getCalcParams());
         //dd($liberty);
         if (!is_null($liberty)) {

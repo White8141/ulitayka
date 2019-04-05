@@ -105,11 +105,11 @@ $(document).ready(function () {
     });
 
     //включить закладку "ассистанс" на карточке полиса 
-    tempObj = document.querySelectorAll('button.assistance')//.style.display = "none";
+    tempObj = document.querySelectorAll('button.assistance');
     for (i = 0; i < tempObj.length; i++) {
         tempObj[i].classList.add('active');
     }
-    tempObj = document.querySelectorAll('section.assistance')//.style.display = "none";
+    tempObj = document.querySelectorAll('section.assistance');
     for (i = 0; i < tempObj.length; i++) {
         tempObj[i].style.display = "block";
     }

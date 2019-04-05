@@ -17,9 +17,11 @@ class LibertyCalcParams
     public $policyDays;
     public $amount;
     public $currency;
-    public $risks;
-    public $insureds;
-    public $additionalConditions;
+    public $laggageNum = 0;
+    public $risks = [];
+    public $insureds = [];
+    public $medical = 0;
+    private $countries = [];
 
     function __construct($request)
     {
@@ -30,13 +32,6 @@ class LibertyCalcParams
     {
         
         /*$this->additionalConditions = [];
-
-        $this->countries = [];
-        //dd($this->request['countries']);
-        foreach ($this->request['countries'] ?? ['SCHENGEN'] as $country) {
-            $this->countries[] = 242;//AdvantDirect::getCountryUID((string)$country['countryName']);
-        }
-        //$this->countries = $this->request['countries'];
 
         $this->insureds = [];
         foreach ($this->request['travelers'] as $traveler) {
@@ -112,13 +107,66 @@ class LibertyCalcParams
         $this->amount = $this->request['risks'][0]['amountAtRisk'] ?? 50000;
         $this->currency = LibertyDirect::getCurrencyUID($this->request['risks'][0]['amountCurrency']) ?? 14;;
 
-        $this->insureds = [];
+        foreach ($this->request['countries'] ?? ['SCHENGEN'] as $country) {
+            if (LibertyDirect::getCountryUID($country['countryName'])) {
+                $this->countries[] = [
+                    'id_area' => LibertyDirect::getCountryUID((string)$country['countryName'])
+                ];
+            }
+        }
+        //$this->countries = $this->request['countries'];
+        
+        foreach ($this->request['additionalConditions'] ?? [] as $additionalConditions) {
+            if ($additionalConditions['name'] == 'leisure' && (string)$additionalConditions['accept'] === 'true') $this->medical = 1;
+            if ($additionalConditions['name'] == 'competition' && (string)$additionalConditions['accept'] === 'true') $this->medical = 50;
+            if ($additionalConditions['name'] == 'extreme' && (string)$additionalConditions['accept'] === 'true') $this->medical = 3;
+        }
+
         foreach ($this->request['travelers'] as $traveler) {
             if (array_key_exists('accept', $traveler) && $traveler['accept'] === 'true')
 
                 $this->insureds[] = [
                     'birhDate' => Carbon::now()->subYear($traveler['age'])->toDateString()
                 ];
+        }
+
+        $this->risks[] = ['id_risk' => 346,
+                        'insuredSum' => [
+                            'summ' => $this->amount,
+                            'currency_id' => $this->currency
+                        ]];
+        foreach ($this->request['risks'] ?? [] as $risk) {
+            if ($risk['name'] == 'public' && (string)$risk['accept'] === 'true') {
+                $this->risks[] = [  'id_risk' => 267,
+                                    'insuredSum' => [
+                                        'summ' => $risk['amountAtRisk'],
+                                        'currency_id' => $this->currency
+                                    ]];
+            }
+            if ($risk['name'] == 'accident' && (string)$risk['accept'] === 'true') {
+                $this->risks[] = [  'id_risk' => 71,
+                    'insuredSum' => [
+                        'summ' => $risk['amountAtRisk'],
+                        'currency_id' => $this->currency
+                    ]];
+            }
+            if ($risk['name'] == 'laggage' && (string)$risk['accept'] === 'true') {
+                $this->laggageNum = count($this->insureds);
+                $this->risks[] = [  'id_risk' => 355,
+                    'insuredSum' => [
+                        'summ' => $risk['amountAtRisk'],
+                        'currency_id' => $this->currency
+                    ]];
+            }
+            if ($risk['name'] == 'cancel' && (string)$risk['accept'] === 'true') {
+                $this->laggageNum = count($this->insureds);
+                $this->risks[] = [  'id_risk' => 351,
+                    'insuredSum' => [
+                        'summ' => $risk['amountAtRisk'],
+                        'currency_id' => $this->currency
+                    ]];
+            }
+
         }
 
         return [
@@ -128,18 +176,10 @@ class LibertyCalcParams
                 'startDate' => $this->policyPeriodFrom->toDateString(),
                 'endDate' => $this->policyPeriodTill->toDateString(),
                 'number_of_days' => $this->policyDays,
-                'insured_area' => [
-                    'id_area' => 242,
-                ],
-                'medical_option' => 0,
-                'Risks' => [
-                    'id_risk' => 346,
-                    'insuredSum' => [
-                        'summ' => $this->amount,
-                        'currency_id' => $this->currency
-                    ]
-
-                ],
+                'insured_area' => $this->countries,
+                'medical_option' => $this->medical,
+                'number_of_lugg' => $this->laggageNum,
+                'Risks' => $this->risks,
                 'insuredPersons' => $this->insureds
             ]
         ];

@@ -39,7 +39,7 @@ Route::get('/raspechativat_polis', 'PagesController@whether_print_policy')->name
 Route::get('/strahovoy_sluchay', 'PagesController@ins_moment')->name('ins_moment');
 Route::get('/ins_moment_full', 'PagesController@ins_moment_full')->name('ins_moment_full');
 Route::get('/kak_poluchit_viplatu', 'PagesController@how_get_paid')->name('how_get_paid');
-Route::get('/kak_izezhat_otkaza_v_viplate', 'PagesController@how_to_avoid')->name('how_to_avoid');
+Route::get('/kak_izbezhat_otkaza_v_viplate', 'PagesController@how_to_avoid')->name('how_to_avoid');
 
 //раздел Путешественникам
 Route::get('/nuzhna_li_strahovka', 'PagesController@ins_need')->name('ins_need');

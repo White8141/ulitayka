@@ -27,12 +27,10 @@ class PagesController extends Controller
         //dd($request->all());
 
         if ($request->has('g-recaptcha-response') && $request->input('g-recaptcha-response') != null) {
-            //echo("Ok");
 
             $recaptcha = new ReCaptcha($_ENV['RECAPTCHA_SECRET'], new CurlPost());
             $response = $recaptcha->verify($request->input('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
-            //dd($response);
-
+            
             if ($response->isSuccess()) {
                 $order = new Order;
                 $order->name = $request->input('main_name');
