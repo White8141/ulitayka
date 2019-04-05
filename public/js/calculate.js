@@ -1,4 +1,4 @@
-var i, tempVar, tempArray, tempObj, dateFrom, tempDate, tempForm;
+var i, tempVar, tempArray, tempObj, tempForm, dateFrom, tempDate;
 
 $(document).ready(function () {
     console.log ('Calc JS Start');
@@ -726,6 +726,7 @@ const chRequest = (url, csrf) => {
 
 // Обновляем блок с данными полиса
 const updCalc = response => {
+    //tempObj = vm.cardArray;
     console.log ('Page Upadate: ' + response);
     response = JSON.parse(response);
     document.querySelector('#disparity_orange_text').style.display = 'none';

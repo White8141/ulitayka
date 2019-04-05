@@ -23,7 +23,7 @@ class InsuranceCalc
 
         $result = [];
         
-        /*$alpha = $this->getAlphaCalc($request) ?? null;
+        $alpha = $this->getAlphaCalc($request) ?? null;
         //dd($alpha);
         if (!is_null($alpha)) {
             $result['alpha'] = [
@@ -40,7 +40,7 @@ class InsuranceCalc
                 'card' => 'vskCard',
                 'prem' => $vsk['1. Премия RUR']
             ];
-        }*/
+        }
 
         /*$advant = $this->getAdvantCalc($request);
         //dd($advant);

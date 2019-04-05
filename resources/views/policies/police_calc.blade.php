@@ -6,8 +6,11 @@
 
 @section('content')
 
-    <div class="container">
+    <div id="calculator" class="container">
         <div class="row no-margin-row">
+            <!--div class="col-12 col-md-6" id="cards">
+                <company-card v-for="companyCard in cardArray">Карта компании</company-card>
+            </div-->
             <div class="col-12 col-md-6" id="cards">
 
                 <div class="card insCard" id="alpha">
@@ -137,7 +140,7 @@
 
                     <div class="row no-margin-row controls-panel">
                         <div class="col-6">
-                            <img src="/assets/img/logo-liberty.jpg" alt="Liberty-Logo" class="img_logo">
+                            <img src="/assets/img/logo-liberty.png" alt="Liberty-Logo" class="img_logo">
                         </div>
                         <p class="col-3 prem">
                             <b></b>
@@ -203,7 +206,7 @@
                 <div class="disparity_grey" id="dis_liberty">
                     <div class="card disparity_card">
                         <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-liberty.jpg')); ?> " alt="Liberty страхование"
+                        <img src="<?php echo e(asset('assets/img/logo-liberty.png')); ?> " alt="Liberty страхование"
                              class="img_logo img_logo_disparity">
                     </div>
                 </div>
@@ -246,12 +249,7 @@
                     <img src="<?php echo e(asset('assets/img/logo-ergo.png')); ?> " alt="Ergo" class="img_logo_compare">
                     <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?> " alt="Адвант страхование" class="img_logo_compare">
                     <img src="<?php echo e(asset('assets/img/logo-renessans.png')); ?> " alt="Ренессанс страхование" class="img_logo_compare">
-                    <!--div href="#" class="orange_button">
-                        <img src="<?//php echo e(asset('assets/img/button_orange.png')); ?>" alt="тест" class="orange_button">
-                        <a href="#">
-                            <p class="orange_button_text">Сравнить</p>
-                        </a>
-                    </div-->
+
                 </div>
 
             </div>
@@ -650,6 +648,7 @@
 
 @section('script')
 
+    <!--script src="https://unpkg.com/vue/dist/vue.js"></script-->
     <script src="{{ asset('js/calculate.js') }}"></script>
     <script>
 
