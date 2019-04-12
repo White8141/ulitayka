@@ -165,6 +165,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * Laravel IDE Helper
+         */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,

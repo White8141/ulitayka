@@ -209,16 +209,16 @@
                     <div class="details-form footer row">
                         <div class="col-4">
                             <span id="prem" class="prem">Стоимость <b></b>  <span class="fa fa-rub"></span></span>
-                            @if ($status == '2')
+                            @if ($status == 2)
                                 <img src="{{ asset('assets/img/paid.png') }}">
                             @endif
                         </div>
                         <div class="col-8" style="text-align: end">
-                            @if ($status == '1')
+                            @if ($status == 2)
+                                <a class="btn btn-primary" href="#">Полис в PDF</a>
+                            @else
                                 <button id="submitBtn" class="btn btn-danger" type="submit">Сохранить</button>
                                 <p class="btn btn-primary" onclick=sendBuy()>Купить</p>
-                            @else
-                                <a class="btn btn-primary" href="#">Полис в PDF</a>
                             @endif
                         </div>
                     </div>

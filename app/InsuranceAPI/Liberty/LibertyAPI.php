@@ -54,7 +54,7 @@ class LibertyAPI {
         $resp = self::makePostRequest($options);
 
         $result = [];
-        $result['card'] = 'libertyCard';
+        $result['card'] = 'liberty';
         $result['id'] = 0;
         $result['prem'] = 0;
         $result['assistance'] = 'No Info';

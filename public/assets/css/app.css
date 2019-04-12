@@ -517,7 +517,12 @@ form .btn-blue:hover {
   margin: 0px auto;
 }
 
-.policies-container form {
+.policies-container table img {
+  width: 100%;
+  max-width: 175px;
+}
+
+.policies-container table form {
   text-align: end;
 }
 
@@ -621,9 +626,6 @@ form .btn-blue:hover {
 
 .card.disparity_card {
   height: 100px !important;
-  /*.img_logo_disparity {
-
-  }*/
 }
 
 .card.disparity_card img.img_logo {
@@ -646,50 +648,11 @@ form .btn-blue:hover {
   padding-right: 16px;
 }
 
-.controls-panel {
-  margin-top: 16px;
-  height: 50px;
-}
-
-.controls-panel p.prem {
-  margin-bottom: 0px;
-  padding-top: 6px;
-}
-
-.controls-panel a.btn {
-  color: #fff;
-  background-color: #4daeda;
-  position: relative;
-  top: 6px;
-  float: right;
-}
-
-.img_logo {
-  width: 90%;
-  max-height: 50px;
-  padding: 0px;
-  position: relative;
-  top: 0;
-  left: 0;
-}
-
-.img_logo_compare {
-  width: 24%;
-  padding: 10px 5px;
-  position: relative;
-  top: 12px;
-  left: 0;
-}
-
-.insCard {
-  /* Табы */
-  /* Базовый контейнер табов */
-}
-
 .insCard .tabs {
   padding: 0px 24px;
   margin: 20px auto;
   max-width: 600px !important;
+  width: 100%;
   min-height: 210px;
 }
 
@@ -734,7 +697,6 @@ form .btn-blue:hover {
 }
 
 .insCard .tabs section {
-  display: none;
   padding: 15px;
   background: #fff;
   width: 100%;
@@ -753,6 +715,41 @@ form .btn-blue:hover {
   animation-fill-mode: both;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
+}
+
+.controls-panel {
+  margin-top: 16px;
+  height: 50px;
+}
+
+.controls-panel p.prem {
+  margin-bottom: 0px;
+  padding-top: 6px;
+}
+
+.controls-panel a.btn {
+  color: #fff;
+  background-color: #4daeda;
+  position: relative;
+  top: 6px;
+  float: right;
+}
+
+.img_logo {
+  width: 90%;
+  max-height: 50px;
+  padding: 0px;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.img_logo_compare {
+  width: 24%;
+  padding: 10px 5px;
+  position: relative;
+  top: 12px;
+  left: 0;
 }
 
 .wrap_map {
@@ -4240,14 +4237,6 @@ h1 {
 }
 
 /****/
-#alpha {
-  display: none;
-}
-
-.disparity_grey {
-  display: none;
-}
-
 .age-human {
   color: #000000bd;
   font-size: 13px;

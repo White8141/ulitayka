@@ -24,40 +24,57 @@ class InsuranceCalc
         $result = [];
         
         $alpha = $this->getAlphaCalc($request) ?? null;
-        //dd($alpha);
         if (!is_null($alpha)) {
-            $result['alpha'] = [
-                'card' => 'alphaCard',
+            $result[] = [
+                'card' => 'alpha',
                 'prem' => $alpha->common->premRUR,
                 'assistance' => $alpha->common->assistancePhones
+            ];
+        } else {
+            $result[] = [
+                'card' => 'alpha',
+                'prem' => 0
             ];
         }
 
         $vsk = $this->getVskCalc($request) ?? null;
-        //dd($vsk);
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
-            $result['vsk'] = [
-                'card' => 'vskCard',
+            $result[] = [
+                'card' => 'vsk',
                 'prem' => $vsk['1. Премия RUR']
+            ];
+        } else {
+            $result[] = [
+                'card' => 'vsk',
+                'prem' => 0
             ];
         }
 
-        /*$advant = $this->getAdvantCalc($request);
-        //dd($advant);
+        $advant = null;//$this->getAdvantCalc($request);
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
-            $result['advant'] = [
-                'logo' => 'advantCard',
+            $result[] = [
+                'card' => 'advant',
                 'prem' => $advant[0]->variables->S,
                 'policeId' => $advant[0]->id
             ];
-        }*/
+        } else {
+            $result[] = [
+                'card' => 'advant',
+                'prem' => 0
+            ];
+        }
 
         $calcParams = new LibertyCalcParams($request);
         //return json_encode($calcParams->getCalcParams());
         $liberty =  LibertyAPI::calculate($calcParams->getCalcParams());
         //dd($liberty);
         if (!is_null($liberty)) {
-            $result['liberty'] = $liberty;
+            $result[] = $liberty;
+        } else {
+            $result[] = [
+                'card' => 'liberty',
+                'prem' => 0
+            ];
         }
 
         return $isJson ? json_encode($result) : $result;

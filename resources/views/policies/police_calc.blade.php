@@ -8,247 +8,21 @@
 
     <div id="calculator" class="container">
         <div class="row no-margin-row">
-            <!--div class="col-12 col-md-6" id="cards">
-                <company-card v-for="companyCard in cardArray">Карта компании</company-card>
-            </div-->
             <div class="col-12 col-md-6" id="cards">
 
-                <div class="card insCard" id="alpha">
+                <company-card v-for="companyCard in cardArray" :key="companyCard.card" :card-data="companyCard"></company-card>
 
-                    <div class="row no-margin-row controls-panel">
-                        <div class="col-6">
-                            <img src="/assets/img/logo-alpha.png" alt="Alpha-Logo" class="img_logo">
-                        </div>
-                        <p class="col-3 prem">
-                            <b></b>
-                            <span class="fa fa-rub"></span>
-                        </p>
-                        <div class="col-3">
-                            <a class="btn" onclick=sendCalc('alpha')>Купить</a>
-                        </div>
-                    </div>
+                <p id="disparity_orange_text" v-if="disVisible">Не соответствует Вашему запросу</p>
 
-                    <div class="tabs">
-                        <div class="row no-margin-row button-panel">
-                            <div class="col-4">
-                                <button class="assistance" data-name="assistance">Ассистанс</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="franchise">Франшиза</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="rules">Правила страхования</button>
-                            </div>
-                        </div>
+                <dis-card v-for="companyCard in disArray" :key="companyCard.card" :card-data="companyCard"></dis-card>
 
-                        <section class="assistance">
-                            <p></p>
-                        </section>
-                        <section class="franchise">
-                            <p></p>
-                        </section>
-                        <section class="rules">
-                            <p></p>
-                        </section>
-                    </div>
-
-                </div>
-
-                <div class="card insCard" id="vsk">
-
-                    <div class="row no-margin-row controls-panel">
-                        <div class="col-6">
-                            <img src="/assets/img/logo-vsk.png" alt="Alpha-Logo" class="img_logo">
-                        </div>
-                        <p class="col-3 prem">
-                            <b></b>
-                            <span class="fa fa-rub"></span>
-                        </p>
-                        <div class="col-3">
-                            <a class="btn" onclick=sendCalc('vsk')>Купить</a>
-                        </div>
-                    </div>
-
-                    <div class="tabs">
-                        <div class="row no-margin-row button-panel">
-                            <div class="col-4">
-                                <button class="assistance" data-name="assistance">Ассистанс</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="franchise">Франшиза</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="rules">Правила страхования</button>
-                            </div>
-                        </div>
-
-                        <section class="assistance">
-                            <p></p>
-                        </section>
-                        <section class="franchise">
-                            <p></p>
-                        </section>
-                        <section class="rules">
-                            <p></p>
-                        </section>
-                    </div>
-
-                </div>
-
-                <div class="card insCard" id="advant">
-
-                    <div class="row no-margin-row controls-panel">
-                        <div class="col-6">
-                            <img src="/assets/img/logo-advant.png" alt="Advant-Logo" class="img_logo">
-                        </div>
-                        <p class="col-3 prem">
-                            <b></b>
-                            <span class="fa fa-rub"></span>
-                        </p>
-                        <div class="col-3">
-                            <a class="btn" onclick=sendCalc('advant')>Купить</a>
-                        </div>
-                    </div>
-
-                    <div class="tabs">
-                        <div class="row no-margin-row button-panel">
-                            <div class="col-4">
-                                <button class="assistance" data-name="assistance">Ассистанс</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="franchise">Франшиза</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="rules">Правила страхования</button>
-                            </div>
-                        </div>
-
-                        <section class="assistance">
-                            <p></p>
-                        </section>
-                        <section class="franchise">
-                            <p></p>
-                        </section>
-                        <section class="rules">
-                            <p></p>
-                        </section>
-                    </div>
-
-                </div>
-
-                <div class="card insCard" id="liberty">
-
-                    <div class="row no-margin-row controls-panel">
-                        <div class="col-6">
-                            <img src="/assets/img/logo-liberty.png" alt="Liberty-Logo" class="img_logo">
-                        </div>
-                        <p class="col-3 prem">
-                            <b></b>
-                            <span class="fa fa-rub"></span>
-                        </p>
-                        <div class="col-3">
-                            <a class="btn" onclick=sendCalc('liberty')>Купить</a>
-                        </div>
-                    </div>
-
-                    <div class="tabs">
-                        <div class="row no-margin-row button-panel">
-                            <div class="col-4">
-                                <button class="assistance" data-name="assistance">Ассистанс</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="franchise">Франшиза</button>
-                            </div>
-                            <div class="col-4">
-                                <button data-name="rules">Правила страхования</button>
-                            </div>
-                        </div>
-
-                        <section class="assistance">
-                            <p></p>
-                        </section>
-                        <section class="franchise">
-                            <p></p>
-                        </section>
-                        <section class="rules">
-                            <p></p>
-                        </section>
-                    </div>
-
-                </div>
-
-                <p id="disparity_orange_text">Не соответствует Вашему запросу</p>
-
-                <div class="disparity_grey" id="dis_alpha">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?> " alt="Альфа страхование"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
-
-                <div class="disparity_grey" id="dis_vsk">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-vsk.png')); ?> " alt="ВСК страхование"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
-
-                <div class="disparity_grey" id="dis_advant">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?> " alt="ВСК страхование"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
-
-                <div class="disparity_grey" id="dis_liberty">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-liberty.png')); ?> " alt="Liberty страхование"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
-
-                <div class="disparity_grey" id="dis_ing">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-ingosstrah.png')); ?> " alt="Ингосстрах жизнь"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
-
-                <div class="disparity_grey" id="dis_vtb">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-vtb.png')); ?> " alt="ВТБ страхование"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
-
-                <div class="disparity_grey" id="dis_reso">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-reso.png')); ?> " alt="Ресо гарантия"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
-
-                <div class="disparity_grey" id="dis_ren">
-                    <div class="card disparity_card">
-                        <p class="disparity_text">Страховка не соответствует Вашему запросу</p>
-                        <img src="<?php echo e(asset('assets/img/logo-renessans.png')); ?> " alt="Ренессанс страхование"
-                             class="img_logo img_logo_disparity">
-                    </div>
-                </div>
                 <br>
 
                 <div class="card row">
                     <img src="<?php echo e(asset('assets/img/logo-alpha.png')); ?> " alt="Альфа страхование" class="img_logo_compare">
-                    <img src="<?php echo e(asset('assets/img/logo-ergo.png')); ?> " alt="Ergo" class="img_logo_compare">
+                    <img src="<?php echo e(asset('assets/img/logo-vsk.png')); ?> " alt="Ergo" class="img_logo_compare">
                     <img src="<?php echo e(asset('assets/img/logo-advant.png')); ?> " alt="Адвант страхование" class="img_logo_compare">
-                    <img src="<?php echo e(asset('assets/img/logo-renessans.png')); ?> " alt="Ренессанс страхование" class="img_logo_compare">
+                    <img src="<?php echo e(asset('assets/img/logo-liberty.png')); ?> " alt="Ренессанс страхование" class="img_logo_compare">
 
                 </div>
 
@@ -648,12 +422,12 @@
 
 @section('script')
 
-    <!--script src="https://unpkg.com/vue/dist/vue.js"></script-->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="{{ asset('js/calculate.js') }}"></script>
     <script>
 
         setCalcDefaultData ('{!! $defaultData !!}', '{{ csrf_token() }}');
-        updCalc ('{!! $calculation !!}');
+        fillCards ('{!! $calculation !!}');
 
     </script>
 

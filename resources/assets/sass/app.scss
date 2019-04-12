@@ -49,22 +49,18 @@ a {
   text-decoration: none !important;
   cursor: pointer !important;
 }
-
 a:hover {
   text-decoration: none !important;
   cursor: pointer !important;
 }
-
 a:active {
   text-decoration: none !important;
   cursor: pointer !important;
 }
-
 a:visited {
   text-decoration: none !important;
   cursor: pointer !important;
 }
-
 a.policies-button {
   margin-left: 15px;
   position: relative;
@@ -138,9 +134,19 @@ form {
   width: 90%;
   margin: 0px auto;
 
-  form {
-    text-align: end;
+  table {
+
+    img {
+      width: 100%;
+      max-width: 175px;
+    }
+
+    form {
+      text-align: end;
+    }
   }
+
+
 }
 
 .police_details {
@@ -218,6 +224,7 @@ form {
   }
 }
 
+//Карты страховых компаний с ценой и доп. данными на странице калькуляции
 .card {
   border-bottom: 3px solid #fb673f;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -249,7 +256,6 @@ form {
     top: 1px;
   }
 }
-
 .card.disparity_card {
   height: 100px !important;
 
@@ -258,11 +264,6 @@ form {
     top: 20px !important;
     left: 16px !important;
   }
-
-  /*.img_logo_disparity {
-
-  }*/
-
 
 
   .disparity_grey {
@@ -277,6 +278,78 @@ form {
     right: 0px;
     width: 50%;
     padding-right: 16px;
+  }
+}
+.insCard {
+
+  .tabs {
+    padding: 0px 24px;
+    margin: 20px auto;
+    max-width: 600px !important;
+    width: 100%;
+    min-height: 210px;
+
+    .button-panel {
+      position: relative;
+      height: 76px;
+
+      /* Стили переключателей вкладок (табов) */
+      button {
+        position: absolute;
+        bottom: 0px;
+        display: inline-block;
+        margin: 0 0 -1px;
+        padding: 15px 25px;
+        font-weight: 600;
+        text-align: center;
+        font-family: Roboto, sans-serif;
+        font-size: 14px;
+        color: #000;
+        background-color: #fff;
+        border-radius: 10px 10px 0 0;
+        border: none;
+
+        &.active {
+          cursor: default;
+          color: #fff;
+          background-color: #4daeda;
+        }
+      }
+
+      /* Изменения стиля переключателей вкладок при наведении */
+      button:hover {
+        color: #fff;
+        cursor: pointer;
+        background-color: #ff6508;
+      }
+
+      /* Стили для активной вкладки */
+      button:focus {
+        outline: none;
+      }
+    }
+
+    section {
+      padding: 15px;
+      background: #fff;
+      width: 100%;
+      margin-bottom: 15px;
+
+      p {
+        text-align: justify;
+        margin: 0 0 5px;
+        line-height: 1.5;
+        color: #383838;
+        /* прикрутим анимацию */
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation-name: fadeIn;
+        animation-name: fadeIn;
+      }
+
+    }
   }
 }
 
@@ -315,83 +388,6 @@ form {
   top: 12px;
   left: 0;
 }
-
-.insCard {
-
-  /* Табы */
-  /* Базовый контейнер табов */
-  .tabs {
-      padding: 0px 24px;
-      margin: 20px auto;
-      max-width: 600px !important;
-      //width: 97.5%;
-      min-height: 210px;
-
-      .button-panel {
-        position: relative;
-        height: 76px;
-
-        /* Стили переключателей вкладок (табов) */
-        button {
-          position: absolute;
-          bottom: 0px;
-          display: inline-block;
-          margin: 0 0 -1px;
-          padding: 15px 25px;
-          font-weight: 600;
-          text-align: center;
-          font-family: Roboto, sans-serif;
-          font-size: 14px;
-          color: #000;
-          background-color: #fff;
-          border-radius: 10px 10px 0 0;
-          border: none;
-
-          &.active {
-            cursor: default;
-            color: #fff;
-            background-color: #4daeda;
-          }
-        }
-
-        /* Изменения стиля переключателей вкладок при наведении */
-        button:hover {
-          color: #fff;
-          cursor: pointer;
-          background-color: #ff6508;
-        }
-
-        /* Стили для активной вкладки */
-        button:focus {
-          outline: none;
-        }
-      }
-
-      section {
-        display: none;
-        padding: 15px;
-        background: #fff;
-        width: 100%;
-        margin-bottom: 15px;
-
-        p {
-          text-align: justify;
-          margin: 0 0 5px;
-          line-height: 1.5;
-          color: #383838;
-          /* прикрутим анимацию */
-          -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-          -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-          -webkit-animation-name: fadeIn;
-          animation-name: fadeIn;
-        }
-
-      }
-    }
-}
-
 
 .wrap_map {
   margin-top: 40px;
@@ -3765,14 +3761,6 @@ h1 {
 }
 
 /****/
-
-#alpha {
-  display: none;
-}
-
-.disparity_grey {
-  display: none;
-}
 
 .age-human {
   color: #000000bd;
