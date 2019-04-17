@@ -67,7 +67,7 @@
                 //console.log ('card mounted, id:' + this.card);
             },
             buyInsurance:function () {
-                console.log ('buy ' + this.card + ' card');
+                this.$emit('issue-policy', this.card);
             },
             selectTab:function (tabId) {
                 this.assistanceActive = false;

@@ -22,7 +22,7 @@ class InsuranceCalc
     public function getInsuranceCalc(Request $request, $isJson = false) {
 
         $result = [];
-        
+
         $alpha = $this->getAlphaCalc($request) ?? null;
         if (!is_null($alpha)) {
             $result[] = [
@@ -204,6 +204,10 @@ class InsuranceCalc
             $request->merge(['dateFrom' => Carbon::now()->addDay()->format('d.m.Y')]);
         }
 
+        if (!$request->has('risks.0.amountAtRisk') || $request->input('risks.0.amountAtRisk') == null) {
+            $request->merge(['risks' => [['accept' => 'true', 'amountAtRisk' => '30000', 'amountCurrency' => 'EUR', 'name' => 'medical']]]);
+        }
+
         if (!$request->has('dateTill') || $request->input('dateTill') == null)  {
             $request->merge(['dateTill' => Carbon::createFromFormat('d.m.Y', $request->input('dateFrom'))->addDays(7)->format('d.m.Y')]);
         }
@@ -211,5 +215,7 @@ class InsuranceCalc
         if (!$request->has('travelers') || $request->input('travelers') == null) {
             $request->merge(['travelers' => [['accept' => 'true', 'age' => '30']]]);
         }
+
+
     }
 }

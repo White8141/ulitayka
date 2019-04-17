@@ -84,6 +84,10 @@ form {
   margin-right: 0 !important;
 }
 
+.no-bottom-margin {
+  margin-bottom: 0px !important;
+}
+
 .toast-container {
   position: absolute;
   width: 100%;
@@ -862,7 +866,7 @@ hr.orange_dashed2 {
   color: #4cafdb;
 }
 
-.check_and_radio {
+.check-and-radio {
   margin-right: 5px !important;
 }
 
@@ -906,7 +910,7 @@ hr.orange_dashed2 {
   top: -37px;
 }
 
-.filter_checkbox {
+.filter-checkbox {
   margin-bottom: 10px;
   padding-top: -25px;
 }

@@ -37,7 +37,7 @@ class PolicyController extends Controller
     public function create()
     {
         //dd($this->insuranceCalc->getInsuranseData($this->request, true));
-        //dd($this->request->all());
+        dd($this->request->all());
 
         $this->validate($this->request, [
             'companyId' => 'required|max:255',
