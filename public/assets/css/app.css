@@ -1174,6 +1174,8 @@ hr.orange_dashed2 {
 
 /* Фильтры */
 .filter_h3 {
+  margin-top: 16px;
+  margin-bottom: 4px;
   color: #ff6508;
   font-size: 18px;
   font-weight: 700;

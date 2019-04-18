@@ -27,9 +27,9 @@
             <p class="filter_h3">Сколько человек, возраст</p>
             <div class="sel-text">
                 <div v-for="(traveler, index) in travelers" :key="index">
-                    <input type="checkbox" :name="'travelers[' + index + '][accept]'" v-model="traveler.accept" :id="'trAccept' + index" class="checkbox-one">
+                    <input :name="'travelers[' + index + '][accept]'"   v-model="traveler.accept"       @change="checkTrvl" :id="'trAccept' + index" class="checkbox-one" type="checkbox">
                     <label :for="'trAccept' + index">{{ 1 + index }} путешественник</label>
-                    <select :name="'travelers[' + index + '][age]'" v-model.number="traveler.age" :disabled="!traveler.accept" >
+                    <select :name="'travelers[' + index + '][age]'"     v-model.number="traveler.age"   @change="checkTrvl" v-if="traveler.accept">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -124,20 +124,25 @@
             </div>
 
             <p class="filter_h3">Выбор курса</p>
-            <input type="radio" onchange="chRequest('/calcajax', 'csrfToken')" name="policy_currency" value="EUR" id="radio_euro" class="check-and-radio" checked>
-            <label for="radio_euro">Евро</label>
-            <input type="radio" onchange="chRequest('/calcajax', 'csrfToken')" name="policy_currency" value="USD" id="radio_usd" class="check-and-radio">
-            <label for="radio_usd" style="margin-right: 20px;">Доллар</label>
+            <input  name="policyСurrency"   v-model="policyСurrency"    value="EUR" id="radioEuro"  @change="updateCost"  class="check-and-radio" type="radio">
+            <label  for="radioEuro">Евро</label>
+            <input  name="policyСurrency"   v-model="policyСurrency"    value="USD" id="radioUsd"   @change="updateCost"  class="check-and-radio" type="radio">
+            <label  for="radioUsd">Доллар</label>
 
-            <p class="filter_h3" style="margin-top: 10px;">Медицинское страхование</p>
-            <div class="medical_amount">
-                <input name="risks[0][accept]" value="true"   hidden/>
-                <input name="risks[0][name]"  value="medical" hidden/>
-                <input type="radio" onchange="chRequest('/calcajax', 'csrfToken')" name="risks[0][risk_amount]" value="30000" id="radio_medical_amount_30000" class="check-and-radio" ><label for="radio_medical_amount_30000" style="margin-right: 20px;">30&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
-                <input type="radio" onchange="chRequest('/calcajax', 'csrfToken')" name="risks[0][risk_amount]" value="35000" id="radio_medical_amount_35000" class="check-and-radio" ><label for="radio_medical_amount_35000" style="margin-right: 20px;">35&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
-                <input type="radio" onchange="chRequest('/calcajax', 'csrfToken')" name="risks[0][risk_amount]" value="40000" id="radio_medical_amount_40000" class="check-and-radio" ><label for="radio_medical_amount_40000" style="margin-right: 20px;">40&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
-                <input type="radio" onchange="chRequest('/calcajax', 'csrfToken')" name="risks[0][risk_amount]" value="50000" id="radio_medical_amount_50000" class="check-and-radio" checked><label for="radio_medical_amount_50000" style="margin-right: 20px;">50&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label>
-                <input type="radio" onchange="chRequest('/calcajax', 'csrfToken')" name="risks[0][risk_amount]" value="100000" id="radio_medical_amount_100000" class="check-and-radio" ><label for="radio_medical_amount_100000">100&nbsp;000&nbsp;<p class="currency_symbol">&#8364;</p></label><br>
+            <p class="filter_h3">Медицинское страхование</p>
+            <div class="medical-amount">
+                <input  name="risks[0][accept]" value="true"    hidden/>
+                <input  name="risks[0][name]"   value="medical" hidden/>
+                <input  name="risks[0][riskAmount]" v-model.number="risks[0]['riskAmount']" value="30000" id="medical30000" @change="updateCost"    class="check-and-radio" type="radio">
+                <label  for="medical30000">30&nbsp;000 <span v-html="currencySymbol"></span></label>
+                <input  name="risks[0][riskAmount]" v-model.number="risks[0]['riskAmount']" value="35000" id="medical35000" @change="updateCost"    class="check-and-radio" type="radio">
+                <label  for="medical35000">35&nbsp;000 <span v-html="currencySymbol"></span></label>
+                <input  name="risks[0][riskAmount]" v-model.number="risks[0]['riskAmount']" value="40000" id="medical40000" @change="updateCost"    class="check-and-radio" type="radio">
+                <label  for="medical40000">40&nbsp;000 <span v-html="currencySymbol"></span></label><br>
+                <input  name="risks[0][riskAmount]" v-model.number="risks[0]['riskAmount']" value="50000" id="medical50000" @change="updateCost"    class="check-and-radio" type="radio">
+                <label  for="medical50000">50&nbsp;000 <span v-html="currencySymbol"></span></label>
+                <input  name="risks[0][riskAmount]" v-model.number="risks[0]['riskAmount']" value="100000" id="medical100000" @change="updateCost"  class="check-and-radio" type="radio">
+                <label  for="medical100000">100&nbsp;000 <span v-html="currencySymbol"></span></label>
             </div>
 
             <a id="toggle_insurance"><p class="filter_h3 blue inlined">Входит в страховку </p><span
@@ -413,6 +418,14 @@ form #countries {
 form .sel-text label {
     cursor: pointer;
 }
+
+form .medical-amount label {
+    height: 40px;
+}
+
+form .medical-amount label span {
+    margin-right: 16px;
+}
 </style>
 <script>
     export default{
@@ -427,11 +440,17 @@ form .sel-text label {
                 yearPolicy: false,
                 dateFrom: '',
                 dateTill: '',
-                travelers: [{id: 0, accept: true, age: 30},
-                            {id: 1, accept: false, age:  0},
-                            {id: 2, accept: false, age: 0},
-                            {id: 3, accept: false, age: 0},
-                            {id: 4, accept: false, age: 0}]
+                travelers: [{accept: true, age: 30},
+                            {accept: false, age: 0},
+                            {accept: false, age: 0},
+                            {accept: false, age: 0},
+                            {accept: false, age: 0}],
+                policyСurrency: 'EUR',
+                risks: [{name: 'medical',   accept: true,   riskAmount: 50000},
+                        {name: 'public',    accept: false,  riskAmount: 50000},
+                        {name: 'cancel',    accept: false,  riskAmount: 500  },
+                        {name: 'accidient', accept: false,  riskAmount: 1000 },
+                        {name: 'laggage',   accept: false,  riskAmount: 500  }]
             }
         },
         props: ['csrfToken'],
@@ -459,6 +478,18 @@ form .sel-text label {
             });
 
             console.log ('Form Mounted');
+        },
+        computed: {
+            currencySymbol: function () {
+                switch (this.policyСurrency) {
+                    case 'EUR':
+                        return '&#8364';
+                        break;
+                    case 'USD':
+                        return '$';
+                        break;
+                }
+            }
         },
         methods: {
             prepareCountries: function (data) {
@@ -522,6 +553,9 @@ form .sel-text label {
                     }
                     $('#dateTill').datepicker().data('datepicker').selectDate(tempDate);
                 }
+            },
+            checkTrvl: function () {
+                console.log ('Нужно проверить массив путешественников');
             },
             updateCost: function () {
                 console.log ('need update cost');
