@@ -22,6 +22,9 @@ class InsuranceCalc
     public function getInsuranceCalc(Request $request, $isJson = false) {
 
         $result = [];
+        /*$result[] =  $request->all();
+        $calcParams = new AlphaCalcParams($request->all());
+        $result[] = $calcParams->getCalcParams('Calculate');*/
 
         $alpha = $this->getAlphaCalc($request) ?? null;
         if (!is_null($alpha)) {
@@ -37,7 +40,7 @@ class InsuranceCalc
             ];
         }
 
-        $vsk = $this->getVskCalc($request) ?? null;
+        /*$vsk = null;// $this->getVskCalc($request) ?? null;
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result[] = [
                 'card' => 'vsk',
@@ -66,7 +69,7 @@ class InsuranceCalc
 
         $calcParams = new LibertyCalcParams($request);
         //return json_encode($calcParams->getCalcParams());
-        $liberty =  LibertyAPI::calculate($calcParams->getCalcParams());
+        $liberty =  null;//LibertyAPI::calculate($calcParams->getCalcParams());
         //dd($liberty);
         if (!is_null($liberty)) {
             $result[] = $liberty;
@@ -75,7 +78,7 @@ class InsuranceCalc
                 'card' => 'liberty',
                 'prem' => 0
             ];
-        }
+        }*/
 
         return $isJson ? json_encode($result) : $result;
     }
@@ -88,7 +91,6 @@ class InsuranceCalc
         
         return AlphaAPI::calculate($calcParams->getCalcParams('Calculate'));
 
-        //return $calcParams->getCalcParams('calculate');
     }
 
     public function getVskCalc($request)
@@ -204,12 +206,16 @@ class InsuranceCalc
             $request->merge(['dateFrom' => Carbon::now()->addDay()->format('d.m.Y')]);
         }
 
-        if (!$request->has('risks.0.amountAtRisk') || $request->input('risks.0.amountAtRisk') == null) {
-            $request->merge(['risks' => [['accept' => 'true', 'amountAtRisk' => '30000', 'amountCurrency' => 'EUR', 'name' => 'medical']]]);
-        }
-
         if (!$request->has('dateTill') || $request->input('dateTill') == null)  {
             $request->merge(['dateTill' => Carbon::createFromFormat('d.m.Y', $request->input('dateFrom'))->addDays(7)->format('d.m.Y')]);
+        }
+
+        if (!$request->has('policyСurrency') || $request->input('policyСurrency') == null)  {
+            $request->merge(['policyСurrency' => 'EUR']);
+        }
+
+        if (!$request->has('risks.0.riskAmount') || $request->input('risks.0.riskAmount') == null) {
+            $request->merge(['risks' => [['accept' => 'true', 'riskAmount' => '30000', 'name' => 'medical']]]);
         }
 
         if (!$request->has('travelers') || $request->input('travelers') == null) {

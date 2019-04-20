@@ -20,7 +20,7 @@ class CalcController extends Controller
     public function calculate()
     {
         $this->insuranceCalc->prepareRequest($this->request);
-        
+
         return view('policies/police_calc')->with([ 'defaultData' => json_encode($this->request->all()),
                                                     'calculation' => $this->insuranceCalc->getInsuranceCalc($this->request, true)
         ]);
@@ -29,7 +29,6 @@ class CalcController extends Controller
     public function ajax()
     {
         $this->insuranceCalc->prepareRequest($this->request);
-        //print_r($this->request->all());
         
         echo $this->insuranceCalc->getInsuranceCalc($this->request, true);
     }
@@ -45,9 +44,11 @@ class CalcController extends Controller
         
     }*/
     
-    /*public function getData()
+    public function getData()
     {
-        print_r( $this->insuranceCalc->getInsuranseData($this->request));
-        //return $this->request->all();
-    }*/
+        //return ('Test Message');
+        //dd( $this->insuranceCalc->getInsuranseData($this->request));
+        //return($this->request->all());
+        return ($this->insuranceCalc->getInsuranceCalc($this->request, true));
+    }
 }

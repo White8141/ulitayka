@@ -1,6 +1,6 @@
 <template>
     <div class="container_filters">
-        <form action="/policy" method="post" class="jClever" id="form_calc" name="form_calc">
+        <form action="/getData" method="post" class="jClever" id="form_calc" name="form_calc">
 
             <input name="companyName"   v-model="companyName"   type="hidden"/>
             <input name="policeAmount"  v-model="policeAmount"  type="hidden"/>
@@ -8,7 +8,7 @@
             <input name="_token"        v-model="csrfToken"     type="hidden"/>
 
             <p class="filter_h3">Страны</p>
-            <input name="countries"     v-model="countries"     id="countries"  class="form-control"/>
+            <input name="countries[][countryName]"              id="countries"  class="form-control"/>
 
             <input type="checkbox"      v-model="alrdTrvll"     id="alrdTrvll"  class="check-and-radio">
             <label for="alrdTrvll"      class="filter-checkbox">Я уже путешествую</label><br>
@@ -431,7 +431,7 @@ form .medical-amount label span {
     export default{
         data(){
             return{
-                //tempArray: [],
+                magicSuggest: '',
                 companyName: '',
                 policeAmount: 0,
                 policeId: 0,
@@ -446,7 +446,7 @@ form .medical-amount label span {
                             {accept: false, age: 0},
                             {accept: false, age: 0}],
                 policyСurrency: 'EUR',
-                risks: [{name: 'medical',   accept: true,   riskAmount: 50000},
+                risks: [{name: 'medical',   accept: true,   riskAmount: 30000},
                         {name: 'public',    accept: false,  riskAmount: 50000},
                         {name: 'cancel',    accept: false,  riskAmount: 500  },
                         {name: 'accidient', accept: false,  riskAmount: 1000 },
@@ -455,9 +455,6 @@ form .medical-amount label span {
         },
         props: ['csrfToken'],
         mounted () {
-            //подготовить массив с странами, доступными для страхования
-            $.getJSON('/js/json/country.json', this.prepareCountries);
-
             // календарь  Date From
             $('#dateFrom').datepicker({
                 minDate: new Date(),
@@ -476,6 +473,9 @@ form .medical-amount label span {
                 onSelect: this.onDateTillSelect,
                 onHide: this.onDateTillHide
             });
+
+            //подготовить массив с странами, доступными для страхования
+            $.getJSON('/js/json/country.json', this.prepareCountries);
 
             console.log ('Form Mounted');
         },
@@ -498,7 +498,7 @@ form .medical-amount label span {
                     tempArray.push({countryName: key, countryViewName: val});
                 });
                 //активация плагина для выпадающего списка стран
-                var myMs = $('#countries').magicSuggest({
+                this.magicSuggest = $('#countries').magicSuggest({
                     data: tempArray,
                     placeholder: 'Страна поездки',
                     valueField: 'countryName',
@@ -507,7 +507,27 @@ form .medical-amount label span {
                     expandOnFocus: true,
                     hideTrigger: true
                 });
-                $(myMs).on('collapse', this.updateCost);
+                //при закрытии окна обновлять список выбранных стран и слать на перерасчет цены
+                $(this.magicSuggest).on('collapse', this.updateCountry);
+
+                //если к этому моменту уже есть массив стран, занести данные в выпадающий список
+                var countryArray = this.countries;
+                var tempArray = countryArray.map(function(country) {
+                    return country['countryName'];
+                });
+                this.magicSuggest.setValue(tempArray);
+                console.log ('Список стран подготовлен');
+            },
+            //обновить список выбранных стран и отправить на перерасчет цены
+            updateCountry: function () {
+                var tempArray = this.magicSuggest.getValue();
+                this.countries = [];
+                for (var i=0; i< tempArray.length; i++) {
+                    this.countries.push({countryName: tempArray[i]});
+                }
+                if (i > 0) {
+                    this.updateCost();
+                }
             },
             onDateFromSelect: function (fd, date, inst) {
                 if (document.querySelector('#dateFrom').value != '') {
@@ -555,10 +575,60 @@ form .medical-amount label span {
                 }
             },
             checkTrvl: function () {
-                console.log ('Нужно проверить массив путешественников');
+                if (!this.travelers.some(function(traveler) {
+                        return (traveler.accept == true && traveler.age == 0)
+                    })) {
+                        this.updateCost();
+                    }
+            },
+            //заполнить форму данными, присланными с предыдущей страницы
+            fillForm: function (insData) {
+                //заполнить страны, выбранные для страхования
+                var tempArray = insData['countries'];
+                for (var i=0; i< tempArray.length; i++) {
+                    this.countries.push(tempArray[i]);
+                };
+
+                //заполнить даты начала поездки
+                var myDatepicker = $('#dateFrom').datepicker().data('datepicker');
+                if (insData['dateFrom'] == null || insData['dateFrom'] == '') {
+                    myDatepicker.selectDate(new Date());
+                } else {
+                    var tempDate = insData['dateFrom'];
+                    myDatepicker.selectDate(new Date(+tempDate.substr(6, 4), +tempDate.substr(3, 2) - 1, +tempDate.substr(0, 2)));
+                }
+                //и конца поездки
+                myDatepicker = $('#dateTill').datepicker().data('datepicker');
+                if (insData['dateTill'] == null || insData['dateTill'] == '') {
+                    var tempFrom = insData['dateFrom'];
+                    var tempDate = new Date(new Date(+tempFrom.substr(6, 4), +tempFrom.substr(3, 2) -1, +tempFrom.substr(0, 2)));
+                    tempDate.setDate(tempDate.getDate() + 7);
+                    myDatepicker.selectDate(tempDate);
+                } else {
+                    tempDate = insData['dateTill'];
+                    myDatepicker.selectDate(new Date(+tempDate.substr(6, 4), +tempDate.substr(3, 2) - 1, +tempDate.substr(0, 2)));
+                }
+
+                this.travelers = insData['travelers'];
+
+                //debugger;
             },
             updateCost: function () {
-                console.log ('need update cost');
+                axios.post('/calcajax', {
+                    countries: this.countries,
+                    dateFrom: this.dateFrom,
+                    dateTill: this.dateTill,
+                    travelers: this.travelers,
+                    policyСurrency: this.policyСurrency,
+                    risks: this.risks
+                })
+                .then(function (response) {
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                console.log ('cost update');
             },
             sendForm: function() {
                 document.forms.form_calc.submit();

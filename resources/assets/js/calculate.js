@@ -35,6 +35,9 @@ var vm = new Vue ({
     methods: {
         issuePolicy: function(card) {
             this.$refs.insForm.sendForm();
+        },
+        fillForm: function (insData) {
+            this.$refs.insForm.fillForm(insData);
         }
     }
 });
@@ -65,7 +68,7 @@ $(document).ready(function () {
 
     /* Евро и доллар (Медицинское страхование) */
 
-    function make_dollar() {
+    /*function make_dollar() {
         if ($("#radio_usd").is(":checked")) {
             $(".currency_symbol").html("$");
         } else {
@@ -89,7 +92,7 @@ $(document).ready(function () {
     var radiobuttonEuro = document.getElementById("radio_euro");
     if(radiobuttonEuro){
         radiobuttonEuro.addEventListener("click", make_euro, false);
-    }
+    }*/
 
     $('#form_calc').keydown(function(event) {
         if (event.keyCode == 13) {
@@ -269,7 +272,7 @@ function chYearPolice() {
 }*/
 
 //обработка массива country.json и выбор заданных стран
-function countryParseWithSelect(view, defData, csrfToken) {
+/*function countryParseWithSelect(view, defData, csrfToken) {
 
     var tempArr = [];
 
@@ -470,7 +473,7 @@ function countryParseWithSelect(view, defData, csrfToken) {
     });
 
     //console.log('Country with value parse');
-}
+}*/
 
 // Вносим в страховку данные, введенные в форму на главной странице
 const setCalcDefaultData = (defaultData, csrf) => {
@@ -774,11 +777,14 @@ function collectData () {
 
 function fillCards (requestData) {
     vm.requestArray = JSON.parse(requestData);
-    console.log ('data fill');
 }
 
-window.setCalcDefaultData = setCalcDefaultData;
+function fillForm (insuranceData) {
+    vm.fillForm(JSON.parse(insuranceData));
+}
+
 window.fillCards = fillCards;
+window.fillForm = fillForm;
 
 
 

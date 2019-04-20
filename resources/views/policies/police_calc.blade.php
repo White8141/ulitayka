@@ -12,7 +12,7 @@
 
                 <company-card v-for="companyCard in cardArray" :key="companyCard.card" :card-data="companyCard" v-on:issue-policy="issuePolicy"></company-card>
 
-                <p id="disparity_orange_text" v-if="disVisible">Не соответствует Вашему запросу</p>
+                <p id="disparity_orange_text" v-if="disArray.length">Не соответствует Вашему запросу</p>
 
                 <dis-card v-for="disCard in disArray" :key="disCard.card" :card-data="disCard"></dis-card>
 
@@ -43,13 +43,12 @@
 
 @section('script')
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="{{ asset('js/calculate.js') }}"></script>
     <script>
-
-        setCalcDefaultData ('{!! $defaultData !!}', '{{ csrf_token() }}');
+        fillForm  ('{!! $defaultData !!}');
         fillCards ('{!! $calculation !!}');
-
     </script>
 
 @stop

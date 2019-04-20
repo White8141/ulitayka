@@ -25,13 +25,14 @@ class AlphaCalcParams
         //$this->countries = $request['countries'];
         $this->policyPeriodFrom = Carbon::createFromFormat('d.m.Y', $request['dateFrom'])->format('Y-m-d') ?? date('Y-m-d') . 'T00:00:00';
         $this->policyPeriodTill = Carbon::createFromFormat('d.m.Y', $request['dateTill'])->format('Y-m-d') ?? date('Y-m-d', strtotime('+1 month')) . 'T00:00:00';
+        $this->currency = $request['policyСurrency'];
         $this->client = [
             'name' => 'Testov Petr'
         ];
 
         $this->insureds = [];
         foreach ($request['travelers'] as $traveler) {
-            if (isset($traveler['accept']) && $traveler['accept'] === 'true')
+            if (isset($traveler['accept']) && ( $traveler['accept'] == 'true' || $traveler['accept'] == 'on'))
 
                 $this->insureds[] = [
                     'fio' => ($traveler['firstName']  ?? 'Stan').' '.($traveler['lastName'] ?? 'Marsh'),
@@ -55,12 +56,12 @@ class AlphaCalcParams
         }
 
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if (array_key_exists('accept', $risk) && (string)$risk['accept'] === 'true') {
+        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'riskAmount' => 50000]] as $risk) {
+            if (array_key_exists('accept', $risk) && $risk['accept']) {
                 $this->risks[] = [
                     'riskUID' => AlphaDirect::getRiskUID($risk['name']) ?? $risk['name'],
-                    'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $risk['amountCurrency'] ?? $request['radio_currency']
+                    'amountAtRisk' => $risk['riskAmount'],
+                    'amountCurrency' => $this->currency
                 ];
             }
         }
