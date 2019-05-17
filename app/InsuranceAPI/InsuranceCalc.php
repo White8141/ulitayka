@@ -26,7 +26,7 @@ class InsuranceCalc
         $calcParams = new AlphaCalcParams($request->all());
         $result[] = $calcParams->getCalcParams('Calculate');*/
 
-        $alpha = $this->getAlphaCalc($request) ?? null;
+        /*$alpha = $this->getAlphaCalc($request) ?? null;
         if (!is_null($alpha)) {
             $result[] = [
                 'card' => 'alpha',
@@ -38,9 +38,9 @@ class InsuranceCalc
                 'card' => 'alpha',
                 'prem' => 0
             ];
-        }
+        }*/
 
-        /*$vsk = null;// $this->getVskCalc($request) ?? null;
+        /*$vsk = $this->getVskCalc($request) ?? null;
         if (!is_null($vsk) && isset($vsk['1. Премия RUR'])) {
             $result[] = [
                 'card' => 'vsk',
@@ -51,9 +51,11 @@ class InsuranceCalc
                 'card' => 'vsk',
                 'prem' => 0
             ];
-        }
+        }*/
 
-        $advant = null;//$this->getAdvantCalc($request);
+        /*$advant = $this->getAdvantCalc($request);
+        //$result['request'] = $request->all();
+        //$result['advant'] = $advant;
         if (!is_null($advant) && isset($advant[0]->variables->S)) {
             $result[] = [
                 'card' => 'advant',
@@ -65,7 +67,7 @@ class InsuranceCalc
                 'card' => 'advant',
                 'prem' => 0
             ];
-        }
+        }*/
 
         $calcParams = new LibertyCalcParams($request);
         //return json_encode($calcParams->getCalcParams());
@@ -78,7 +80,7 @@ class InsuranceCalc
                 'card' => 'liberty',
                 'prem' => 0
             ];
-        }*/
+        }
 
         return $isJson ? json_encode($result) : $result;
     }
@@ -96,6 +98,8 @@ class InsuranceCalc
     public function getVskCalc($request)
     {
         $calcParams = new VskCalcParams($request->all());
+        //dump($calcParams->getCalcParams());
+
         return VskAPI::calculate($calcParams->getCalcParams(), 'Calc2');
 
         //dd(VskAPI::calculate($calcParams->getCalcParams(), 'Calc2'));
@@ -105,9 +109,9 @@ class InsuranceCalc
 
     public function getAdvantCalc($request)
     {
-        $calcParams = new AdvantCalcParams($request->all());
-        return AdvantAPI::calculate($calcParams->getCalcParams($request->all()));
-        //dd( $calcParams->getCalcParams($request->all()));
+        $calcParams = new AdvantCalcParams();
+        //return AdvantAPI::calculate($calcParams->getCalcParams($request->all()));
+        return  $calcParams->getCalcParams($request->all());
     }
 
     public function getInsuranceBuy($request, $isJson = false)

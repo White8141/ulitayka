@@ -431,6 +431,7 @@ form .medical-amount label span {
     export default{
         data(){
             return{
+                canUpdateCost: false,
                 magicSuggest: '',
                 companyName: '',
                 policeAmount: 0,
@@ -610,25 +611,32 @@ form .medical-amount label span {
                 }
 
                 this.travelers = insData['travelers'];
-
+                this.canUpdateCost = true;
                 //debugger;
             },
             updateCost: function () {
-                axios.post('/calcajax', {
-                    countries: this.countries,
-                    dateFrom: this.dateFrom,
-                    dateTill: this.dateTill,
-                    travelers: this.travelers,
-                    policyСurrency: this.policyСurrency,
-                    risks: this.risks
-                })
-                .then(function (response) {
-                    console.log(response.data);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                console.log ('cost update');
+                if (this.canUpdateCost) {
+                    axios.post('/calcajax', {
+                        countries: this.countries,
+                        dateFrom: this.dateFrom,
+                        dateTill: this.dateTill,
+                        travelers: this.travelers,
+                        policyСurrency: this.policyСurrency,
+                        risks: this.risks
+                    })
+                    .then(this.sendNewCost)
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                    console.log ('cost update');
+                } else {
+                    console.log ('dont need update cost');
+                }
+
+            },
+            sendNewCost: function (response) {
+                this.$emit('card-update', response.data);
+                //console.log(response.data);
             },
             sendForm: function() {
                 document.forms.form_calc.submit();

@@ -29,7 +29,7 @@
 
             <div class="filter_wimdow col-12 col-md-6" id="filters">
                 <div class="card card_right">
-                    <ins-form csrf-token="{{ csrf_token() }}" ref="insForm"></ins-form>
+                    <ins-form csrf-token="{{ csrf_token() }}" ref="insForm" v-on:card-update="cardUpdate"></ins-form>
                 </div>
             </div>
         </div>

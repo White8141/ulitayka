@@ -18,8 +18,7 @@ class VskAPI
     /**
      * Метод отправки soap-запрса принимает метод и параметры, возвращает массив с ответом
      */
-
-    private static function soaqwepRequest($method, $params)
+    /*private static function soaqRequest($method, $params)
     {
         try {
             $client = new \SoapClient(self::$wsdl, array('trace' => 1));
@@ -32,7 +31,7 @@ class VskAPI
         }
         return $result;
         //return $request;
-    }
+    }*/
 
     public static function calculate($calcParams, $method = 'Calc2')
     {

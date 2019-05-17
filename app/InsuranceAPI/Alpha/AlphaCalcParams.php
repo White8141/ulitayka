@@ -50,13 +50,13 @@ class AlphaCalcParams
 
         $this->additionalConditions = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
-            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] === 'true') {
+            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] == 'true') {
                 $this->additionalConditions[] = AlphaDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
 
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'riskAmount' => 50000]] as $risk) {
+        foreach ($request['risks'] as $risk) {
             if (array_key_exists('accept', $risk) && $risk['accept']) {
                 $this->risks[] = [
                     'riskUID' => AlphaDirect::getRiskUID($risk['name']) ?? $risk['name'],

@@ -16,6 +16,7 @@ class AdvantCalcParams
     public $risks;
     public $policyPeriodFrom;
     public $policyPeriodTill;
+    public $currency;
     public $client;
     public $insureds;
 
@@ -25,7 +26,7 @@ class AdvantCalcParams
     
     public $policyId;
 
-    function __construct($request)
+    function __construct()
     {
         /*if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("Y-m-d", strtotime($request['dateFrom'])); }
         else { $this->policyPeriodFrom = date('Y-m-d'); }
@@ -37,6 +38,7 @@ class AdvantCalcParams
     public function getCalcParams($request)
     {
         $this->request = $request;
+        $this->currency = AdvantDirect::getCurrencyUID($request['policyСurrency']);
 
         $this->additionalConditions = [];
 
@@ -53,7 +55,7 @@ class AdvantCalcParams
 
         $this->insureds = [];
         foreach ($request['travelers'] as $traveler) {
-            if (array_key_exists('accept', $traveler) && $traveler['accept'] === 'true')
+            if (array_key_exists('accept', $traveler) && ( $traveler['accept'] == 'true' || $traveler['accept'] == 'on'))
 
                 $this->insureds[] = [
                     'birth_date' => date('Y-m-d', strtotime('-' . $traveler['age'] . ' year'))  //$traveler['age'] ?? '30'
@@ -64,7 +66,7 @@ class AdvantCalcParams
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
             //$this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition);
-            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] === 'true') {
+            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] == 'true') {
                 $this->additionalConditionsUIDs[] = AdvantDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
@@ -76,51 +78,51 @@ class AdvantCalcParams
         $this->laggage = null;
 
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if (array_key_exists('accept', $risk) && (string)$risk['accept'] === 'true') {
+        foreach ($request['risks'] as $risk) {
+            if (array_key_exists('accept', $risk) && $risk['accept'] == 'true') {
                 switch ((string)$risk['name']) {
                     case 'medical':
                         $this->medical = [
                             'insurance_plan' => '54748',
-                            'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
+                            'insurance_amount' => $risk['riskAmount'],
+                            'insurance_currency' => $this->currency
                         ];
                         break;
                     case 'public':
                         $this->public = [
                             'insurance_plan' => '54747',
-                            'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
+                            'insurance_amount' => $risk['riskAmount'],
+                            'insurance_currency' => $this->currency
                         ];
                         break;
                     case 'cancel':
                         $this->cancel = [
                             'insurance_plan' => '54747',
-                            'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
+                            'insurance_amount' => $risk['riskAmount'],
+                            'insurance_currency' => $this->currency
                         ];
                         break;
                     case 'accident':
                         $this->accident = [
                             'insurance_plan' => '54747',
-                            'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency'])
+                            'insurance_amount' => $risk['riskAmount'],
+                            'insurance_currency' => $this->currency
                         ];
                         break;
                     case 'laggage':
                         $this->laggage = [
                             'insurance_plan' => '54747',
-                            'insurance_amount' => $risk['amountAtRisk'],
-                            'insurance_currency' => AdvantDirect::getCurrencyUID($risk['amountCurrency'] ?? $request['policy_currency']),
+                            'insurance_amount' => $risk['riskAmount'],
+                            'insurance_currency' => $this->currency,
                             'accomodation' => 1
                         ];
                         break;
                 }
-                $this->risks[] = [
+                /*$this->risks[] = [
                     'riskUID' => AdvantDirect::getRiskUID($risk['name']),
-                    'amountAtRisk' => $risk['amountAtRisk'],
+                    'amountAtRisk' => $risk['riskAmount'],
                     'amountCurrency' => $risk['amountCurrency'] ?? $request['policy_currency']
-                ];
+                ];*/
             }
         }
 

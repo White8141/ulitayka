@@ -22,7 +22,7 @@ class VskCalcParams
     public $policyPeriodTill;
     public $policyDays;
     public $client;
-    public $insuredsCount;
+    public $currency;
     public $insureds;
 
     public $countryUIDs;
@@ -34,24 +34,27 @@ class VskCalcParams
     function __construct($request)
     {
         $this->request = $request;
-
         $this->client = [ 'name' => 'Testov Petr' ];
+        $this->currency = $request['policyСurrency'];
+        
+        $this->countries = VskDirect::getCountryUID($request['countries'][0]['countryName']);
+        /*$this->countries = [];
+        foreach ($request['countries'] ?? [['countryName' => 'SCHENGEN']] as $country) {
 
-        $this->countries = VskDirect::getCountryUID($request['countries'][0]['countryName'] ?? 'SCHENGEN');
-
+            $this->countries[] = VskDirect::getCountryUID($country['countryName']);
+        }*/
+        
         if (isset($request['dateFrom'])) { $this->policyPeriodFrom = date("d.m.Y", strtotime($request['dateFrom'])); }
         else { $this->policyPeriodFrom = date('d.m.Y'); }
 
         if (isset($request['dateTill'])) { $this->policyPeriodTill = date("d.m.Y", strtotime($request['dateTill'])); }
         else { $this->policyPeriodTill = date('d.m.Y', strtotime('+1 month')); }
 
-
-
         $this->policyDays = date_diff(new \DateTime($this->policyPeriodTill), new \DateTime($this->policyPeriodFrom))->format('%a');
 
         $this->insureds = [];
         foreach ($request['travelers'] as $traveler) {
-            if (isset($traveler['accept']) && $traveler['accept'] === 'true')
+            if (isset($traveler['accept']) && $traveler['accept'] == 'true')
 
                 $this->insureds[] = [
                     'FIO' => ($traveler['firstName']  ?? 'Stan').' '.($traveler['lastName'] ?? 'Marsh'),
@@ -61,20 +64,20 @@ class VskCalcParams
         }
 
         $this->risks = [];
-        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'amountAtRisk' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
-            if (array_key_exists('accept', $risk) && (string)$risk['accept'] === 'true') {
+        foreach ($request['risks'] ?? [['name' => 'medical', 'accept' => 'true', 'riskAmount' => 50000, 'amountCurrency' => 'EUR']] as $risk) {
+            if (array_key_exists('accept', $risk) && ( $risk['accept'] == 'true' || $risk['accept'] == 'on')) {
                 $this->risks[] = [
                     'RiskId' => VskDirect::getRiskUID($risk['name']),
                     'RiskVariantId' => VskDirect::getRiskVariantUID($risk['name'], $request['countries'][0]['countryName'] ?? 'SCHENGEN'),
-                    'amountAtRisk' => $risk['amountAtRisk'],
-                    'amountCurrency' => $risk['amountCurrency'] ?? $request['policy_currency']
+                    'riskAmount' => $risk['riskAmount'],
+                    'amountCurrency' => $this->currency
                 ];
             }
         }
 
         $this->additionalConditionsUIDs = [];
         foreach ($request['additionalConditions'] ?? [] as $additionalCondition) {
-            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] === 'true') {
+            if (array_key_exists('accept', $additionalCondition) && (string)$additionalCondition['accept'] == 'true') {
                 $this->additionalConditionsUIDs[] = VskDirect::getAdditionalConditionUID($additionalCondition['name']);
             }
         }
@@ -121,17 +124,17 @@ class VskCalcParams
                                     ],
                                     [
                                         'tag' => 'DtCreated',
-                                        'content' => date("11.11.2018")
+                                        'content' => date('d.m.Y')
                                     ],
                                     [
                                         'tag' => 'PolicyPeriodFrom',
-                                        //'content' => $this->policyPeriodFrom
-                                        'content' => date("01.12.2019")
+                                        'content' => $this->policyPeriodFrom
+                                        //'content' => date("01.12.2019")
                                     ],
                                     [
                                         'tag' => 'PolicyPeriodTill',
-                                        //'content' => $this->policyPeriodTill
-                                        'content' => date("31.12.2019")
+                                        'content' => $this->policyPeriodTill
+                                        //'content' => date("31.12.2019")
                                     ],
                                     [
                                         'tag' => 'Days',
@@ -139,7 +142,8 @@ class VskCalcParams
                                     ],
                                     [
                                         'tag' => 'Country',
-                                        'content' => $this->countries
+                                        //'elements' => []
+                                        'content' => '63917206-69bb-4f5e-a71b-6931c5710438'
 
                                     ],
 
@@ -172,7 +176,6 @@ class VskCalcParams
     public function getCalcParams()
     {
         $insureds = [];
-        $risks = [];
         foreach($this->insureds as $insured) {
             $insureds[] = [
                 'tag' => 'Insured',
@@ -192,7 +195,9 @@ class VskCalcParams
                 ]
             ];
         }
+        $this->xmlArray[0]['elements'][0]['elements'][1]['elements'] = $insureds;
 
+        $risks = [];
         foreach($this->risks as $risk) {
             $risks[] = [
                 'tag' => 'Risk',
@@ -207,7 +212,7 @@ class VskCalcParams
                     ],
                     [
                         'tag' => 'AmountAtRisk',
-                        'content' => $risk['amountAtRisk']
+                        'content' => $risk['riskAmount']
                     ],
                     [
                         'tag' => 'AmountCurrency',
@@ -216,13 +221,22 @@ class VskCalcParams
                 ]
             ];
         }
-
-        $this->xmlArray[0]['elements'][0]['elements'][1]['elements'] = $insureds;
         $this->xmlArray[0]['elements'][0]['elements'][2]['elements'] = $risks;
+
+        /*$countries = [];
+        foreach($this->countries as $country) {
+            $countries[] = [
+                'tag' => 'Country',
+                'content' => $country
+                //'content' => '63917206-69bb-4f5e-a71b-6931c5710438'
+            ];
+        }
+        $this->xmlArray[0]['elements'][0]['elements'][0]['elements'][11]['elements'] = $countries;*/
+
 
         $xmlString = (new \bupy7\xml\constructor\XmlConstructor(['startDocument' => false]))->fromArray($this->xmlArray)->toOutput();
 
-        return [
+        return  [
             [
                 'sUserId' => 'F24230CC-CFC3-4EC5-8D7D-E3D72E0D6DC8',
                 'xml' => $xmlString

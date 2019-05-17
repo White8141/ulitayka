@@ -64,7 +64,7 @@ class LibertyAPI {
         if (gettype($resp) == 'object') {
             if (isset($resp->Vz_CalcRS->insured_premium)) {
                 $result['id'] = $resp->Vz_CalcRS->calcualtion_id;
-                $result['prem'] = $resp->Vz_CalcRS->insured_premium->summ;
+                $result['prem'] =  $resp->Vz_CalcRS->insured_premium->summ;
                 $result['franchise'] = $resp->Vz_CalcRS->Franchise_message;
             } else {
                 $result['error'] = $resp->Vz_CalcRS->Error_message;

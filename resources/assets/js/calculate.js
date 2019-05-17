@@ -36,6 +36,9 @@ var vm = new Vue ({
         issuePolicy: function(card) {
             this.$refs.insForm.sendForm();
         },
+        cardUpdate: function (cardArray) {
+            this.requestArray = cardArray;
+        },
         fillForm: function (insData) {
             this.$refs.insForm.fillForm(insData);
         }

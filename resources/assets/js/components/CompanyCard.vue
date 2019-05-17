@@ -9,7 +9,7 @@
                 <span class="fa fa-rub"></span>
             </p>
             <div class="col-3">
-                <a class="btn" v-on:click="buyInsurance()">Купить</a>
+                <a class="btn" @click="buyInsurance()">Купить</a>
             </div>
         </div>
 
@@ -17,13 +17,13 @@
 
             <div class="row no-margin-row button-panel">
                 <div class="col-4">
-                    <button :class="{active: assistanceActive}" v-on:click="selectTab('assistance')">Ассистанс</button>
+                    <button :class="{active: assistanceActive}" @click="selectTab('assistance')">Ассистанс</button>
                 </div>
                 <div class="col-4">
-                    <button :class="{active: franchiseActive}" v-on:click="selectTab('franchise')">Франшиза</button>
+                    <button :class="{active: franchiseActive}" @click="selectTab('franchise')">Франшиза</button>
                 </div>
                 <div class="col-4">
-                    <button :class="{active: rulesActive}" v-on:click="selectTab('rules')">Правила страхования</button>
+                    <button :class="{active: rulesActive}" @click="selectTab('rules')">Правила страхования</button>
                 </div>
             </div>
 
